@@ -1,0 +1,14 @@
+[14:28:24] --- Logging Initialized for main.py ---
+[14:28:24] Log file: logs/main.py@2026-01-26_14-28-24.log
+
+[14:28:24] ============================== CRASH DETECTED ==============================
+[14:28:24] Timestamp: 2026-01-26 14:28:24.100275
+[14:28:24] Traceback (most recent call last):
+[14:28:24]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 104, in <module>
+[14:28:24]     model = LogisticCassifier()
+[14:28:24]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 26, in __init__
+[14:28:24]     self.filename
+[14:28:24] AttributeError: 'LogisticCassifier' object has no attribute 'filename'
+
+[14:28:24] ============================================================================
+

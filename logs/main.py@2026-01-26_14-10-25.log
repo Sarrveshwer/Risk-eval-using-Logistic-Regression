@@ -1,0 +1,33 @@
+[14:10:25] --- Logging Initialized for main.py ---
+[14:10:25] Log file: logs/main.py@2026-01-26_14-10-25.log
+[14:10:25] Temperature
+[14:10:25] Vibration
+[14:10:25] Pressure
+[14:10:25] Voltage
+[14:10:25] Current
+[14:10:25] FFT_Feature1
+[14:10:25] FFT_Feature2
+[14:10:25] Normalized_Temp
+[14:10:25] Normalized_Vibration
+[14:10:25] Normalized_Pressure
+[14:10:25] Normalized_Voltage
+[14:10:25] Normalized_Current
+[14:10:25] Anomaly_Score
+[14:10:25] ROC-AUC Score: 0.5056583850637575
+
+[14:10:25] ============================== CRASH DETECTED ==============================
+[14:10:25] Timestamp: 2026-01-26 14:10:25.857638
+[14:10:25] Traceback (most recent call last):
+[14:10:25]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 98, in <module>
+[14:10:25]     model.train_run()
+[14:10:25]     ~~~~~~~~~~~~~~~^^
+[14:10:25]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 61, in train_run
+[14:10:25]     self.plot(self.y,self.y_pred)
+[14:10:25]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+[14:10:25]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 64, in plot
+[14:10:25]     fpr, tpr, _ = roc_curve(self.y_test, self.y_prob)
+[14:10:25]                                          ^^^^^^^^^^^
+[14:10:25] AttributeError: 'LogisticCassifier' object has no attribute 'y_prob'. Did you mean: 'y_pred'?
+
+[14:10:25] ============================================================================
+

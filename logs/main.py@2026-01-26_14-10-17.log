@@ -1,0 +1,30 @@
+[14:10:17] --- Logging Initialized for main.py ---
+[14:10:17] Log file: logs/main.py@2026-01-26_14-10-17.log
+[14:10:17] Temperature
+[14:10:17] Vibration
+[14:10:17] Pressure
+[14:10:17] Voltage
+[14:10:17] Current
+[14:10:17] FFT_Feature1
+[14:10:17] FFT_Feature2
+[14:10:17] Normalized_Temp
+[14:10:17] Normalized_Vibration
+[14:10:17] Normalized_Pressure
+[14:10:17] Normalized_Voltage
+[14:10:17] Normalized_Current
+[14:10:17] Anomaly_Score
+[14:10:17] ROC-AUC Score: 0.5056583850637575
+
+[14:10:17] ============================== CRASH DETECTED ==============================
+[14:10:17] Timestamp: 2026-01-26 14:10:17.646046
+[14:10:17] Traceback (most recent call last):
+[14:10:17]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 98, in <module>
+[14:10:17]     model.train_run()
+[14:10:17]     ~~~~~~~~~~~~~~~^^
+[14:10:17]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 61, in train_run
+[14:10:17]     self.plot(self.y,self.y_pred,roc)
+[14:10:17]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+[14:10:17] TypeError: LogisticCassifier.plot() takes 3 positional arguments but 4 were given
+
+[14:10:17] ============================================================================
+

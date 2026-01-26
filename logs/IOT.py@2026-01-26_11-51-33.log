@@ -1,0 +1,30 @@
+[11:51:33] --- Logging Initialized for IOT.py ---
+[11:51:33] Log file: logs/IOT.py@2026-01-26_11-51-33.log
+[11:51:33] Backup exists proceeding noramlly....
+
+[11:51:33] ============================== CRASH DETECTED ==============================
+[11:51:33] Timestamp: 2026-01-26 11:51:33.500014
+[11:51:33] Traceback (most recent call last):
+[11:51:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+[11:51:33]     return self._engine.get_loc(casted_key)
+[11:51:33]            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+[11:51:33]   File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+[11:51:33]   File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+[11:51:33]   File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+[11:51:33]   File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+[11:51:33] KeyError: 'Fault_type'
+
+[11:51:33] The above exception was the direct cause of the following exception:
+
+[11:51:33] Traceback (most recent call last):
+[11:51:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/IOT.py", line 25, in <module>
+[11:51:33]     df['Fault_type'] = df['Fault_type'].replace({None: 'None', np.nan: 'None'})
+[11:51:33]                        ~~^^^^^^^^^^^^^^
+[11:51:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+[11:51:33]     indexer = self.columns.get_loc(key)
+[11:51:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3819, in get_loc
+[11:51:33]     raise KeyError(key) from err
+[11:51:33] KeyError: 'Fault_type'
+
+[11:51:33] ============================================================================
+

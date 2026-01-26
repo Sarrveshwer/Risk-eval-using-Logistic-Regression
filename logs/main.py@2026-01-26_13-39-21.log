@@ -1,0 +1,57 @@
+[13:39:21] --- Logging Initialized for main.py ---
+[13:39:21] Log file: logs/main.py@2026-01-26_13-39-21.log
+[13:39:22] Temperature
+[13:39:22] Vibration
+[13:39:22] Pressure
+[13:39:22] Voltage
+[13:39:22] Current
+[13:39:22] FFT_Feature1
+[13:39:22] FFT_Feature2
+[13:39:22] Normalized_Temp
+[13:39:22] Normalized_Vibration
+[13:39:22] Normalized_Pressure
+[13:39:22] Normalized_Voltage
+[13:39:22] Normalized_Current
+[13:39:22] Anomaly_Score
+[13:39:22] Fault_Status
+
+[13:39:22] ============================== CRASH DETECTED ==============================
+[13:39:22] Timestamp: 2026-01-26 13:39:22.037313
+[13:39:22] Traceback (most recent call last):
+[13:39:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 59, in <module>
+[13:39:22]     model.train_run()
+[13:39:22]     ~~~~~~~~~~~~~~~^^
+[13:39:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 40, in train_run
+[13:39:22]     pipe.fit(self.X,self.y)
+[13:39:22]     ~~~~~~~~^^^^^^^^^^^^^^^
+[13:39:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+[13:39:22]     return fit_method(estimator, *args, **kwargs)
+[13:39:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/pipeline.py", line 621, in fit
+[13:39:22]     self._final_estimator.fit(Xt, y, **last_step_params["fit"])
+[13:39:22]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[13:39:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+[13:39:22]     return fit_method(estimator, *args, **kwargs)
+[13:39:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/linear_model/_logistic.py", line 1191, in fit
+[13:39:22]     X, y = validate_data(
+[13:39:22]            ~~~~~~~~~~~~~^
+[13:39:22]         self,
+[13:39:22]         ^^^^^
+[13:39:22]     ...<5 lines>...
+[13:39:22]         accept_large_sparse=solver not in ["liblinear", "sag", "saga"],
+[13:39:22]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[13:39:22]     )
+[13:39:22]     ^
+[13:39:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 2919, in validate_data
+[13:39:22]     X, y = check_X_y(X, y, **check_params)
+[13:39:22]            ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+[13:39:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 1331, in check_X_y
+[13:39:22]     y = _check_y(y, multi_output=multi_output, y_numeric=y_numeric, estimator=estimator)
+[13:39:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 1353, in _check_y
+[13:39:22]     _assert_all_finite(y, input_name="y", estimator_name=estimator_name)
+[13:39:22]     ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[13:39:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 118, in _assert_all_finite
+[13:39:22]     raise ValueError("Input contains NaN")
+[13:39:22] ValueError: Input contains NaN
+
+[13:39:22] ============================================================================
+

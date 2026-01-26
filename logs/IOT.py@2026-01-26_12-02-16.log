@@ -1,0 +1,98 @@
+[12:02:16] --- Logging Initialized for IOT.py ---
+[12:02:16] Log file: logs/IOT.py@2026-01-26_12-02-16.log
+[12:02:16] Backup exists proceeding noramlly....
+[12:02:16] Total number of per columnDatapoints:
+[12:02:16] Timestamp               50000
+[12:02:16] Sensor_ID               50000
+[12:02:16] Temperature             50000
+[12:02:16] Vibration               50000
+[12:02:16] Pressure                50000
+[12:02:16] Voltage                 50000
+[12:02:16] Current                 50000
+[12:02:16] FFT_Feature1            50000
+[12:02:16] FFT_Feature2            50000
+[12:02:16] Normalized_Temp         50000
+[12:02:16] Normalized_Vibration    50000
+[12:02:16] Normalized_Pressure     50000
+[12:02:16] Normalized_Voltage      50000
+[12:02:16] Normalized_Current      50000
+[12:02:16] Anomaly_Score           50000
+[12:02:16] Fault_Type                  0
+[12:02:16] Fault_Status            50000
+[12:02:16] dtype: int64
+
+[12:02:16] All numerical features of the columns:
+[12:02:16]         Temperature     Vibration      Pressure       Voltage       Current  \
+[12:02:16] count  50000.000000  50000.000000  50000.000000  50000.000000  50000.000000   
+[12:02:16] mean      50.016061    100.051761    200.073779    219.979868      9.989170   
+[12:02:16] std       15.020375     25.013161     49.909329      9.997011      2.998392   
+[12:02:16] min      -16.984058    -11.574213     10.268128    176.259572     -3.241658   
+[12:02:16] 25%       39.823350     83.321739    166.205629    213.251037      7.966669   
+[12:02:16] 50%       50.060281    100.079137    199.855668    220.029453      9.980461   
+[12:02:16] 75%       60.196044    116.785872    233.810144    226.736776     12.010628   
+[12:02:16] max      106.402329    205.050647    428.105736    257.821878     22.658099   
+
+[12:02:16]        FFT_Feature1  FFT_Feature2  Normalized_Temp  Normalized_Vibration  \
+[12:02:16] count  50000.000000  50000.000000     50000.000000          50000.000000   
+[12:02:16] mean       0.499314      0.500009         0.543011              0.515296   
+[12:02:16] std        0.288987      0.288464         0.121734              0.115468   
+[12:02:16] min        0.000040      0.000031         0.000000              0.000000   
+[12:02:16] 25%        0.250107      0.251067         0.460403              0.438066   
+[12:02:16] 50%        0.499405      0.501123         0.543369              0.515423   
+[12:02:16] 75%        0.750203      0.748289         0.625516              0.592545   
+[12:02:16] max        0.999982      0.999987         1.000000              1.000000   
+
+[12:02:16]        Normalized_Pressure  Normalized_Voltage  Normalized_Current  \
+[12:02:16] count         50000.000000        50000.000000        50000.000000   
+[12:02:16] mean              0.454257            0.536036            0.510848   
+[12:02:16] std               0.119447            0.122569            0.115769   
+[12:02:16] min               0.000000            0.000000            0.000000   
+[12:02:16] 25%               0.373201            0.453536            0.432758   
+[12:02:16] 50%               0.453735            0.536643            0.510511   
+[12:02:16] 75%               0.534997            0.618879            0.588897   
+[12:02:16] max               1.000000            1.000000            1.000000   
+
+[12:02:16]        Anomaly_Score  Fault_Status  
+[12:02:16] count   50000.000000  50000.000000  
+[12:02:16] mean        0.501880      0.300240  
+[12:02:16] std         0.288025      0.458367  
+[12:02:16] min         0.000022      0.000000  
+[12:02:16] 25%         0.250855      0.000000  
+[12:02:16] 50%         0.504484      0.000000  
+[12:02:16] 75%         0.751008      1.000000  
+[12:02:16] max         0.999998      1.000000  
+
+[12:02:16] ============================== CRASH DETECTED ==============================
+[12:02:16] Timestamp: 2026-01-26 12:02:16.803792
+[12:02:16] Traceback (most recent call last):
+[12:02:16]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/IOT.py", line 35, in <module>
+[12:02:16]     sns.barplot(data=df, x="Fault_Type",y=counts, kind="count")
+[12:02:16]     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[12:02:16]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/categorical.py", line 2371, in barplot
+[12:02:16]     color = _default_color(ax.bar, hue, color, kwargs, saturation=saturation)
+[12:02:16]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/utils.py", line 127, in _default_color
+[12:02:16]     scout, = method([np.nan], [np.nan], **kws)
+[12:02:16]              ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[12:02:16]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/__init__.py", line 1524, in inner
+[12:02:16]     return func(
+[12:02:16]         ax,
+[12:02:16]         *map(cbook.sanitize_sequence, args),
+[12:02:16]         **{k: cbook.sanitize_sequence(v) for k, v in kwargs.items()})
+[12:02:16]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/axes/_axes.py", line 2654, in bar
+[12:02:16]     r._internal_update(kwargs)
+[12:02:16]     ~~~~~~~~~~~~~~~~~~^^^^^^^^
+[12:02:16]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/artist.py", line 1233, in _internal_update
+[12:02:16]     return self._update_props(
+[12:02:16]            ~~~~~~~~~~~~~~~~~~^
+[12:02:16]         kwargs, "{cls.__name__}.set() got an unexpected keyword argument "
+[12:02:16]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[12:02:16]         "{prop_name!r}")
+[12:02:16]         ^^^^^^^^^^^^^^^^
+[12:02:16]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/artist.py", line 1206, in _update_props
+[12:02:16]     raise AttributeError(
+[12:02:16]         errfmt.format(cls=type(self), prop_name=k),
+[12:02:16]         name=k)
+[12:02:16] AttributeError: Rectangle.set() got an unexpected keyword argument 'kind'
+
+[12:02:16] ============================================================================
+

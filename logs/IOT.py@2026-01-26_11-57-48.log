@@ -1,0 +1,90 @@
+[11:57:48] --- Logging Initialized for IOT.py ---
+[11:57:48] Log file: logs/IOT.py@2026-01-26_11-57-48.log
+[11:57:48] Backup exists proceeding noramlly....
+[11:57:48] Total number of per columnDatapoints:
+[11:57:48] Timestamp               50000
+[11:57:48] Sensor_ID               50000
+[11:57:48] Temperature             50000
+[11:57:48] Vibration               50000
+[11:57:48] Pressure                50000
+[11:57:48] Voltage                 50000
+[11:57:48] Current                 50000
+[11:57:48] FFT_Feature1            50000
+[11:57:48] FFT_Feature2            50000
+[11:57:48] Normalized_Temp         50000
+[11:57:48] Normalized_Vibration    50000
+[11:57:48] Normalized_Pressure     50000
+[11:57:48] Normalized_Voltage      50000
+[11:57:48] Normalized_Current      50000
+[11:57:48] Anomaly_Score           50000
+[11:57:48] Fault_Type                  0
+[11:57:48] Fault_Status            50000
+[11:57:48] dtype: int64
+
+[11:57:48] All numerical features of the columns:
+[11:57:48]         Temperature     Vibration      Pressure       Voltage       Current  \
+[11:57:48] count  50000.000000  50000.000000  50000.000000  50000.000000  50000.000000   
+[11:57:48] mean      50.016061    100.051761    200.073779    219.979868      9.989170   
+[11:57:48] std       15.020375     25.013161     49.909329      9.997011      2.998392   
+[11:57:48] min      -16.984058    -11.574213     10.268128    176.259572     -3.241658   
+[11:57:48] 25%       39.823350     83.321739    166.205629    213.251037      7.966669   
+[11:57:48] 50%       50.060281    100.079137    199.855668    220.029453      9.980461   
+[11:57:48] 75%       60.196044    116.785872    233.810144    226.736776     12.010628   
+[11:57:48] max      106.402329    205.050647    428.105736    257.821878     22.658099   
+
+[11:57:48]        FFT_Feature1  FFT_Feature2  Normalized_Temp  Normalized_Vibration  \
+[11:57:48] count  50000.000000  50000.000000     50000.000000          50000.000000   
+[11:57:48] mean       0.499314      0.500009         0.543011              0.515296   
+[11:57:48] std        0.288987      0.288464         0.121734              0.115468   
+[11:57:48] min        0.000040      0.000031         0.000000              0.000000   
+[11:57:48] 25%        0.250107      0.251067         0.460403              0.438066   
+[11:57:48] 50%        0.499405      0.501123         0.543369              0.515423   
+[11:57:48] 75%        0.750203      0.748289         0.625516              0.592545   
+[11:57:48] max        0.999982      0.999987         1.000000              1.000000   
+
+[11:57:48]        Normalized_Pressure  Normalized_Voltage  Normalized_Current  \
+[11:57:48] count         50000.000000        50000.000000        50000.000000   
+[11:57:48] mean              0.454257            0.536036            0.510848   
+[11:57:48] std               0.119447            0.122569            0.115769   
+[11:57:48] min               0.000000            0.000000            0.000000   
+[11:57:48] 25%               0.373201            0.453536            0.432758   
+[11:57:48] 50%               0.453735            0.536643            0.510511   
+[11:57:48] 75%               0.534997            0.618879            0.588897   
+[11:57:48] max               1.000000            1.000000            1.000000   
+
+[11:57:48]        Anomaly_Score  Fault_Status  
+[11:57:48] count   50000.000000  50000.000000  
+[11:57:48] mean        0.501880      0.300240  
+[11:57:48] std         0.288025      0.458367  
+[11:57:48] min         0.000022      0.000000  
+[11:57:48] 25%         0.250855      0.000000  
+[11:57:48] 50%         0.504484      0.000000  
+[11:57:48] 75%         0.751008      1.000000  
+[11:57:48] max         0.999998      1.000000  
+
+[11:57:48] ============================== CRASH DETECTED ==============================
+[11:57:48] Timestamp: 2026-01-26 11:57:48.982270
+[11:57:48] Traceback (most recent call last):
+[11:57:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+[11:57:48]     return self._engine.get_loc(casted_key)
+[11:57:48]            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+[11:57:48]   File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+[11:57:48]   File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+[11:57:48]   File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+[11:57:48]   File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+[11:57:48] KeyError: 'Fault_type'
+
+[11:57:48] The above exception was the direct cause of the following exception:
+
+[11:57:48] Traceback (most recent call last):
+[11:57:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/IOT.py", line 34, in <module>
+[11:57:48]     counts = df['Fault_type'].value_counts()
+[11:57:48]              ~~^^^^^^^^^^^^^^
+[11:57:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+[11:57:48]     indexer = self.columns.get_loc(key)
+[11:57:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3819, in get_loc
+[11:57:48]     raise KeyError(key) from err
+[11:57:48] KeyError: 'Fault_type'
+
+[11:57:48] ============================================================================
+

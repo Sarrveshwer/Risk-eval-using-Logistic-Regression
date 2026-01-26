@@ -1,0 +1,15 @@
+[13:47:41] --- Logging Initialized for main.py ---
+[13:47:41] Log file: logs/main.py@2026-01-26_13-47-41.log
+[13:47:41] Temperature
+[13:47:41] Vibration
+[13:47:41] Pressure
+[13:47:41] Voltage
+[13:47:41] Current
+[13:47:41] FFT_Feature1
+[13:47:41] FFT_Feature2
+[13:47:41] Normalized_Temp
+[13:47:41] Normalized_Vibration
+[13:47:41] Normalized_Pressure
+[13:47:41] Normalized_Voltage
+[13:47:41] Normalized_Current
+[13:47:41] Anomaly_Score

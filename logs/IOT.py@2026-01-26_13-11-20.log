@@ -1,0 +1,7 @@
+[13:11:20] --- Logging Initialized for IOT.py ---
+[13:11:20] Log file: logs/IOT.py@2026-01-26_13-11-20.log
+[13:11:20] Index(['Temperature', 'Vibration', 'Pressure', 'Voltage', 'Current',
+[13:11:20]        'FFT_Feature1', 'FFT_Feature2', 'Normalized_Temp',
+[13:11:20]        'Normalized_Vibration', 'Normalized_Pressure', 'Normalized_Voltage',
+[13:11:20]        'Normalized_Current', 'Anomaly_Score', 'Fault_Status'],
+[13:11:20]       dtype='object')

@@ -1,0 +1,27 @@
+[13:45:08] --- Logging Initialized for main.py ---
+[13:45:08] Log file: logs/main.py@2026-01-26_13-45-08.log
+[13:45:09] Temperature
+[13:45:09] Vibration
+[13:45:09] Pressure
+[13:45:09] Voltage
+[13:45:09] Current
+[13:45:09] FFT_Feature1
+[13:45:09] FFT_Feature2
+[13:45:09] Normalized_Temp
+[13:45:09] Normalized_Vibration
+[13:45:09] Normalized_Pressure
+[13:45:09] Normalized_Voltage
+[13:45:09] Normalized_Current
+[13:45:09] Anomaly_Score
+[13:45:09] Fault_Type
+
+[13:45:09] ============================== CRASH DETECTED ==============================
+[13:45:09] Timestamp: 2026-01-26 13:45:09.027193
+[13:45:09] Traceback (most recent call last):
+[13:45:09]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 61, in <module>
+[13:45:09]     model.train_run()
+[13:45:09]     ^^^^^^^^^^^^^^^
+[13:45:09] AttributeError: 'LogisticCassifier' object has no attribute 'train_run'
+
+[13:45:09] ============================================================================
+

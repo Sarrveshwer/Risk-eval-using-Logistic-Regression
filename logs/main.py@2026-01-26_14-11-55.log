@@ -1,0 +1,16 @@
+[14:11:55] --- Logging Initialized for main.py ---
+[14:11:55] Log file: logs/main.py@2026-01-26_14-11-55.log
+[14:11:56] Temperature
+[14:11:56] Vibration
+[14:11:56] Pressure
+[14:11:56] Voltage
+[14:11:56] Current
+[14:11:56] FFT_Feature1
+[14:11:56] FFT_Feature2
+[14:11:56] Normalized_Temp
+[14:11:56] Normalized_Vibration
+[14:11:56] Normalized_Pressure
+[14:11:56] Normalized_Voltage
+[14:11:56] Normalized_Current
+[14:11:56] Anomaly_Score
+[14:11:56] ROC-AUC Score: 0.5056583850637575

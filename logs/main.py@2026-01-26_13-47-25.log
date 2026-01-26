@@ -1,0 +1,32 @@
+[13:47:25] --- Logging Initialized for main.py ---
+[13:47:25] Log file: logs/main.py@2026-01-26_13-47-25.log
+[13:47:25] Temperature
+[13:47:25] Vibration
+[13:47:25] Pressure
+[13:47:25] Voltage
+[13:47:25] Current
+[13:47:25] FFT_Feature1
+[13:47:25] FFT_Feature2
+[13:47:25] Normalized_Temp
+[13:47:25] Normalized_Vibration
+[13:47:25] Normalized_Pressure
+[13:47:25] Normalized_Voltage
+[13:47:25] Normalized_Current
+[13:47:25] Anomaly_Score
+
+[13:47:25] ============================== CRASH DETECTED ==============================
+[13:47:25] Timestamp: 2026-01-26 13:47:25.406471
+[13:47:25] Traceback (most recent call last):
+[13:47:25]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 67, in <module>
+[13:47:25]     model.train_run()
+[13:47:25]     ~~~~~~~~~~~~~~~^^
+[13:47:25]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 50, in train_run
+[13:47:25]     self.plot(self.y,self.y_pred)
+[13:47:25]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+[13:47:25]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 59, in plot
+[13:47:25]     ax=axes["Regression"],
+[13:47:25]        ^^^^
+[13:47:25] NameError: name 'axes' is not defined
+
+[13:47:25] ============================================================================
+

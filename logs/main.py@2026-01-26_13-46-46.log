@@ -1,0 +1,73 @@
+[13:46:46] --- Logging Initialized for main.py ---
+[13:46:46] Log file: logs/main.py@2026-01-26_13-46-46.log
+[13:46:46] Temperature
+[13:46:46] Vibration
+[13:46:46] Pressure
+[13:46:46] Voltage
+[13:46:46] Current
+[13:46:46] FFT_Feature1
+[13:46:46] FFT_Feature2
+[13:46:46] Normalized_Temp
+[13:46:46] Normalized_Vibration
+[13:46:46] Normalized_Pressure
+[13:46:46] Normalized_Voltage
+[13:46:46] Normalized_Current
+[13:46:46] Anomaly_Score
+[13:46:46] Fault_Type
+
+[13:46:46] ============================== CRASH DETECTED ==============================
+[13:46:46] Timestamp: 2026-01-26 13:46:46.196602
+[13:46:46] Traceback (most recent call last):
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 67, in <module>
+[13:46:46]     model.train_run()
+[13:46:46]     ~~~~~~~~~~~~~~~^^
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 48, in train_run
+[13:46:46]     pipe.fit(self.X,self.y)
+[13:46:46]     ~~~~~~~~^^^^^^^^^^^^^^^
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+[13:46:46]     return fit_method(estimator, *args, **kwargs)
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/pipeline.py", line 613, in fit
+[13:46:46]     Xt = self._fit(X, y, routed_params, raw_params=params)
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/pipeline.py", line 547, in _fit
+[13:46:46]     X, fitted_transformer = fit_transform_one_cached(
+[13:46:46]                             ~~~~~~~~~~~~~~~~~~~~~~~~^
+[13:46:46]         cloned_transformer,
+[13:46:46]         ^^^^^^^^^^^^^^^^^^^
+[13:46:46]     ...<5 lines>...
+[13:46:46]         params=step_params,
+[13:46:46]         ^^^^^^^^^^^^^^^^^^^
+[13:46:46]     )
+[13:46:46]     ^
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/memory.py", line 326, in __call__
+[13:46:46]     return self.func(*args, **kwargs)
+[13:46:46]            ~~~~~~~~~^^^^^^^^^^^^^^^^^
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/pipeline.py", line 1484, in _fit_transform_one
+[13:46:46]     res = transformer.fit_transform(X, y, **params.get("fit_transform", {}))
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/_set_output.py", line 316, in wrapped
+[13:46:46]     data_to_wrap = f(self, X, *args, **kwargs)
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 910, in fit_transform
+[13:46:46]     return self.fit(X, y, **fit_params).transform(X)
+[13:46:46]            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/preprocessing/_data.py", line 924, in fit
+[13:46:46]     return self.partial_fit(X, y, sample_weight)
+[13:46:46]            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+[13:46:46]     return fit_method(estimator, *args, **kwargs)
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/preprocessing/_data.py", line 961, in partial_fit
+[13:46:46]     X = validate_data(
+[13:46:46]         self,
+[13:46:46]     ...<4 lines>...
+[13:46:46]         reset=first_call,
+[13:46:46]     )
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 2902, in validate_data
+[13:46:46]     out = check_array(X, input_name="X", **check_params)
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 1022, in check_array
+[13:46:46]     array = _asarray_with_order(array, order=order, dtype=dtype, xp=xp)
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/_array_api.py", line 878, in _asarray_with_order
+[13:46:46]     array = numpy.asarray(array, order=order, dtype=dtype)
+[13:46:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/generic.py", line 2171, in __array__
+[13:46:46]     arr = np.asarray(values, dtype=dtype)
+[13:46:46] ValueError: could not convert string to float: 'Electrical Fault'
+
+[13:46:46] ============================================================================
+

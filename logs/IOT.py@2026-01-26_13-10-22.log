@@ -1,0 +1,17 @@
+[13:10:22] --- Logging Initialized for IOT.py ---
+[13:10:22] Log file: logs/IOT.py@2026-01-26_13-10-22.log
+
+[13:10:22] ============================== CRASH DETECTED ==============================
+[13:10:22] Timestamp: 2026-01-26 13:10:22.972255
+[13:10:22] Traceback (most recent call last):
+[13:10:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 14, in <module>
+[13:10:22]     class LogisticCassifier:
+[13:10:22]     ...<10 lines>...
+[13:10:22]             print(self.X.columns)
+[13:10:22]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 20, in LogisticCassifier
+[13:10:22]     def dataset(self,target: str,ignore=List()):
+[13:10:22]                                         ^^^^
+[13:10:22] NameError: name 'List' is not defined. Did you mean: 'list'?
+
+[13:10:22] ============================================================================
+

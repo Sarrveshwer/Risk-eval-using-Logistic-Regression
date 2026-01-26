@@ -1,0 +1,29 @@
+[13:47:12] --- Logging Initialized for main.py ---
+[13:47:12] Log file: logs/main.py@2026-01-26_13-47-12.log
+[13:47:13] Temperature
+[13:47:13] Vibration
+[13:47:13] Pressure
+[13:47:13] Voltage
+[13:47:13] Current
+[13:47:13] FFT_Feature1
+[13:47:13] FFT_Feature2
+[13:47:13] Normalized_Temp
+[13:47:13] Normalized_Vibration
+[13:47:13] Normalized_Pressure
+[13:47:13] Normalized_Voltage
+[13:47:13] Normalized_Current
+[13:47:13] Anomaly_Score
+
+[13:47:13] ============================== CRASH DETECTED ==============================
+[13:47:13] Timestamp: 2026-01-26 13:47:13.098577
+[13:47:13] Traceback (most recent call last):
+[13:47:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 67, in <module>
+[13:47:13]     model.train_run()
+[13:47:13]     ~~~~~~~~~~~~~~~^^
+[13:47:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 50, in train_run
+[13:47:13]     self.plot(self.y,self.y_pref)
+[13:47:13]                      ^^^^^^^^^^^
+[13:47:13] AttributeError: 'LogisticCassifier' object has no attribute 'y_pref'. Did you mean: 'y_pred'?
+
+[13:47:13] ============================================================================
+

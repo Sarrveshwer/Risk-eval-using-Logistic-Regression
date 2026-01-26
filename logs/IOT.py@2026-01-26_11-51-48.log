@@ -1,0 +1,14 @@
+[11:51:48] --- Logging Initialized for IOT.py ---
+[11:51:48] Log file: logs/IOT.py@2026-01-26_11-51-48.log
+[11:51:48] Backup exists proceeding noramlly....
+
+[11:51:48] ============================== CRASH DETECTED ==============================
+[11:51:48] Timestamp: 2026-01-26 11:51:48.689036
+[11:51:48] Traceback (most recent call last):
+[11:51:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/IOT.py", line 25, in <module>
+[11:51:48]     df['Fault_Type'] = df['Fault_Type'].replace({None: 'None', np.nan: 'None'})
+[11:51:48]                                                                ^^
+[11:51:48] NameError: name 'np' is not defined
+
+[11:51:48] ============================================================================
+

@@ -1,0 +1,32 @@
+[13:10:30] --- Logging Initialized for IOT.py ---
+[13:10:30] Log file: logs/IOT.py@2026-01-26_13-10-30.log
+
+[13:10:30] ============================== CRASH DETECTED ==============================
+[13:10:30] Timestamp: 2026-01-26 13:10:30.696297
+[13:10:30] Traceback (most recent call last):
+[13:10:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 29, in <module>
+[13:10:30]     model.dataset('Fault_Type',ignore=['Timestamp','Sensor_ID'])
+[13:10:30]     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[13:10:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 24, in dataset
+[13:10:30]     self.X = df.drop(columns=[ignore])
+[13:10:30]              ~~~~~~~^^^^^^^^^^^^^^^^^^
+[13:10:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/frame.py", line 5603, in drop
+[13:10:30]     return super().drop(
+[13:10:30]            ~~~~~~~~~~~~^
+[13:10:30]         labels=labels,
+[13:10:30]         ^^^^^^^^^^^^^^
+[13:10:30]     ...<5 lines>...
+[13:10:30]         errors=errors,
+[13:10:30]         ^^^^^^^^^^^^^^
+[13:10:30]     )
+[13:10:30]     ^
+[13:10:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/generic.py", line 4810, in drop
+[13:10:30]     obj = obj._drop_axis(labels, axis, level=level, errors=errors)
+[13:10:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/generic.py", line 4852, in _drop_axis
+[13:10:30]     new_axis = axis.drop(labels, errors=errors)
+[13:10:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 7136, in drop
+[13:10:30]     raise KeyError(f"{labels[mask].tolist()} not found in axis")
+[13:10:30] KeyError: "[('Timestamp', 'Sensor_ID', 'Fault_Type')] not found in axis"
+
+[13:10:30] ============================================================================
+

@@ -1,0 +1,109 @@
+[12:24:28] --- Logging Initialized for IOT.py ---
+[12:24:28] Log file: logs/IOT.py@2026-01-26_12-24-28.log
+[12:24:28] Backup exists proceeding noramlly....
+[12:24:29] Fault_Type
+[12:24:29] None                  34988
+[12:24:29] Electrical Fault       5034
+[12:24:29] Overheating            5028
+[12:24:29] Mechanical Failure     4950
+[12:24:29] Name: count, dtype: int64
+
+[12:24:29] ============================== CRASH DETECTED ==============================
+[12:24:29] Timestamp: 2026-01-26 12:24:29.182700
+[12:24:29] Traceback (most recent call last):
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/IOT.py", line 56, in <module>
+[12:24:29]     sns.countplot(
+[12:24:29]     ~~~~~~~~~~~~~^
+[12:24:29]         data=df,
+[12:24:29]         ^^^^^^^^
+[12:24:29]     ...<2 lines>...
+[12:24:29]         hue='mako'
+[12:24:29]         ^^^^^^^^^^
+[12:24:29]     )
+[12:24:29]     ^
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/categorical.py", line 2631, in countplot
+[12:24:29]     p = _CategoricalAggPlotter(
+[12:24:29]         data=data,
+[12:24:29]     ...<4 lines>...
+[12:24:29]         legend=legend,
+[12:24:29]     )
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/categorical.py", line 67, in __init__
+[12:24:29]     super().__init__(data=data, variables=variables)
+[12:24:29]     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_base.py", line 634, in __init__
+[12:24:29]     self.assign_variables(data, variables)
+[12:24:29]     ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_base.py", line 679, in assign_variables
+[12:24:29]     plot_data = PlotData(data, variables)
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_core/data.py", line 58, in __init__
+[12:24:29]     frame, names, ids = self._assign_variables(data, variables)
+[12:24:29]                         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_core/data.py", line 232, in _assign_variables
+[12:24:29]     raise ValueError(err)
+[12:24:29] ValueError: Could not interpret value `mako` for `hue`. An entry with this name does not appear in `data`.
+
+[12:24:29] ============================================================================
+
+6            0.510848   
+[12:24:28] std               0.119447            0.122569            0.115769   
+[12:24:28] min               0.000000            0.000000            0.000000   
+[12:24:28] 25%               0.373201            0.453536            0.432758   
+[12:24:28] 50%               0.453735            0.536643            0.510511   
+[12:24:28] 75%               0.534997            0.618879            0.588897   
+[12:24:28] max               1.000000            1.000000            1.000000   
+
+[12:24:28]        Anomaly_Score  Fault_Status  
+[12:24:28] count   50000.000000  50000.000000  
+[12:24:28] mean        0.501880      0.300240  
+[12:24:28] std         0.288025      0.458367  
+[12:24:28] min         0.000022      0.000000  
+[12:24:28] 25%         0.250855      0.000000  
+[12:24:28] 50%         0.504484      0.000000  
+[12:24:28] 75%         0.751008      1.000000  
+[12:24:28] max         0.999998      1.000000  
+[12:24:28] --- Logging Initialized for IOT.py ---
+[12:24:28] Log file: logs/IOT.py@2026-01-26_12-24-28.log
+[12:24:28] Backup exists proceeding noramlly....
+[12:24:29] Fault_Type
+[12:24:29] None                  34988
+[12:24:29] Electrical Fault       5034
+[12:24:29] Overheating            5028
+[12:24:29] Mechanical Failure     4950
+[12:24:29] Name: count, dtype: int64
+
+[12:24:29] ============================== CRASH DETECTED ==============================
+[12:24:29] Timestamp: 2026-01-26 12:24:29.182700
+[12:24:29] Traceback (most recent call last):
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/IOT.py", line 56, in <module>
+[12:24:29]     sns.countplot(
+[12:24:29]     ~~~~~~~~~~~~~^
+[12:24:29]         data=df,
+[12:24:29]         ^^^^^^^^
+[12:24:29]     ...<2 lines>...
+[12:24:29]         hue='mako'
+[12:24:29]         ^^^^^^^^^^
+[12:24:29]     )
+[12:24:29]     ^
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/categorical.py", line 2631, in countplot
+[12:24:29]     p = _CategoricalAggPlotter(
+[12:24:29]         data=data,
+[12:24:29]     ...<4 lines>...
+[12:24:29]         legend=legend,
+[12:24:29]     )
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/categorical.py", line 67, in __init__
+[12:24:29]     super().__init__(data=data, variables=variables)
+[12:24:29]     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_base.py", line 634, in __init__
+[12:24:29]     self.assign_variables(data, variables)
+[12:24:29]     ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_base.py", line 679, in assign_variables
+[12:24:29]     plot_data = PlotData(data, variables)
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_core/data.py", line 58, in __init__
+[12:24:29]     frame, names, ids = self._assign_variables(data, variables)
+[12:24:29]                         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[12:24:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_core/data.py", line 232, in _assign_variables
+[12:24:29]     raise ValueError(err)
+[12:24:29] ValueError: Could not interpret value `mako` for `hue`. An entry with this name does not appear in `data`.
+
+[12:24:29] ============================================================================
+

@@ -1,0 +1,18 @@
+[11:49:07] --- Logging Initialized for IOT.py ---
+[11:49:07] Log file: logs/IOT.py@2026-01-26_11-49-07.log
+[11:49:07] Backup exists proceeding noramlly....
+
+[11:49:08] ============================== CRASH DETECTED ==============================
+[11:49:08] Timestamp: 2026-01-26 11:49:08.114340
+[11:49:08] Traceback (most recent call last):
+[11:49:08]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/IOT.py", line 25, in <module>
+[11:49:08]     df.replace(None,'Normal',inplace=True)
+[11:49:08]     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[11:49:08]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/generic.py", line 8138, in replace
+[11:49:08]     raise TypeError(
+[11:49:08]     ...<3 lines>...
+[11:49:08]     )
+[11:49:08] TypeError: 'regex' must be a string or a compiled regular expression or a list or dict of strings or regular expressions, you passed a 'bool'
+
+[11:49:08] ============================================================================
+

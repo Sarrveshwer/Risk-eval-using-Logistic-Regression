@@ -1,0 +1,31 @@
+[12:31:50] --- Logging Initialized for IOT.py ---
+[12:31:50] Log file: logs/IOT.py@2026-01-26_12-31-50.log
+[12:31:50] Backup exists proceeding noramlly....
+[12:31:50] Cheecking for NaN values:
+[12:31:50] ----------------------------------------------------------------------------------------------------
+[12:31:50] Timestamp               0.0
+[12:31:50] Sensor_ID               0.0
+[12:31:50] Temperature             0.0
+[12:31:50] Vibration               0.0
+[12:31:50] Pressure                0.0
+[12:31:50] Voltage                 0.0
+[12:31:50] Current                 0.0
+[12:31:50] FFT_Feature1            0.0
+[12:31:50] FFT_Feature2            0.0
+[12:31:50] Normalized_Temp         0.0
+[12:31:50] Normalized_Vibration    0.0
+[12:31:50] Normalized_Pressure     0.0
+[12:31:50] Normalized_Voltage      0.0
+[12:31:50] Normalized_Current      0.0
+[12:31:50] Anomaly_Score           0.0
+[12:31:50] Fault_Type              0.0
+[12:31:50] Fault_Status            0.0
+[12:31:50] dtype: float64
+[12:31:50] ----------------------------------------------------------------------------------------------------
+
+[12:31:50] Fault_Type
+[12:31:50] None                  34988
+[12:31:50] Electrical Fault       5034
+[12:31:50] Overheating            5028
+[12:31:50] Mechanical Failure     4950
+[12:31:50] Name: count, dtype: int64

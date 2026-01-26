@@ -1,0 +1,29 @@
+[14:10:36] --- Logging Initialized for main.py ---
+[14:10:36] Log file: logs/main.py@2026-01-26_14-10-36.log
+[14:10:36] Temperature
+[14:10:36] Vibration
+[14:10:36] Pressure
+[14:10:36] Voltage
+[14:10:36] Current
+[14:10:36] FFT_Feature1
+[14:10:36] FFT_Feature2
+[14:10:36] Normalized_Temp
+[14:10:36] Normalized_Vibration
+[14:10:36] Normalized_Pressure
+[14:10:36] Normalized_Voltage
+[14:10:36] Normalized_Current
+[14:10:36] Anomaly_Score
+
+[14:10:36] ============================== CRASH DETECTED ==============================
+[14:10:36] Timestamp: 2026-01-26 14:10:36.961304
+[14:10:36] Traceback (most recent call last):
+[14:10:36]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 98, in <module>
+[14:10:36]     model.train_run()
+[14:10:36]     ~~~~~~~~~~~~~~~^^
+[14:10:36]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 59, in train_run
+[14:10:36]     roc = roc_auc_score(self.y_test, y_prob)
+[14:10:36]                                      ^^^^^^
+[14:10:36] NameError: name 'y_prob' is not defined. Did you mean: 'self.y_prob'?
+
+[14:10:36] ============================================================================
+

@@ -1,0 +1,33 @@
+[14:10:47] --- Logging Initialized for main.py ---
+[14:10:47] Log file: logs/main.py@2026-01-26_14-10-47.log
+[14:10:47] Temperature
+[14:10:47] Vibration
+[14:10:47] Pressure
+[14:10:47] Voltage
+[14:10:47] Current
+[14:10:47] FFT_Feature1
+[14:10:47] FFT_Feature2
+[14:10:47] Normalized_Temp
+[14:10:47] Normalized_Vibration
+[14:10:47] Normalized_Pressure
+[14:10:47] Normalized_Voltage
+[14:10:47] Normalized_Current
+[14:10:47] Anomaly_Score
+[14:10:47] ROC-AUC Score: 0.5056583850637575
+
+[14:10:48] ============================== CRASH DETECTED ==============================
+[14:10:48] Timestamp: 2026-01-26 14:10:48.020234
+[14:10:48] Traceback (most recent call last):
+[14:10:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 98, in <module>
+[14:10:48]     model.train_run()
+[14:10:48]     ~~~~~~~~~~~~~~~^^
+[14:10:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 61, in train_run
+[14:10:48]     self.plot(self.y,self.y_pred)
+[14:10:48]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+[14:10:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 67, in plot
+[14:10:48]     plt.plot(fpr, tpr, label=f"ROC (AUC={roc:.3f})")
+[14:10:48]                                          ^^^
+[14:10:48] NameError: name 'roc' is not defined
+
+[14:10:48] ============================================================================
+

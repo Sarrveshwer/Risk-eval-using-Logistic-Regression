@@ -1,0 +1,92 @@
+[12:00:34] --- Logging Initialized for IOT.py ---
+[12:00:34] Log file: logs/IOT.py@2026-01-26_12-00-34.log
+[12:00:34] Backup exists proceeding noramlly....
+[12:00:34] Total number of per columnDatapoints:
+[12:00:34] Timestamp               50000
+[12:00:34] Sensor_ID               50000
+[12:00:34] Temperature             50000
+[12:00:34] Vibration               50000
+[12:00:34] Pressure                50000
+[12:00:34] Voltage                 50000
+[12:00:34] Current                 50000
+[12:00:34] FFT_Feature1            50000
+[12:00:34] FFT_Feature2            50000
+[12:00:34] Normalized_Temp         50000
+[12:00:34] Normalized_Vibration    50000
+[12:00:34] Normalized_Pressure     50000
+[12:00:34] Normalized_Voltage      50000
+[12:00:34] Normalized_Current      50000
+[12:00:34] Anomaly_Score           50000
+[12:00:34] Fault_Type                  0
+[12:00:34] Fault_Status            50000
+[12:00:34] dtype: int64
+
+[12:00:34] All numerical features of the columns:
+[12:00:34]         Temperature     Vibration      Pressure       Voltage       Current  \
+[12:00:34] count  50000.000000  50000.000000  50000.000000  50000.000000  50000.000000   
+[12:00:34] mean      50.016061    100.051761    200.073779    219.979868      9.989170   
+[12:00:34] std       15.020375     25.013161     49.909329      9.997011      2.998392   
+[12:00:34] min      -16.984058    -11.574213     10.268128    176.259572     -3.241658   
+[12:00:34] 25%       39.823350     83.321739    166.205629    213.251037      7.966669   
+[12:00:34] 50%       50.060281    100.079137    199.855668    220.029453      9.980461   
+[12:00:34] 75%       60.196044    116.785872    233.810144    226.736776     12.010628   
+[12:00:34] max      106.402329    205.050647    428.105736    257.821878     22.658099   
+
+[12:00:34]        FFT_Feature1  FFT_Feature2  Normalized_Temp  Normalized_Vibration  \
+[12:00:34] count  50000.000000  50000.000000     50000.000000          50000.000000   
+[12:00:34] mean       0.499314      0.500009         0.543011              0.515296   
+[12:00:34] std        0.288987      0.288464         0.121734              0.115468   
+[12:00:34] min        0.000040      0.000031         0.000000              0.000000   
+[12:00:34] 25%        0.250107      0.251067         0.460403              0.438066   
+[12:00:34] 50%        0.499405      0.501123         0.543369              0.515423   
+[12:00:34] 75%        0.750203      0.748289         0.625516              0.592545   
+[12:00:34] max        0.999982      0.999987         1.000000              1.000000   
+
+[12:00:34]        Normalized_Pressure  Normalized_Voltage  Normalized_Current  \
+[12:00:34] count         50000.000000        50000.000000        50000.000000   
+[12:00:34] mean              0.454257            0.536036            0.510848   
+[12:00:34] std               0.119447            0.122569            0.115769   
+[12:00:34] min               0.000000            0.000000            0.000000   
+[12:00:34] 25%               0.373201            0.453536            0.432758   
+[12:00:34] 50%               0.453735            0.536643            0.510511   
+[12:00:34] 75%               0.534997            0.618879            0.588897   
+[12:00:34] max               1.000000            1.000000            1.000000   
+
+[12:00:34]        Anomaly_Score  Fault_Status  
+[12:00:34] count   50000.000000  50000.000000  
+[12:00:34] mean        0.501880      0.300240  
+[12:00:34] std         0.288025      0.458367  
+[12:00:34] min         0.000022      0.000000  
+[12:00:34] 25%         0.250855      0.000000  
+[12:00:34] 50%         0.504484      0.000000  
+[12:00:34] 75%         0.751008      1.000000  
+[12:00:34] max         0.999998      1.000000  
+
+[12:00:34] ============================== CRASH DETECTED ==============================
+[12:00:34] Timestamp: 2026-01-26 12:00:34.861529
+[12:00:34] Traceback (most recent call last):
+[12:00:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/IOT.py", line 35, in <module>
+[12:00:34]     sns.catplot(data=df['Fault_Type'], x="Fault_Type", kind="count")
+[12:00:34]     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[12:00:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/categorical.py", line 2782, in catplot
+[12:00:34]     p = Plotter(
+[12:00:34]         data=data,
+[12:00:34]     ...<8 lines>...
+[12:00:34]         legend=legend,
+[12:00:34]     )
+[12:00:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/categorical.py", line 67, in __init__
+[12:00:34]     super().__init__(data=data, variables=variables)
+[12:00:34]     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[12:00:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_base.py", line 634, in __init__
+[12:00:34]     self.assign_variables(data, variables)
+[12:00:34]     ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[12:00:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_base.py", line 679, in assign_variables
+[12:00:34]     plot_data = PlotData(data, variables)
+[12:00:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_core/data.py", line 57, in __init__
+[12:00:34]     data = handle_data_source(data)
+[12:00:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/_core/data.py", line 278, in handle_data_source
+[12:00:34]     raise TypeError(err)
+[12:00:34] TypeError: Data source must be a DataFrame or Mapping, not <class 'pandas.core.series.Series'>.
+
+[12:00:34] ============================================================================
+

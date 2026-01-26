@@ -1,0 +1,16 @@
+[13:11:41] --- Logging Initialized for IOT.py ---
+[13:11:41] Log file: logs/IOT.py@2026-01-26_13-11-41.log
+[13:11:41] Temperature
+[13:11:41] Vibration
+[13:11:41] Pressure
+[13:11:41] Voltage
+[13:11:41] Current
+[13:11:41] FFT_Feature1
+[13:11:41] FFT_Feature2
+[13:11:41] Normalized_Temp
+[13:11:41] Normalized_Vibration
+[13:11:41] Normalized_Pressure
+[13:11:41] Normalized_Voltage
+[13:11:41] Normalized_Current
+[13:11:41] Anomaly_Score
+[13:11:41] Fault_Status

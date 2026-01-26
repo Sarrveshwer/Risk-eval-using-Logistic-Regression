@@ -1,0 +1,33 @@
+[14:07:52] --- Logging Initialized for main.py ---
+[14:07:52] Log file: logs/main.py@2026-01-26_14-07-52.log
+[14:07:52] Temperature
+[14:07:52] Vibration
+[14:07:52] Pressure
+[14:07:52] Voltage
+[14:07:52] Current
+[14:07:52] FFT_Feature1
+[14:07:52] FFT_Feature2
+[14:07:52] Normalized_Temp
+[14:07:52] Normalized_Vibration
+[14:07:52] Normalized_Pressure
+[14:07:52] Normalized_Voltage
+[14:07:52] Normalized_Current
+[14:07:52] Anomaly_Score
+[14:07:52] ROC-AUC: 0.5056583850637575
+
+[14:07:52] ============================== CRASH DETECTED ==============================
+[14:07:52] Timestamp: 2026-01-26 14:07:52.307702
+[14:07:52] Traceback (most recent call last):
+[14:07:52]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 98, in <module>
+[14:07:52]     model.train_run()
+[14:07:52]     ~~~~~~~~~~~~~~~^^
+[14:07:52]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 61, in train_run
+[14:07:52]     self.plot(self.y,self.y_pred,roc)
+[14:07:52]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+[14:07:52]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 64, in plot
+[14:07:52]     fpr, tpr, _ = roc
+[14:07:52]     ^^^^^^^^^^^
+[14:07:52] TypeError: cannot unpack non-iterable float object
+
+[14:07:52] ============================================================================
+

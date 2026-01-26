@@ -1,0 +1,39 @@
+[13:45:48] --- Logging Initialized for main.py ---
+[13:45:48] Log file: logs/main.py@2026-01-26_13-45-48.log
+
+[13:45:48] ============================== CRASH DETECTED ==============================
+[13:45:48] Timestamp: 2026-01-26 13:45:48.168543
+[13:45:48] Traceback (most recent call last):
+[13:45:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 66, in <module>
+[13:45:48]     model.dataset('Fault_Type',['Timestamp','Sensor_ID'])
+[13:45:48]     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[13:45:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 28, in dataset
+[13:45:48]     self.y = df[target].astype(int)
+[13:45:48]              ~~~~~~~~~~~~~~~~~^^^^^
+[13:45:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/generic.py", line 6665, in astype
+[13:45:48]     new_data = self._mgr.astype(dtype=dtype, copy=copy, errors=errors)
+[13:45:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/internals/managers.py", line 449, in astype
+[13:45:48]     return self.apply(
+[13:45:48]            ~~~~~~~~~~^
+[13:45:48]         "astype",
+[13:45:48]         ^^^^^^^^^
+[13:45:48]     ...<3 lines>...
+[13:45:48]         using_cow=using_copy_on_write(),
+[13:45:48]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[13:45:48]     )
+[13:45:48]     ^
+[13:45:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/internals/managers.py", line 363, in apply
+[13:45:48]     applied = getattr(b, f)(**kwargs)
+[13:45:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/internals/blocks.py", line 784, in astype
+[13:45:48]     new_values = astype_array_safe(values, dtype, copy=copy, errors=errors)
+[13:45:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/dtypes/astype.py", line 237, in astype_array_safe
+[13:45:48]     new_values = astype_array(values, dtype, copy=copy)
+[13:45:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/dtypes/astype.py", line 182, in astype_array
+[13:45:48]     values = _astype_nansafe(values, dtype, copy=copy)
+[13:45:48]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/dtypes/astype.py", line 133, in _astype_nansafe
+[13:45:48]     return arr.astype(dtype, copy=True)
+[13:45:48]            ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+[13:45:48] ValueError: cannot convert float NaN to integer
+
+[13:45:48] ============================================================================
+

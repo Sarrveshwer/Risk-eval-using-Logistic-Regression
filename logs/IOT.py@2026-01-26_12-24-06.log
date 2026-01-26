@@ -1,0 +1,9 @@
+[12:24:06] --- Logging Initialized for IOT.py ---
+[12:24:06] Log file: logs/IOT.py@2026-01-26_12-24-06.log
+[12:24:06] Backup exists proceeding noramlly....
+[12:24:06] Fault_Type
+[12:24:06] None                  34988
+[12:24:06] Electrical Fault       5034
+[12:24:06] Overheating            5028
+[12:24:06] Mechanical Failure     4950
+[12:24:06] Name: count, dtype: int64

@@ -1,0 +1,32 @@
+[14:08:27] --- Logging Initialized for main.py ---
+[14:08:27] Log file: logs/main.py@2026-01-26_14-08-27.log
+[14:08:27] Temperature
+[14:08:27] Vibration
+[14:08:27] Pressure
+[14:08:27] Voltage
+[14:08:27] Current
+[14:08:27] FFT_Feature1
+[14:08:27] FFT_Feature2
+[14:08:27] Normalized_Temp
+[14:08:27] Normalized_Vibration
+[14:08:27] Normalized_Pressure
+[14:08:27] Normalized_Voltage
+[14:08:27] Normalized_Current
+[14:08:27] Anomaly_Score
+
+[14:08:27] ============================== CRASH DETECTED ==============================
+[14:08:27] Timestamp: 2026-01-26 14:08:27.879930
+[14:08:27] Traceback (most recent call last):
+[14:08:27]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 96, in <module>
+[14:08:27]     model.train_run()
+[14:08:27]     ~~~~~~~~~~~~~~~^^
+[14:08:27]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 59, in train_run
+[14:08:27]     self.plot(self.y,self.y_pred)
+[14:08:27]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+[14:08:27]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 62, in plot
+[14:08:27]     fpr, tpr, _ = roc_auc_score(self.y_test, y_prob)
+[14:08:27]                                              ^^^^^^
+[14:08:27] NameError: name 'y_prob' is not defined. Did you mean: 'y_pred'?
+
+[14:08:27] ============================================================================
+

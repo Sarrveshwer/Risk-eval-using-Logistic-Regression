@@ -1,0 +1,33 @@
+[14:11:11] --- Logging Initialized for main.py ---
+[14:11:11] Log file: logs/main.py@2026-01-26_14-11-11.log
+[14:11:11] Temperature
+[14:11:11] Vibration
+[14:11:11] Pressure
+[14:11:11] Voltage
+[14:11:11] Current
+[14:11:11] FFT_Feature1
+[14:11:11] FFT_Feature2
+[14:11:11] Normalized_Temp
+[14:11:11] Normalized_Vibration
+[14:11:11] Normalized_Pressure
+[14:11:11] Normalized_Voltage
+[14:11:11] Normalized_Current
+[14:11:11] Anomaly_Score
+[14:11:11] ROC-AUC Score: 0.5056583850637575
+
+[14:11:26] ============================== CRASH DETECTED ==============================
+[14:11:26] Timestamp: 2026-01-26 14:11:26.835792
+[14:11:26] Traceback (most recent call last):
+[14:11:26]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 98, in <module>
+[14:11:26]     model.train_run()
+[14:11:26]     ~~~~~~~~~~~~~~~^^
+[14:11:26]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 61, in train_run
+[14:11:26]     self.plot(self.y,self.y_pred,roc)
+[14:11:26]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+[14:11:26]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 77, in plot
+[14:11:26]     sns.kdeplot(y_prob[self.y_test == 0], label="No Fault", fill=True)
+[14:11:26]                 ^^^^^^
+[14:11:26] NameError: name 'y_prob' is not defined. Did you mean: 'self.y_prob'?
+
+[14:11:26] ============================================================================
+
