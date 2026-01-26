@@ -37,7 +37,7 @@ This means:
 - The model performs close to random guessing
 - There is no useful ranking between fault and no-fault samples
 
-📉 *Insert ROC curve image here*
+![ROC-AUC](images/ROC-AUC_iot_equipment_monitoring_dataset.png)
 
 ---
 
@@ -48,7 +48,7 @@ This shows:
 - No meaningful early-warning capability
 - The model mostly predicts at the base fault rate
 
-📉 *Insert Precision–Recall curve image here*
+![Precision-Recall](images/Precision-Recall-Curve_iot_equipment_monitoring_dataset.png)
 
 ---
 
@@ -63,7 +63,8 @@ This means:
 - The model cannot separate risky and normal behavior
 - Features do not contain early discriminative signal
 
-![ROC-AUC](images/ROC-AUC_iot_equipment_monitoring_dataset.png)
+
+![Risk Distribution](images/Risk-Score-Distribution_iot_equipment_monitoring_dataset.png)
 
 ---
 
