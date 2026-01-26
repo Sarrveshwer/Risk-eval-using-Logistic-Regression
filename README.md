@@ -63,7 +63,7 @@ This means:
 - The model cannot separate risky and normal behavior
 - Features do not contain early discriminative signal
 
-📉 *Insert Risk score distribution plot here*
+![ROC-AUC](images/ROC-AUC_iot_equipment_monitoring_dataset.png)
 
 ---
 
