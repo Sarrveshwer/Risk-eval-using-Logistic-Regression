@@ -81,8 +81,10 @@ class LogisticClassifier:
         search.fit(self.X_train,self.y_train)
         self.y_prob = search.predict_proba(self.X_test)[:, 1]
         self.roc = roc_auc_score(self.y_test, self.y_prob)
-        self.plot(self.roc)
-    def plot(self,roc):
+        #===== Tried Changing the Target Recall to clear my confusion =====
+        #for i in [0.70,0.75,0.80,0.85]:
+            #self.plot(self.roc,i)
+    def plot(self,roc,target_recall):
         
         palette = sns.color_palette("crest", 10)
 
@@ -140,7 +142,7 @@ class LogisticClassifier:
         axes["prc"].legend()
 
         #Confusion Matrix
-        target_recall = 0.80
+        #target_recall = 0.80
         idx = np.where(recall >= target_recall)[0][-1]
         threshold = thresholds[idx]
 
