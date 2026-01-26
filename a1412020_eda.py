@@ -52,7 +52,7 @@ for container in ax.containers:
     ax.bar_label(container, padding=3)
     
 plt.title("Machine failure Frequency")
-plt.savefig('images/Machine failure Frequency.png')
+plt.savefig('images/Machine-failure-Frequency.png')
 plt.show()
 
 df.to_csv("iot_equipment_monitoring_dataset.csv", index=False)
