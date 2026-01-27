@@ -61,7 +61,7 @@ There is no single "best" threshold. It depends on the actual costs in your situ
 
 The dataset has **9,661 normal runs** but only **339 failures**—roughly a 28:1 ratio. This is why accuracy is useless here. If you just predict "no failure" every time, you get 96.6% accuracy but catch zero failures.
 
-![Machine Failure Frequency](images/Machine failure Frequency.png)
+![Machine Failure Frequency](images/Machine-failure-Frequency.png)
 
 ## Dashboard
 
