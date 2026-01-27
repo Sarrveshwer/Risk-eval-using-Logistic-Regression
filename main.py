@@ -84,6 +84,7 @@ class LogisticClassifier:
         #===== Tried Changing the Target Recall to clear my confusion =====
         #for i in [0.70,0.75,0.80,0.85]:
             #self.plot(self.roc,i)
+        self.plot(self.roc,0.80)
     def plot(self,roc,target_recall):
         
         palette = sns.color_palette("crest", 10)
