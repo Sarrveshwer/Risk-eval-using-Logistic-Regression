@@ -433,44 +433,99 @@ class FailureClassificationModel:
             model_names.append(self.train_run(i))
         return model_names
 class FailurePredictionSystem:
-    def __init__(self,filename,target,threshold,ignore=None,classifications = None):
+    def __init__(self, filename, target, threshold, ignore=None, classifications=None):
         self.filename = filename
         self.target = target
         self.threshold = threshold
         self.classifications = classifications
-        if ignore == None:
+
+        if ignore is None:
             self.ignore = []
         else:
-            #If ignore not [] then save the list across the class using self.
             self.ignore = ignore
-        
-        #Checks if the Classification argument passed is empty and raises Error according
-        if self.classifications == None or self.classifications == []:
-            print('Error classification cannot be empty....')
-    def LoadModels(self):
-        RiskEval = RiskEvalModel(
-                                self.filename,
-                                self.target,
-                                self.threshold,
-                                self.ignore+self.classifications
-                                )
-        RiskEvalName = RiskEval.train_run()
-        self.risk_model = jb.load(RiskEvalName)
-        print("Successfully Loaded RiskEvalModel....")
-        ClassificationModel = FailureClassificationModel(
-                                                        self.filename,
-                                                        self.target,
-                                                        self.threshold,
-                                                        self.ignore,
-                                                        self.classifications
-                                                        )
-        model_names = ClassificationModel.run()
-        self.classification_models = {}
-        for model_name in model_names:
-            key = model_name.replace("Risk_eval_", "").replace(".pkl", "")
-            self.classification_models[key] = jb.load(model_name)
 
-        print("Successfully Loaded FailureClassificationModels....")
+        if not self.classifications:
+            raise ValueError("classification list cannot be empty")
+
+        self.risk_model = None
+        self.classification_models = {}
+
+    # --------------------------------------------------
+    # Train OR load models
+    # --------------------------------------------------
+    def LoadModels(self):
+        # ---- Risk model ----
+        risk_model_path = "Risk_eval_model.pkl"
+
+        if os.path.exists(risk_model_path):
+            self.risk_model = jb.load(risk_model_path)
+            print("Loaded RiskEvalModel from disk.")
+        else:
+            print("Training RiskEvalModel...")
+            risk_model = RiskEvalModel(
+                self.filename,
+                self.target,
+                self.threshold,
+                self.ignore + self.classifications
+            )
+            risk_model_path = risk_model.train_run()
+            self.risk_model = jb.load(risk_model_path)
+
+        # ---- Failure classification models ----
+        self.classification_models = {}
+
+        for failure in self.classifications:
+            model_path = f"Risk_eval_{failure}.pkl"
+
+            if os.path.exists(model_path):
+                self.classification_models[failure] = jb.load(model_path)
+                print(f"Loaded classifier for {failure}")
+            else:
+                print(f"Training classifier for {failure}...")
+                clf = FailureClassificationModel(
+                    self.filename,
+                    self.target,
+                    self.threshold,
+                    self.ignore,
+                    self.classifications
+                )
+                model_path = clf.train_run(failure)
+                self.classification_models[failure] = jb.load(model_path)
+
+        print("All models ready.")
+
+    def predict(self, X: pd.DataFrame):
+        # enforce single-row inference
+        if len(X) != 1:
+            X = X.iloc[[0]]
+
+        risk_prob = float(self.risk_model.predict_proba(X)[:, 1][0])
+
+        if risk_prob <= self.threshold:
+            return {
+                "risk_prob": risk_prob,
+                "risk": 0,
+                "failure_type": None
+            }
+
+        results = {}
+
+        for name, model in self.classification_models.items():
+            prob = float(model.predict_proba(X)[:, 1][0])
+            results[name] = int(prob >= 0.5)
+
+        # RNF logic
+        if all(v == 0 for v in results.values()):
+            failure = "RandomFailure"
+        else:
+            failure = max(results, key=results.get)
+
+        return {
+            "risk_prob": risk_prob,
+            "risk": 1,
+            "failure_type": failure,
+            "details": results
+        }
 
 
 if __name__ == '__main__':
@@ -481,3 +536,21 @@ if __name__ == '__main__':
                                    ['TWF','HDF','PWF','OSF']
                                    )
     moedl_names = model.LoadModels()
+    df = pd.read_csv("ai4i2020.csv")
+
+    X = df.drop(
+        columns=[
+            "Machine failure",
+            "TWF",
+            "HDF",
+            "PWF",
+            "OSF",
+            "RNF",
+            "UDI",
+            "Product ID",
+            "Type"
+        ],
+        errors="ignore"
+    ).iloc[:5]
+    predictions = model.predict(X)
+    print(predictions)
