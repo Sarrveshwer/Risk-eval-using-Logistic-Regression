@@ -450,9 +450,6 @@ class FailurePredictionSystem:
         self.risk_model = None
         self.classification_models = {}
 
-    # --------------------------------------------------
-    # Train OR load models
-    # --------------------------------------------------
     def LoadModels(self):
         # ---- Risk model ----
         risk_model_path = "Risk_eval_model.pkl"
@@ -471,7 +468,6 @@ class FailurePredictionSystem:
             risk_model_path = risk_model.train_run()
             self.risk_model = jb.load(risk_model_path)
 
-        # ---- Failure classification models ----
         self.classification_models = {}
 
         for failure in self.classifications:
@@ -554,3 +550,4 @@ if __name__ == '__main__':
     ).iloc[:5]
     predictions = model.predict(X)
     print(predictions)
+    
