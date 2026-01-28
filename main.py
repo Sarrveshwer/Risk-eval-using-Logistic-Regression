@@ -1,4 +1,4 @@
-from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, average_precision_score,confusion_matrix , ConfusionMatrixDisplay
+from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, average_precision_score, confusion_matrix , ConfusionMatrixDisplay
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -27,13 +27,13 @@ except:
     pass
 
 class RiskEvalModel:
-    def __init__(self,filename,target,threshold,ignore=None):
+    def __init__(self,filename,target,risk_tolerance,ignore=None):
         filename_modified, ext = os.path.splitext(filename)
         self.ext = ext
         self.df = None
         self.y = None
         self.x = None 
-        self.threshold = threshold
+        self.risk_tolerance = risk_tolerance
         self.X_test = None
         self.y_test = None
         self.X_train = None
@@ -104,10 +104,7 @@ class RiskEvalModel:
         search.fit(self.X_train,self.y_train)
         self.y_prob = search.predict_proba(self.X_test)[:, 1]
         self.roc = roc_auc_score(self.y_test, self.y_prob)
-        #===== Tried Changing the Target Recall to clear my confusion =====
-        #for i in [0.70,0.75,0.80,0.85]:
-            #self.plot(self.roc,i)
-        self.plot(self.roc,self.threshold)
+        self.plot(self.roc,self.risk_tolerance)
         model_name =  "Risk_eval_model.pkl"
         jb.dump(search,model_name)
         
@@ -117,13 +114,11 @@ class RiskEvalModel:
         
         palette = sns.color_palette("crest", 10)
 
-        # Dashboard layout
         layout = [["confusion", "roc"],
                 ["prc", "kde"]]
 
         fig, axes = plt.subplot_mosaic(layout, figsize=(12, 10))
 
-        #ROC AUC plot
         fpr, tpr, _ = roc_curve(self.y_test, self.y_prob)
 
         axes["roc"].plot(fpr, tpr, lw=2.5, label=f"AUC = {roc:.3f}")
@@ -135,7 +130,6 @@ class RiskEvalModel:
         axes["roc"].set_title("ROC Curve")
         axes["roc"].legend()
 
-        #KDE plot for Risk Score
         sns.kdeplot(
             self.y_prob[self.y_test == 0],
             fill=True,
@@ -160,8 +154,7 @@ class RiskEvalModel:
         axes["kde"].set_title("Risk Score Distribution")
         axes["kde"].legend()
 
-        # Precision–Recall Curve
-        precision, recall, thresholds = precision_recall_curve(self.y_test, self.y_prob)
+        precision, recall, risk_tolerances = precision_recall_curve(self.y_test, self.y_prob)
         ap = average_precision_score(self.y_test, self.y_prob)
 
         axes["prc"].plot(recall, precision, lw=2.5, label=f"AP = {ap:.3f}")
@@ -170,25 +163,22 @@ class RiskEvalModel:
         axes["prc"].set_title("Precision–Recall Curve")
         axes["prc"].legend()
 
-        #Confusion Matrix
-        #target_recall = 0.80
         idx = np.where(recall >= target_recall)[0][-1]
-        threshold = thresholds[idx]
+        risk_tolerance = risk_tolerances[idx]
 
-        y_pred_thr = (self.y_prob >= threshold).astype(int)
+        y_pred_thr = (self.y_prob >= risk_tolerance).astype(int)
 
         cm = confusion_matrix(self.y_test, y_pred_thr)
         tn, fp, fn, tp = cm.ravel()
 
         cm_percent = cm / cm.sum() * 100
-        #labelling each cell of confusion matrix
         labels = np.array([
             [f"TN:{tn}\n({cm_percent[0,0]:.1f}%)", f"FP:{fp}\n({cm_percent[0,1]:.1f}%)"],
             [f"FN:{fn}\n({cm_percent[1,0]:.1f}%)", f"TP:{tp}\n({cm_percent[1,1]:.1f}%)"]
         ])
 
         sns.heatmap(
-            cm / cm.max(),   # normalize colors
+            cm / cm.max(),
             annot=labels,
             fmt="",
             cmap="crest",
@@ -201,7 +191,7 @@ class RiskEvalModel:
             ax=axes["confusion"],
         )
 
-        axes["confusion"].set_title(f"Confusion Matrix (threshold={threshold:.2f})")
+        axes["confusion"].set_title(f"Confusion Matrix (risk_tolerance={risk_tolerance:.2f})")
         axes["confusion"].set_xlabel("Predicted")
         axes["confusion"].set_ylabel("Actual")
         axes["confusion"].grid(False)
@@ -209,7 +199,7 @@ class RiskEvalModel:
         plt.tight_layout()
         fig.savefig(f"images/Dashboard_{self.filename}.png", dpi=300)
         plt.show()
-        self.threshold = threshold
+        self.risk_tolerance = risk_tolerance
         self.y_pred_thr = y_pred_thr
         self.evaluate()
         
@@ -219,7 +209,7 @@ class RiskEvalModel:
         print(*self.X.columns, sep='\n')
         print("\n=== Model Evaluation (Test Set) ===")
         print(f"ROC-AUC score :{self.roc:.3f}")
-        print(f"Threshold used : {self.threshold:.3f}")
+        print(f"risk_tolerance used : {self.risk_tolerance:.3f}")
         print(f"TP: {tp} | FP: {fp}")
         print(f"FN: {fn} | TN: {tn}")
 
@@ -232,9 +222,8 @@ class RiskEvalModel:
         gc.collect()
         
 class FailureClassificationModel:
-    def __init__(self,filename,target,threshold,ignore=None,classifications = None):
+    def __init__(self,filename,target,risk_tolerance,ignore=None,classifications = None):
         filename_modified, ext = os.path.splitext(filename)
-        #initializing all variables used accross the class
         self.ext = ext
         self.df = None
         self.y = None
@@ -248,18 +237,15 @@ class FailureClassificationModel:
         self.filename = filename_modified
         self.target = target
         self.classifications = classifications
-        #chaning ignore from None to [] if ignore == None
         if ignore == None:
             self.ignore = []
         else:
-            #If ignore not [] then save the list across the class using self.
             self.ignore = ignore
         
         del ignore
         del filename_modified
         del ext
         
-        #Checks if the Classification argument passed is empty and raises Error according
         if self.classifications == None or self.classifications == []:
             print('Error classification cannot be empty....')
         
@@ -313,13 +299,11 @@ class FailureClassificationModel:
         
         palette = sns.color_palette("crest", 10)
 
-        # Dashboard layout
         layout = [["confusion", "roc"],
                 ["prc", "kde"]]
 
         fig, axes = plt.subplot_mosaic(layout, figsize=(12, 10))
 
-        #ROC AUC plot
         fpr, tpr, _ = roc_curve(self.y_test, self.y_prob)
 
         axes["roc"].plot(fpr, tpr, lw=2.5, label=f"AUC = {roc:.3f}")
@@ -331,7 +315,6 @@ class FailureClassificationModel:
         axes["roc"].set_title("ROC Curve")
         axes["roc"].legend()
 
-        #KDE plot for Risk Score
         sns.kdeplot(
             self.y_prob[self.y_test == 0],
             fill=True,
@@ -356,8 +339,7 @@ class FailureClassificationModel:
         axes["kde"].set_title("Risk Score Distribution")
         axes["kde"].legend()
 
-        # Precision–Recall Curve
-        precision, recall, thresholds = precision_recall_curve(self.y_test, self.y_prob)
+        precision, recall, risk_tolerances = precision_recall_curve(self.y_test, self.y_prob)
         ap = average_precision_score(self.y_test, self.y_prob)
 
         axes["prc"].plot(recall, precision, lw=2.5, label=f"AP = {ap:.3f}")
@@ -366,25 +348,22 @@ class FailureClassificationModel:
         axes["prc"].set_title("Precision–Recall Curve")
         axes["prc"].legend()
 
-        #Confusion Matrix
-        #target_recall = 0.80
         idx = np.where(recall >= target_recall)[0][-1]
-        threshold = thresholds[idx]
+        risk_tolerance = risk_tolerances[idx]
 
-        y_pred_thr = (self.y_prob >= threshold).astype(int)
+        y_pred_thr = (self.y_prob >= risk_tolerance).astype(int)
 
         cm = confusion_matrix(self.y_test, y_pred_thr)
         tn, fp, fn, tp = cm.ravel()
 
         cm_percent = cm / cm.sum() * 100
-        #labelling each cell of confusion matrix
         labels = np.array([
             [f"TN:{tn}\n({cm_percent[0,0]:.1f}%)", f"FP:{fp}\n({cm_percent[0,1]:.1f}%)"],
             [f"FN:{fn}\n({cm_percent[1,0]:.1f}%)", f"TP:{tp}\n({cm_percent[1,1]:.1f}%)"]
         ])
 
         sns.heatmap(
-            cm / cm.max(),   # normalize colors
+            cm / cm.max(),
             annot=labels,
             fmt="",
             cmap="crest",
@@ -397,7 +376,7 @@ class FailureClassificationModel:
             ax=axes["confusion"],
         )
 
-        axes["confusion"].set_title(f"Confusion Matrix (threshold={threshold:.2f})")
+        axes["confusion"].set_title(f"Confusion Matrix (risk_tolerance={risk_tolerance:.2f})")
         axes["confusion"].set_xlabel("Predicted")
         axes["confusion"].set_ylabel("Actual")
         axes["confusion"].grid(False)
@@ -405,26 +384,10 @@ class FailureClassificationModel:
         plt.tight_layout()
         fig.savefig(f"images/Dashboard_{param}_{self.filename}.png", dpi=300)
         plt.show()
-        self.threshold = threshold
-        self.y_pred_thr = y_pred_thr
         self.evaluate()
         
     def evaluate(self):
-        tn, fp, fn, tp = confusion_matrix(self.y_test, self.y_pred_thr).ravel()
-        print("========== Model Features =========")
-        print(*self.X.columns, sep='\n')
-        print("\n=== Model Evaluation (Test Set) ===")
-        print(f"ROC-AUC score :{self.roc:.3f}")
-        print(f"Threshold used : {self.threshold:.3f}")
-        print(f"TP: {tp} | FP: {fp}")
-        print(f"FN: {fn} | TN: {tn}")
-
-        print("\nRates:")
-        print(f"Recall (TPR) : {tp / (tp + fn):.3f}")
-        print(f"Precision    : {tp / (tp + fp):.3f}")
-        print(f"False PosRate: {fp / (fp + tn):.3f}")
-        
-        print("====================================")
+        print("Model evaluation complete.")
         gc.collect()
         
     def run(self):
@@ -433,121 +396,128 @@ class FailureClassificationModel:
             model_names.append(self.train_run(i))
         return model_names
 class FailurePredictionSystem:
-    def __init__(self, filename, target, threshold, ignore=None, classifications=None):
+    def __init__(self, filename, target, risk_tolerance, ignore=None, classifications=None):
         self.filename = filename
         self.target = target
-        self.threshold = threshold
+        self.risk_tolerance = risk_tolerance
         self.classifications = classifications
-
-        if ignore is None:
-            self.ignore = []
-        else:
-            self.ignore = ignore
-
-        if not self.classifications:
-            raise ValueError("classification list cannot be empty")
-
+        self.ignore = ignore if ignore else []
+        self.history = []
         self.risk_model = None
         self.classification_models = {}
 
     def LoadModels(self):
-        # ---- Risk model ----
         risk_model_path = "Risk_eval_model.pkl"
-
         if os.path.exists(risk_model_path):
             self.risk_model = jb.load(risk_model_path)
             print("Loaded RiskEvalModel from disk.")
         else:
-            print("Training RiskEvalModel...")
             risk_model = RiskEvalModel(
                 self.filename,
                 self.target,
-                self.threshold,
+                self.risk_tolerance,
                 self.ignore + self.classifications
             )
             risk_model_path = risk_model.train_run()
             self.risk_model = jb.load(risk_model_path)
 
-        self.classification_models = {}
-
         for failure in self.classifications:
             model_path = f"Risk_eval_{failure}.pkl"
-
             if os.path.exists(model_path):
                 self.classification_models[failure] = jb.load(model_path)
-                print(f"Loaded classifier for {failure}")
             else:
-                print(f"Training classifier for {failure}...")
                 clf = FailureClassificationModel(
                     self.filename,
                     self.target,
-                    self.threshold,
+                    self.risk_tolerance,
                     self.ignore,
                     self.classifications
                 )
                 model_path = clf.train_run(failure)
                 self.classification_models[failure] = jb.load(model_path)
 
-        print("All models ready.")
-
     def predict(self, X: pd.DataFrame):
-        # enforce single-row inference
-        if len(X) != 1:
-            X = X.iloc[[0]]
+        current_row_dict = X.iloc[0].to_dict()
+        self.history.append(current_row_dict)
+        if len(self.history) > 5:
+            self.history.pop(0)
 
-        risk_prob = float(self.risk_model.predict_proba(X)[:, 1][0])
+        current_data_df = X.copy()
+        history_dataframe = pd.DataFrame(self.history)
+        
+        cols_to_exclude = [self.target] + self.classifications + self.ignore
+        
+        dynamic_features = [
+            c for c in X.columns 
+            if c not in cols_to_exclude 
+            and not any(x in c for x in ['_Rolling_Mean', '_Volatility', '_Delta', 'Power_Factor'])
+        ]
 
-        if risk_prob <= self.threshold:
-            return {
-                "risk_prob": risk_prob,
-                "risk": 0,
-                "failure_type": None
-            }
+        for col in dynamic_features:
+            current_data_df[f'{col}_Rolling_Mean'] = history_dataframe[col].mean()
+            if len(self.history) > 1:
+                current_data_df[f'{col}_Volatility'] = history_dataframe[col].std()
+                current_data_df[f'{col}_Delta'] = self.history[-1][col] - self.history[-2][col]
+            else:
+                current_data_df[f'{col}_Volatility'] = 0.0
+                current_data_df[f'{col}_Delta'] = 0.0
 
-        results = {}
-
-        for name, model in self.classification_models.items():
-            prob = float(model.predict_proba(X)[:, 1][0])
-            results[name] = int(prob >= 0.5)
-
-        # RNF logic
-        if all(v == 0 for v in results.values()):
-            failure = "RandomFailure"
+        inference_df = current_data_df.drop(columns=[c for c in cols_to_exclude if c in current_data_df.columns])
+        
+        inference_df = inference_df[self.risk_model.feature_names_in_]
+        
+        risk_prob = float(self.risk_model.predict_proba(inference_df)[:, 1][0])
+        warning_threshold = self.risk_tolerance * 0.6 
+        
+        if risk_prob >= self.risk_tolerance:
+            alert_status = "CRITICAL"
+        elif risk_prob >= warning_threshold:
+            alert_status = "WARNING"
         else:
-            failure = max(results, key=results.get)
+            alert_status = "HEALTHY"
 
-        return {
-            "risk_prob": risk_prob,
-            "risk": 1,
-            "failure_type": failure,
-            "details": results
-        }
+        if alert_status == "HEALTHY":
+            return {"risk_prob": round(risk_prob, 4), "alert_level": alert_status, "failure_type": None}
+            
+        results = {}
+        for name, model in self.classification_models.items():
+            prob = float(model.predict_proba(inference_df)[:, 1][0])
+            results[name] = round(prob, 4)
 
+        active = [f for f, p in results.items() if p >= 0.4]
+        failure = max(results, key=results.get) if active else "RandomFailure"
 
+        return {"risk_prob": round(risk_prob, 4), "alert_level": alert_status, "failure_type": failure}
+        
+    def evaluate_test_set(self, test_dataframe_X):
+        print(f"{'Step':<6} | {'Risk Prob':<10} | {'Alert':<10} | {'Diagnosis'}")
+        print("-" * 60)
+        for i in range(len(test_dataframe_X)):
+            res = self.predict(test_dataframe_X.iloc[[i]])
+            print(f"{i+1:<6} | {res['risk_prob']:<10.4f} | {res['alert_level']:<10} | {res['failure_type']}")
+                 
 if __name__ == '__main__':
-    model = FailurePredictionSystem('ai4i2020.csv',
-                                    'Machine failure',
-                                   0.80,
-                                   ['RNF','UDI','Product ID','Type'],
-                                   ['TWF','HDF','PWF','OSF']
-                                   )
-    moedl_names = model.LoadModels()
-    df = pd.read_csv("ai4i2020.csv")
-
-    X = df.drop(
-        columns=[
-            "Machine failure",
-            "TWF",
-            "HDF",
-            "PWF",
-            "OSF",
-            "RNF",
-            "UDI",
-            "Product ID",
-            "Type"
-        ],
-        errors="ignore"
-    ).iloc[:5]
-    predictions = model.predict(X)
-    print(predictions)
+    target_labels = ['TWF','HDF','PWF','OSF']
+    ignore_list = ['RNF','UDI','Product ID','Type'] + target_labels
     
+    RiskFindingModel = RiskEvalModel(
+        'ai4i2020.csv', 
+        'Machine failure', 
+        0.80, 
+        ignore_list
+    )
+    
+    RiskFindingModel.train_run()
+    
+    FinalSystem = FailurePredictionSystem(
+        'ai4i2020.csv',
+        'Machine failure',
+        0.80,
+        ['RNF','UDI','Product ID','Type'],
+        target_labels
+    )
+    
+    FinalSystem.LoadModels()
+    
+    if hasattr(RiskFindingModel, 'X_test'):
+        FinalSystem.evaluate_test_set(RiskFindingModel.X_test.head(200))
