@@ -1,19 +1,20 @@
+from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, average_precision_score,confusion_matrix , ConfusionMatrixDisplay
+from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import RandomizedSearchCV
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, average_precision_score,confusion_matrix , ConfusionMatrixDisplay
 from sklearn.pipeline import Pipeline
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns 
+import pandas as pd
+import joblib as jb
+import numpy as np
 import os
 import auto_logger
 import gc
 
 sns.set_theme(
-    context="talk",   # larger fonts without shouting
+    context="talk",   
     palette="crest_r"
 )
 
@@ -25,14 +26,39 @@ try:
 except:
     pass
 
-def dataset(filename: str ,target: str, ignore=None, ):
-        filename_modified, _ = os.path.splitext(filename)
-        del _
+class RiskEvalModel:
+    def __init__(self,filename,target,threshold,ignore=None):
+        filename_modified, ext = os.path.splitext(filename)
+        self.ext = ext
+        self.df = None
+        self.y = None
+        self.x = None 
+        self.threshold = threshold
+        self.X_test = None
+        self.y_test = None
+        self.X_train = None
+        self.y_train = None
+        self.y_pred = None
+        self.y_prob = None
+        self.filename = filename_modified
+        self.target = target
+        if ignore == None:
+            self.ignore = []
+        else:
+            self.ignore = ignore
+        del ignore
+        del ext 
+        del filename_modified
+        
+    def dataset(self, filename: str,target: str,failure_only = False,ignore=None):
         if ignore is None:
             ignore = []
 
         df = pd.read_csv(filename)
 
+        if failure_only:
+            df = df[df[target] == 1]
+        
         y = df[target].astype(int)
         X = df.drop(columns=ignore + [target])
 
@@ -48,34 +74,14 @@ def dataset(filename: str ,target: str, ignore=None, ):
         X_test  = X.iloc[idx:]
         y_test  = y.iloc[idx:]
         
-        return X,y,X_train,y_train,X_test,y_test,filename_modified,df
+        return X,y,X_train,y_train,X_test,y_test,df
 
-class RiskEvalModel:
-    def __init__(self,filename,target,ignore=None):
-        self.df = None
-        self.y = None
-        self.x = None 
-        self.X_test = None
-        self.y_test = None
-        self.X_train = None
-        self.y_train = None
-        self.y_pred = None
-        self.y_prob = None
-        self.filename = filename
-        self.target = target
-        if ignore == None:
-            self.ignore = []
-        else:
-            self.ignore = ignore
-
-        
     def train_run(self):
         
-        self.X,self.y,self.X_train,self.y_train,self.X_test,self.y_test,self.filename,self.df=dataset(self.filename,self.target,self.ignore)
+        self.X,self.y,self.X_train,self.y_train,self.X_test,self.y_test,self.df=self.dataset(self.filename+self.ext,self.target,False,self.ignore)
         pipe = Pipeline([
             ("scaler", StandardScaler()),
             ("clf", LogisticRegression(
-                solver="lbfgs",
                 class_weight="balanced",
                 max_iter=3000
             ))
@@ -101,7 +107,12 @@ class RiskEvalModel:
         #===== Tried Changing the Target Recall to clear my confusion =====
         #for i in [0.70,0.75,0.80,0.85]:
             #self.plot(self.roc,i)
-        self.plot(self.roc,0.80)
+        self.plot(self.roc,self.threshold)
+        model_name =  "Risk_eval_model.pkl"
+        jb.dump(search,model_name)
+        
+        return model_name
+    
     def plot(self,roc,target_recall):
         
         palette = sns.color_palette("crest", 10)
@@ -196,7 +207,7 @@ class RiskEvalModel:
         axes["confusion"].grid(False)
 
         plt.tight_layout()
-        fig.savefig(f"images/Dashboard_{self.filename}.png", dpi=150)
+        fig.savefig(f"images/Dashboard_{self.filename}.png", dpi=300)
         plt.show()
         self.threshold = threshold
         self.y_pred_thr = y_pred_thr
@@ -219,8 +230,12 @@ class RiskEvalModel:
         
         print("====================================")
         gc.collect()
+        
 class FailureClassificationModel:
     def __init__(self,filename,target,threshold,ignore=None,classifications = None):
+        filename_modified, ext = os.path.splitext(filename)
+        #initializing all variables used accross the class
+        self.ext = ext
         self.df = None
         self.y = None
         self.x = None 
@@ -230,31 +245,71 @@ class FailureClassificationModel:
         self.y_train = None
         self.y_pred = None
         self.y_prob = None
-        self.filename = filename
+        self.filename = filename_modified
         self.target = target
         self.classifications = classifications
+        #chaning ignore from None to [] if ignore == None
         if ignore == None:
             self.ignore = []
         else:
+            #If ignore not [] then save the list across the class using self.
             self.ignore = ignore
+        
+        del ignore
+        del filename_modified
+        del ext
+        
+        #Checks if the Classification argument passed is empty and raises Error according
         if self.classifications == None or self.classifications == []:
             print('Error classification cannot be empty....')
         
-    def train_run(self,param):
-        self.X,self.y,self.X_train,self.y_train,self.X_test,self.y_test,self.filename,self.df=dataset(self.filename,self.target,self.ignore)
-        pipe = Pipeline([
-            ("scaler", StandardScaler()),
-            ("clf", RandomForestClassifier())
-        ])
+    def dataset(self, filename: str,target: str,filter: str,failure_only = False,ignore=None):
+        if ignore is None:
+            ignore = []
 
-        param_dist = {
-             "min_sample_leave"
-        }
-        pipe.fit(self.X_train,self.y_train)
-        self.y_prob = pipe.predict_proba(self.X_test)[:, 1]
+        df = pd.read_csv(filename)
+
+        df = df[df[filter] == 1]
+        
+        y = df[target].astype(int)
+        X = df.drop(columns=ignore + [target])
+
+        mask = X.notna().all(axis=1)
+        self.X = X.loc[mask].reset_index(drop=True)
+        self.y = y.loc[mask].reset_index(drop=True)
+
+        idx = int(0.8 * len(X))
+
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
+                                                            self.X, self.y, 
+                                                            test_size=0.2, 
+                                                            stratify=y,
+                                                            random_state=42
+                                                        )
+        
+
+    def train_run(self,param):
+        remaining_params = [i for i in self.classifications if i != param]
+        self.dataset(self.filename + self.ext,
+                    param,
+                    self.target,
+                    True,
+                    self.ignore + remaining_params + [self.target]
+                    )
+        rfc = RandomForestClassifier()
+
+        rfc.fit(self.X_train,self.y_train)
+        self.y_prob = rfc.predict_proba(self.X_test)[:, 1]
         self.roc = roc_auc_score(self.y_test, self.y_prob)
-        self.plot(self.roc,0.80)
-    def plot(self,roc,target_recall):
+        self.plot(self.roc,0.80,param)
+        self.evaluate()
+        
+        model_name= f"Risk_eval_{param}.pkl"
+        jb.dump(rfc,model_name)
+        
+        return model_name
+    
+    def plot(self,roc,target_recall,param):
         
         palette = sns.color_palette("crest", 10)
 
@@ -348,7 +403,7 @@ class FailureClassificationModel:
         axes["confusion"].grid(False)
 
         plt.tight_layout()
-        fig.savefig(f"images/Dashboard_{self.filename}.png", dpi=150)
+        fig.savefig(f"images/Dashboard_{param}_{self.filename}.png", dpi=300)
         plt.show()
         self.threshold = threshold
         self.y_pred_thr = y_pred_thr
@@ -371,7 +426,58 @@ class FailureClassificationModel:
         
         print("====================================")
         gc.collect()
+        
+    def run(self):
+        model_names = []
+        for i in self.classifications:
+            model_names.append(self.train_run(i))
+        return model_names
+class FailurePredictionSystem:
+    def __init__(self,filename,target,threshold,ignore=None,classifications = None):
+        self.filename = filename
+        self.target = target
+        self.threshold = threshold
+        self.classifications = classifications
+        if ignore == None:
+            self.ignore = []
+        else:
+            #If ignore not [] then save the list across the class using self.
+            self.ignore = ignore
+        
+        #Checks if the Classification argument passed is empty and raises Error according
+        if self.classifications == None or self.classifications == []:
+            print('Error classification cannot be empty....')
+    def LoadModels(self):
+        RiskEval = RiskEvalModel(
+                                self.filename,
+                                self.target,
+                                self.threshold,
+                                self.ignore+self.classifications
+                                )
+        RiskEvalName = RiskEval.train_run()
+        self.risk_model = jb.load(RiskEvalName)
+        print("Successfully Loaded RiskEvalModel....")
+        ClassificationModel = FailureClassificationModel(
+                                                        self.filename,
+                                                        self.target,
+                                                        self.threshold,
+                                                        self.ignore,
+                                                        self.classifications
+                                                        )
+        model_names = ClassificationModel.run()
+        self.classification_models = {}
+        for model_name in model_names:
+            key = model_name.replace("Risk_eval_", "").replace(".pkl", "")
+            self.classification_models[key] = jb.load(model_name)
+
+        print("Successfully Loaded FailureClassificationModels....")
+
+
 if __name__ == '__main__':
-    model = FailureClassificationModel('ai4i2020.csv','Machine failure',['RNF','UDI','Product ID','Type'],['TWF','HDF','PWF','OSF'])
-    model.train_run()
-    
+    model = FailurePredictionSystem('ai4i2020.csv',
+                                    'Machine failure',
+                                   0.80,
+                                   ['RNF','UDI','Product ID','Type'],
+                                   ['TWF','HDF','PWF','OSF']
+                                   )
+    moedl_names = model.LoadModels()
