@@ -47,8 +47,7 @@ for sensor in sensors:
     df[f'{sensor}_Rolling_Mean'] = df[sensor].rolling(window=window_size).mean()
     df[f'{sensor}_Volatility'] = df[sensor].rolling(window=window_size).std()
     df[f'{sensor}_Delta'] = df[sensor].diff()
-
-df['Power_Factor_Rolling'] = (df['Torque [Nm]'] * df['Rotational speed [rpm]']).rolling(window=window_size).mean()
+    df[f'{sensor}_Rolling_Delta'] = df[sensor].diff().rolling(window=window_size).mean()
 
 df = df.dropna().reset_index(drop=True)
 
