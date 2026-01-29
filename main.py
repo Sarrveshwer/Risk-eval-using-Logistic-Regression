@@ -88,7 +88,7 @@ class RiskEvalModel:
         ])
 
         param_dist = {
-             "clf__C": np.logspace(-3, 2, 50)
+            "clf__C": np.logspace(-5, -1, 50) # Range shifted from -3:2 to -5:-1
         }
         search = RandomizedSearchCV(
             pipe,
@@ -474,7 +474,7 @@ class FailurePredictionSystem:
         dynamic_features = [
             c for c in X.columns 
             if c not in cols_to_exclude 
-            and not any(x in c for x in ['_Rolling_Mean', '_Volatility', '_Delta'])
+            and not any(x in c for x in ['_Rolling_Mean', '_Volatility', '_Delta', '_Rolling_Delta'])
         ]
 
         for col in dynamic_features:
@@ -483,7 +483,6 @@ class FailurePredictionSystem:
             if len(self.history) > 1:
                 current_data_df[f'{col}_Volatility'] = history_dataframe[col].std()
                 current_data_df[f'{col}_Delta'] = self.history[-1][col] - self.history[-2][col]
-                # NEW: Calculate Rolling Delta (Mean of the differences)
                 current_data_df[f'{col}_Rolling_Delta'] = history_dataframe[col].diff().mean()
             else:
                 current_data_df[f'{col}_Volatility'] = 0.0
@@ -495,7 +494,17 @@ class FailurePredictionSystem:
         inference_df = current_data_df.drop(columns=[c for c in cols_to_exclude if c in current_data_df.columns])
         inference_df = inference_df[self.risk_model.feature_names_in_]
         
-        risk_prob = float(self.risk_model.predict_proba(inference_df)[:, 1][0])
+        raw_risk_prob = float(self.risk_model.predict_proba(inference_df)[:, 1][0])
+        
+        if not hasattr(self, 'prob_history'):
+            self.prob_history = []
+            
+        self.prob_history.append(raw_risk_prob)
+        if len(self.prob_history) > 3: 
+            self.prob_history.pop(0)
+
+        risk_prob = sum(self.prob_history) / len(self.prob_history)
+        
         warning_zone = self.risk_tolerance * self.warning_sensitivity
         
         if risk_prob >= warning_zone and risk_prob < self.risk_tolerance:
@@ -507,8 +516,12 @@ class FailurePredictionSystem:
 
         if risk_prob >= self.risk_tolerance:
             alert_status = "CRITICAL"
-        elif self.warning_streak >= self.persistence_threshold:
-            alert_status = "WARNING"
+        elif risk_prob >= warning_zone:
+            self.warning_streak += 1
+            if self.warning_streak >= self.persistence_threshold:
+                alert_status = "WARNING"
+            else:
+                alert_status = "HEALTHY"
         else:
             alert_status = "HEALTHY"
 
