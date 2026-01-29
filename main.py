@@ -18,6 +18,7 @@ sns.set_theme(
     palette="crest_r"
 )
 
+
 if __name__ == '__main__':
     auto_logger.setup_logging('main.py')
 
@@ -26,6 +27,14 @@ try:
 except:
     pass
 
+
+# ─── Risk Finding Model ───────────────────────────────────────────────────────
+
+
+'''
+This model uses LogisticRegression to give me a prelimnary prediction whether 
+the machine is going to fail or not.
+'''
 class RiskEvalModel:
     def __init__(self,filename,target,risk_tolerance,ignore=None):
         filename_modified, ext = os.path.splitext(filename)
@@ -77,7 +86,10 @@ class RiskEvalModel:
         return X,y,X_train,y_train,X_test,y_test,df
 
     def train_run(self):
-        
+        '''
+        Created a pipline where StandardScaler[z-scalling] is first applied and then
+        piped to Logistic Regression for model fitting
+        '''
         self.X,self.y,self.X_train,self.y_train,self.X_test,self.y_test,self.df=self.dataset(self.filename+self.ext,self.target,False,self.ignore)
         pipe = Pipeline([
             ("scaler", StandardScaler()),
@@ -111,7 +123,13 @@ class RiskEvalModel:
         return model_name
     
     def plot(self,roc,target_recall):
-        
+        '''
+        thsis method is for making 4 different graphs integrated into a single dashboard
+        1) KDE plot of risk
+        2) Confusion Matrix
+        3) ROC-AUC graph
+        4) Precision-Recall Graph
+        '''
         palette = sns.color_palette("crest", 10)
 
         layout = [["confusion", "roc"],
@@ -220,7 +238,9 @@ class RiskEvalModel:
         
         print("====================================")
         gc.collect()
-        
+
+# ─── Failure Classification Model ─────────────────────────────────────────────
+
 class FailureClassificationModel:
     def __init__(self,filename,target,risk_tolerance,ignore=None,classifications = None):
         filename_modified, ext = os.path.splitext(filename)
@@ -249,6 +269,7 @@ class FailureClassificationModel:
         if self.classifications == None or self.classifications == []:
             print('Error classification cannot be empty....')
         
+
     def dataset(self, filename: str,target: str,filter: str,failure_only = False,ignore=None):
         if ignore is None:
             ignore = []
@@ -413,6 +434,14 @@ class FailureClassificationModel:
         for i in self.classifications:
             model_names.append(self.train_run(i))
         return model_names
+ 
+# ─── Complete System ──────────────────────────────────────────────────────────
+
+'''
+The below class encorporates both models first the RiskEvalModel runs if the 
+model detects a risk FailureClassificationModel kicks in to find what type of 
+failure occured.
+'''
     
 class FailurePredictionSystem:
     def __init__(self, filename, target, risk_tolerance, ignore=None, classifications=None, 
