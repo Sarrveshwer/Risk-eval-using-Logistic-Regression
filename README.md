@@ -1,42 +1,83 @@
-# Machine Failure Risk Evaluation
+# Machine Failure Predictor
 
-This is a small project that uses logistic regression to predict machine failures. The data is heavily imbalanced—failures are rare compared to normal runs. The goal is to produce a risk score that helps make better decisions, not just to maximize accuracy.
+A real-time machine failure prediction system using logistic regression with rolling window features. The idea is to monitor sensor data and catch failures before they actually happen. Instead of just looking at one row of data, I have given the model "memory" using rolling windows.
 
-## The Problem
+## System Architecture
 
-Machine failures do not happen often. Most of the time, machines run fine. This means the dataset has very few failure examples compared to normal ones. If you just try to maximize accuracy, you end up predicting "no failure" almost always—which is useless.
+### Primary Risk Model
+The main scorer. It checks the sensor values and outputs a probability of impending failure. This is the core of the system—everything else depends on its output.
 
-What we need is a probability score for each observation. Then we can decide: above what score do we treat it as high risk?
+### Diagnostic Specialists
+Once the risk crosses a threshold, these four models identify exactly what is going wrong:
+- **TWF** – Tool Wear Failure
+- **HDF** – Heat Dissipation Failure
+- **PWF** – Power Failure
+- **OSF** – Overstrain Failure
 
-## Why Logistic Regression
+No need to label everything as a generic "failure." We know the specific mode.
 
-I chose logistic regression for a few reasons:
+### Diagnostic Model Performance
 
-- It gives a probability output directly, not just a class label.
-- The coefficients are easy to read. You can see which features push the risk up or down.
-- It is simple and works well when data is limited.
+| Model | ROC-AUC | Precision | Recall | FPR |
+|-------|---------|-----------|--------|-----|
+| TWF   | 0.979   | 1.000     | 0.556  | 0.000 |
+| HDF   | 0.996   | 1.000     | 0.522  | 0.000 |
+| PWF   | 0.967   | 1.000     | 0.526  | 0.000 |
+| OSF   | 0.996   | 1.000     | 0.500  | 0.000 |
 
-The model uses five features:
+All four models achieve **perfect precision** (zero false positives) on the test set, meaning when they flag a specific failure mode, it is correct. The conservative recall values (50-56%) are intentional—these models only trigger when the Primary Risk Model already indicates high risk.
+
+## Feature Engineering
+
+Raw data is processed into 5-step rolling windows to capture machine physics:
+
+| Feature | Purpose |
+|---------|---------|
+| Rolling_Mean | Baseline stability |
+| Volatility | Signal noise and vibration |
+| Delta | Instantaneous change |
+| Rolling_Delta | Acceleration of sensor values toward failure |
+
+**Rolling_Delta is the most important feature.** It tracks whether the machine is failing faster and faster—if the sensor values are accelerating away from normal, the model catches it.
+
+The model uses five core sensor inputs:
 - Air temperature [K]
 - Process temperature [K]
 - Rotational speed [rpm]
 - Torque [Nm]
 - Tool wear [min]
 
-## What I Observed
+## The Problem
 
-I ran experiments at different decision thresholds. The ROC-AUC stayed at 0.897 across all runs. This makes sense once you think about it, because ROC-AUC is about ranking, not where you cut the line.
+Machine failures do not happen often. Most of the time, machines run fine. This means the dataset has very few failure examples compared to normal ones. If you just try to maximize accuracy, you end up predicting "no failure" almost always—which is useless.
 
-What changes is the recall and the false positive rate. Here are the results from the logs:
+The dataset has **9,661 normal runs** but only **339 failures**—roughly a 28:1 ratio. If you just predict "no failure" every time, you get 96.6% accuracy but catch zero failures.
+
+![Machine Failure Frequency](images/Machine-failure-Frequency.png)
+
+## Current Performance
+
+| Metric | Result |
+|--------|--------|
+| Primary Model ROC-AUC | 0.901 |
+| Lead Time | 2-step advance warning before failure |
+| State Flow | HEALTHY → WARNING → CRITICAL |
+| Dashboards | All plots in `/images` |
+
+The model filters start-up noise and transitions cleanly through the risk states.
+
+## Threshold Experiments
+
+I ran experiments at different decision thresholds. The ROC-AUC stayed at 0.897 across all runs. This makes sense because ROC-AUC is about ranking, not where you cut the line.
+
+What changes is the recall and the false positive rate:
 
 | Threshold | Recall | False Positive Rate | TP | FP | FN | TN |
-|-----------|--------|---------------------|----|----|----|----|
-| 0.416 | 0.718 | 0.055 | 28 | 108 | 11 | 1853 |
-| 0.299 | 0.769 | 0.094 | 30 | 184 | 9 | 1777 |
-| 0.165 | 0.821 | 0.192 | 32 | 376 | 7 | 1585 |
-| 0.116 | 0.872 | 0.258 | 34 | 505 | 5 | 1456 |
-
-After running these experiments, the pattern became pretty clear.
+|-----------|--------|---------------------|----|----|----|-----|
+| 0.416     | 0.718  | 0.055               | 28 | 108| 11 | 1853|
+| 0.299     | 0.769  | 0.094               | 30 | 184| 9  | 1777|
+| 0.165     | 0.821  | 0.192               | 32 | 376| 7  | 1585|
+| 0.116     | 0.872  | 0.258               | 34 | 505| 5  | 1456|
 
 The threshold works like a **risk sensitivity slider**:
 - Higher threshold (0.416) → fewer false alarms, but many failures missed.
@@ -57,12 +98,6 @@ Total Cost = (FN × Cost_A) + (FP × Cost_B)
 
 There is no single "best" threshold. It depends on the actual costs in your situation.
 
-## The Data Imbalance
-
-The dataset has **9,661 normal runs** but only **339 failures**—roughly a 28:1 ratio. This is why accuracy is useless here. If you just predict "no failure" every time, you get 96.6% accuracy but catch zero failures.
-
-![Machine Failure Frequency](images/Machine-failure-Frequency.png)
-
 ## Dashboard
 
 The dashboard combines four key plots to help understand the model and choose a threshold:
@@ -81,20 +116,11 @@ The **ROC-AUC is 0.897**. This tells you how well the model separates failures f
 Shows the trade-off between precision and recall. The **average precision is 0.412**. When you increase recall (catch more failures), precision drops (more false alarms). This plot is usually more useful than ROC when one class is rare.
 
 **4. Risk Score Distribution (bottom right)**  
-Shows how predicted risk scores are spread out. **Failures (blue) tend to cluster at higher scores**, while normal runs (green) are mostly near zero. But there is overlap, which is why the threshold matters. Some real failures have low scores (you will miss them if the threshold is high) and some normal runs have high scores (they become false alarms if the threshold is low).
-
-These plots are decision aids. They do not tell you the "right" threshold—they show you the consequences of any threshold you pick.
+Shows how predicted risk scores are spread out. **Failures (blue) tend to cluster at higher scores**, while normal runs (green) are mostly near zero. But there is overlap, which is why the threshold matters.
 
 ## Logs
 
-Each run writes a log file under `logs/`. The log includes the threshold used, data split, parameters, and evaluation metrics. The plots correspond to the most recent logged run, so the figures match the numbers in the logs.
+Each run writes a log file under `logs/`. The log includes the threshold used, data split, parameters, and evaluation metrics. The plots correspond to the most recent logged run.
 
-I checked the results manually. I did not just accept whatever score the model gave.
-
-## Failure and Limitation
-
-An earlier version of this project failed and is preserved on the `Failure` branch. That attempt had a structural limitation that caused poor performance. The lesson from that failure influenced how the final model was designed.
 
 ---
-
-The code here is intentionally minimal. It shows how to train, evaluate, and reason about trade-offs of a logistic regression risk scorer on imbalanced data.
