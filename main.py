@@ -30,14 +30,14 @@ except:
 
 # ─── Risk Finding Model ───────────────────────────────────────────────────────
 
-
 '''
 This model uses LogisticRegression to give me a prelimnary prediction whether 
 the machine is going to fail or not.
 '''
+
 class RiskEvalModel:
     def __init__(self,filename,target,risk_tolerance,ignore=None):
-        filename_modified, ext = os.path.splitext(filename)
+        filename_modified, ext = os.path.splitext(filename) #splits the entire filename into the filename and extension
         self.ext = ext
         self.df = None
         self.y = None
@@ -60,6 +60,9 @@ class RiskEvalModel:
         del filename_modified
         
     def dataset(self, filename: str,target: str,failure_only = False,ignore=None):
+        '''
+        This function reads the dataset and splits the dataset into training and testing data
+        '''
         if ignore is None:
             ignore = []
 
@@ -83,14 +86,23 @@ class RiskEvalModel:
         X_test  = X.iloc[idx:]
         y_test  = y.iloc[idx:]
         
-        return X,y,X_train,y_train,X_test,y_test,df
+        self.X
+        self.y
+        self.X_train
+        self.y_train
+        self.X_test
+        self.y_test
+        self.df
 
     def train_run(self):
         '''
         Created a pipline where StandardScaler[z-scalling] is first applied and then
         piped to Logistic Regression for model fitting
         '''
-        self.X,self.y,self.X_train,self.y_train,self.X_test,self.y_test,self.df=self.dataset(self.filename+self.ext,self.target,False,self.ignore)
+        
+        self.dataset(self.filename+self.ext,self.target,False,self.ignore)
+        
+        #Creates the pipline for the model to work
         pipe = Pipeline([
             ("scaler", StandardScaler()),
             ("clf", LogisticRegression(
@@ -102,6 +114,8 @@ class RiskEvalModel:
         param_dist = {
             "clf__C": np.logspace(-5, -1, 50) # Range shifted from -3:2 to -5:-1
         }
+        
+        #Finds the best paramater for LogisticRegression
         search = RandomizedSearchCV(
             pipe,
             param_distributions=param_dist,
@@ -113,6 +127,8 @@ class RiskEvalModel:
             verbose = 1,
             error_score='raise'
         )
+        
+        #Fitting the data into the model
         search.fit(self.X_train,self.y_train)
         self.y_prob = search.predict_proba(self.X_test)[:, 1]
         self.roc = roc_auc_score(self.y_test, self.y_prob)
@@ -137,8 +153,10 @@ class RiskEvalModel:
 
         fig, axes = plt.subplot_mosaic(layout, figsize=(12, 10))
 
+        #findint FPR and TPR to be plotted in the ROC-AUC plot
         fpr, tpr, _ = roc_curve(self.y_test, self.y_prob)
 
+        #plots the ROC-AUC plot
         axes["roc"].plot(fpr, tpr, lw=2.5, label=f"AUC = {roc:.3f}")
         axes["roc"].plot([0,1], [0,1], ls="--", color="gray", alpha=0.6)
         axes["roc"].fill_between(fpr, tpr, alpha=0.15)
@@ -148,7 +166,9 @@ class RiskEvalModel:
         axes["roc"].set_title("ROC Curve")
         axes["roc"].legend()
 
-        sns.kdeplot(
+        #Plots the kde plot for Seeing the risk analysis
+        
+        sns.kdeplot( #This one plots the kde plot for all the 0 where the model has not detected a risk
             self.y_prob[self.y_test == 0],
             fill=True,
             color=palette[1],
@@ -158,7 +178,7 @@ class RiskEvalModel:
             ax=axes["kde"]
         )
 
-        sns.kdeplot(
+        sns.kdeplot( #This one plots the kde plot for all the 1 where the model has detected a risk
             self.y_prob[self.y_test == 1],
             fill=True,
             color=palette[7],
@@ -173,6 +193,8 @@ class RiskEvalModel:
         axes["kde"].legend()
 
         precision, recall, risk_tolerances = precision_recall_curve(self.y_test, self.y_prob)
+        
+        #Finds the average precision score which serves as a single-number summary of the Precision-Recall curve
         ap = average_precision_score(self.y_test, self.y_prob)
 
         axes["prc"].plot(recall, precision, lw=2.5, label=f"AP = {ap:.3f}")
@@ -180,10 +202,17 @@ class RiskEvalModel:
         axes["prc"].set_ylabel("Precision")
         axes["prc"].set_title("Precision–Recall Curve")
         axes["prc"].legend()
+        
+        '''
+        Finds where the threshold. [0][-1] here -1 is chose because Picks the highest 
+        possible threshold that still satisfies the 90% recall requirement.
+        '''
+        idx = np.where(recall >= target_recall)[0][-1] 
+        
+        #Finds which associates as a positive for the model to predict
+        risk_tolerance = risk_tolerances[idx] 
 
-        idx = np.where(recall >= target_recall)[0][-1]
-        risk_tolerance = risk_tolerances[idx]
-
+        #Filters the y_prob according to the risk_tolerance
         y_pred_thr = (self.y_prob >= risk_tolerance).astype(int)
 
         cm = confusion_matrix(self.y_test, y_pred_thr)
@@ -195,6 +224,7 @@ class RiskEvalModel:
             [f"FN:{fn}\n({cm_percent[1,0]:.1f}%)", f"TP:{tp}\n({cm_percent[1,1]:.1f}%)"]
         ])
 
+        #Plots the confusion matrix with Induvidual Values and Percentage of TP,FP,TN,FN
         sns.heatmap(
             cm / cm.max(),
             annot=labels,
@@ -219,10 +249,15 @@ class RiskEvalModel:
         plt.show()
         self.risk_tolerance = risk_tolerance
         self.y_pred_thr = y_pred_thr
+        
+        #Hands everything over to evaluate to print the verbose part for logging
         self.evaluate()
         
     def evaluate(self):
-        tn, fp, fn, tp = confusion_matrix(self.y_test, self.y_pred_thr).ravel()
+        '''
+        This function prints the Neccessary data required for evaluating the efficiency of the model
+        '''
+        tn, fp, fn, tp = confusion_matrix(self.y_test, self.y_pred_thr).ravel() #Gives the FP,FN,TP,TN of the model
         print("========== Model Features =========")
         print(*self.X.columns, sep='\n')
         print("\n=== Model Evaluation (Test Set) ===")
@@ -237,13 +272,19 @@ class RiskEvalModel:
         print(f"False PosRate: {fp / (fp + tn):.3f}")
         
         print("====================================")
+        
+        #Collects the garabage values so that it frees space from the RAM.Best used with extremely large dataset
         gc.collect()
 
 # ─── Failure Classification Model ─────────────────────────────────────────────
-
+'''
+This model uses a number of LogisticRegression to pinpoint what type of failure 
+is going to occur. This is achieved by making a model for each type of failure
+that may occur.
+'''
 class FailureClassificationModel:
     def __init__(self,filename,target,risk_tolerance,ignore=None,classifications = None):
-        filename_modified, ext = os.path.splitext(filename)
+        filename_modified, ext = os.path.splitext(filename) #splits the entire filename into the filename and extension
         self.ext = ext
         self.df = None
         self.y = None
@@ -257,15 +298,20 @@ class FailureClassificationModel:
         self.filename = filename_modified
         self.target = target
         self.classifications = classifications
+        
+        #Makes sure that if ignore paramter is not passes it is turned into a list
         if ignore == None:
             self.ignore = []
         else:
             self.ignore = ignore
         
+        #Eh dont need these vars
         del ignore
         del filename_modified
         del ext
         
+        #Ensures that classifications parmameter isnt empty.
+        #Because this pases the types of errors which is used to create a model for each error
         if self.classifications == None or self.classifications == []:
             print('Error classification cannot be empty....')
         
@@ -281,12 +327,14 @@ class FailureClassificationModel:
         y = df[target].astype(int)
         X = df.drop(columns=ignore + [target])
 
+        # Identify indices of rows without any missing values
         mask = X.notna().all(axis=1)
+        
+        #Finally saves X and y
         self.X = X.loc[mask].reset_index(drop=True)
         self.y = y.loc[mask].reset_index(drop=True)
 
-        idx = int(0.8 * len(X))
-
+        #Splits the data into training and testing data using scikit-learn's built in function
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
                                                             self.X, self.y, 
                                                             test_size=0.2, 
