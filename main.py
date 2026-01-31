@@ -59,7 +59,9 @@ class RiskEvalModel:
         del ignore
         del ext 
         del filename_modified
-        
+    
+    # ─── Import The Dataset And Split The Data In Two ─────────────────────
+    
     def dataset(self, filename: str,target: str,failure_only = False,ignore=None):
         '''
         This function reads the dataset and splits the dataset into training and testing data
@@ -87,7 +89,9 @@ class RiskEvalModel:
         self.X_test  = X.iloc[idx:]
         self.y_test  = y.iloc[idx:]
         
+    # ─── Train The Model And Run A Trial ──────────────────────────────────
 
+    
     def train_run(self):
         '''
         Created a pipline where RobustScaler is first applied and then
@@ -129,10 +133,13 @@ class RiskEvalModel:
         self.y_prob = search.predict_proba(self.X_test)[:, 1]
         self.roc = roc_auc_score(self.y_test, self.y_prob)
         self.plot(self.roc,self.risk_tolerance)
-        model_name =  "Risk_eval_model.pkl"
+        model_name =  "/models/Risk_eval_model.pkl"
         jb.dump(search,model_name)
         
         return model_name
+    
+    # ─── Plot All The Graphs Related To The Model ─────────────────────────
+
     
     def plot(self,roc,target_recall):
         '''
@@ -249,6 +256,9 @@ class RiskEvalModel:
         #Hands everything over to evaluate to print the verbose part for logging
         self.evaluate()
         
+    # ─── Verbose Output For The Model ─────────────────────────────────────
+
+    
     def evaluate(self):
         '''
         This function prints the Neccessary data required for evaluating the efficiency of the model
@@ -311,7 +321,9 @@ class FailureClassificationModel:
         if self.classifications == None or self.classifications == []:
             print('Error classification cannot be empty....')
         
+    # ─── Import The Dataset And Split It ──────────────────────────────────
 
+    
     def dataset(self, filename: str,target: str,filter: str,failure_only = False,ignore=None):
         if ignore is None:
             ignore = []
@@ -338,9 +350,9 @@ class FailureClassificationModel:
                                                             random_state=42
                                                         )
         
+    # ─── Train And Run A Trial ────────────────────────────────────────────
 
-    # Replace your existing train_run method in FailureClassificationModel with this:
-
+   
     def train_run(self, param):
         remaining_params = [i for i in self.classifications if i != param]
         self.dataset(self.filename + self.ext,
@@ -386,10 +398,13 @@ class FailureClassificationModel:
         
         self.plot(self.roc, 0.50, param)
 
-        model_name = f"Risk_eval_{param}.pkl"
+        model_name = f"/models/Risk_eval_{param}.pkl"
         jb.dump(search, model_name) # Dump the search object, not just the pipe
         
         return model_name
+    
+    # ─── Plotting All The Graphs ──────────────────────────────────────────
+
     
     def plot(self,roc,target_recall,param):
         #TODO: CURRENTLY THIS FUNCTION IS REDUNDANT AND THE ALMOST THE SAME AS THE plot()
@@ -508,7 +523,10 @@ class FailureClassificationModel:
         
         # Automatically Calls Evaluate
         self.evaluate()
-        
+    
+    # ─── Verbose Output Of The Model ──────────────────────────────────────
+
+    
     def evaluate(self):
         '''
         This function prints the Neccessary data required for evaluating the efficiency of the model
@@ -549,7 +567,7 @@ class FailurePredictionSystem:
     def __init__(self, filename, target, risk_tolerance, ignore=None, classifications=None, 
                  warning_sensitivity=0.6, diagnosis_sensitivity=0.4, persistence_threshold=3):
         
-        #Initialisation of variables
+        # Initialisation of variables
         
         self.filename = filename
         self.target = target
@@ -564,16 +582,18 @@ class FailurePredictionSystem:
         self.diagnosis_sensitivity = diagnosis_sensitivity
         self.persistence_threshold = persistence_threshold
 
+    # ─── Load All The Models ──────────────────────────────────────────────
+
     def LoadModels(self):
         '''
         This function first check if the models exists
         If it exsists then it 
         '''
-        risk_model_path = "Risk_eval_model.pkl"
+        risk_model_path = "/models/Risk_eval_model.pkl"
         if os.path.exists(risk_model_path): #Checks if an already trained RiskEvalModel exsists
             self.risk_model = jb.load(risk_model_path)
             print("Loaded RiskEvalModel from disk.")
-        else: #If RiskEvalModel is not already trained it will trained saved and loaded
+        else: # If RiskEvalModel is not already trained it will trained saved and loaded
             risk_model = RiskEvalModel( 
                 self.filename,
                 self.target,
@@ -588,7 +608,7 @@ class FailurePredictionSystem:
         if a model doesnt exists a model is trained, saved and loaded for use.
         '''
         for failure in self.classifications:
-            model_path = f"Risk_eval_{failure}.pkl"
+            model_path = f"/models/Risk_eval_{failure}.pkl"
             if os.path.exists(model_path):
                 self.classification_models[failure] = jb.load(model_path)
             else:
@@ -602,6 +622,8 @@ class FailurePredictionSystem:
                 model_path = clf.train_run(failure)
                 self.classification_models[failure] = jb.load(model_path)
     
+    # ─── Predict The Values ───────────────────────────────────────────────
+
     '''
     This is the main function that is used to predict data.
     The funtion first imports a row as input to be predicted.
@@ -625,7 +647,7 @@ class FailurePredictionSystem:
     '''
     def predict(self, X: pd.DataFrame):
         
-        #When multiple rows of data is present, this piece code filters out the most recent one.
+        # When multiple rows of data is present, this piece code filters out the most recent one.
         current_row_dict = X.iloc[0].to_dict()
         self.history.append(current_row_dict)
         if len(self.history) > 5:
@@ -655,21 +677,21 @@ class FailurePredictionSystem:
                 current_data_df[f'{col}_Delta'] = 0.0
                 current_data_df[f'{col}_Rolling_Delta'] = 0.0
 
-        #Ensures no NaN values creep in
+        # Ensures no NaN values creep in
         current_data_df = current_data_df.fillna(0)
 
-        #Cleans up the data one ladst time and puts the features in the exact order the model expects.
+        # Cleans up the data one ladst time and puts the features in the exact order the model expects.
         inference_df = current_data_df.drop(columns=[c for c in cols_to_exclude if c in current_data_df.columns])
         inference_df = inference_df[self.risk_model.feature_names_in_]
         
-        #Gives the exact probabilty of a Failure happening
+        # Gives the exact probabilty of a Failure happening
         raw_risk_prob = float(self.risk_model.predict_proba(inference_df)[:, 1][0])
         
-        #creates a list called prob_history
+        # creates a list called prob_history
         if not hasattr(self, 'prob_history'):
             self.prob_history = []
         
-        #Saves the last 3 predictions    
+        # Saves the last 3 predictions    
         self.prob_history.append(raw_risk_prob)
         if len(self.prob_history) > 3: 
             self.prob_history.pop(0)
@@ -678,17 +700,16 @@ class FailurePredictionSystem:
         
         warning_zone = self.risk_tolerance * self.warning_sensitivity
         
-        # 1. Update Streak Counters
+        # Update Streak Counters
         if risk_prob >= warning_zone: 
             self.warning_streak += 1
         else:
             self.warning_streak = 0
 
-        # 2. Determine Alert Status with INTENSITY OVERRIDE
+        # Determine Alert Status with INTENSITY OVERRIDE
         if risk_prob >= self.risk_tolerance:
             alert_status = "CRITICAL"
             
-        # NEW: High Intensity Override (The Fix)
         elif risk_prob >= 0.60: 
             alert_status = "WARNING" 
             # Optional: Force streak to max to keep alert active if risk drops slightly
@@ -716,22 +737,54 @@ class FailurePredictionSystem:
             "details": results
         }
         
-    def evaluate_test_set(self, test_dataframe_X):
+    def evaluate_test_set(self, test_dataframe_X): #Just a method to give output during testing
         print(f"{'Step':<5} | {'Risk':<7} | {'Streak':<6} | {'Alert':<10} | {'Diagnosis'}")
         print("-" * 65)
         for i in range(len(test_dataframe_X)):
             res = self.predict(test_dataframe_X.iloc[[i]])
             print(f"{i+1:<5} | {res['risk_prob']:<7.4f} | {res['streak']:<6} | {res['alert_level']:<10} | {res['failure_type']}")
+    
+    # ─── Finds The Best Values For Warnings To Trigger ────────────────────
+
+    '''
+    This function is used to calibrate the warning and diagnosis sensitivity
+    values of the alert system using a brute-force search.
+
+    The main objective of this calibration is to find the combination that
+    produces the first non-HEALTHY alert as close as possible to the
+    expected warning step.
+
+    The calibration process includes:
+
+        1)Trying multiple warning sensitivity values and diagnosis sensitivity
+          values using a brute-force grid.
+
+        2)Simulating streaming behaviour by predicting one row at a time
+          and updating the internal history and streak counters.
+
+        3)Recording the first time step at which the system raises any
+          alert (i.e., when the alert level is no longer HEALTHY).
+
+        4)Scoring each parameter combination based on how close the first
+          alert step is to the target warning step.
+
+        5)Selecting and returning the sensitivity values that achieve the
+          best score.
+    '''
     def calibrate_sensitivities(self, test_df, target_step_for_warning=4):
             best_score = -1
             best_params = {}
             
-            warning_range = np.linspace(0.3, 0.7, 5)
-            diagnosis_range = np.linspace(0.2, 0.5, 4)
+            # Total no of combinations is 20
+            warning_range = np.linspace(0.3, 0.7, 5) # 5 values for warning
+            diagnosis_range = np.linspace(0.2, 0.5, 4) # 4 values for diagnosis
             
             print(f"{'Warning_S':<10} | {'Diag_S':<10} | {'Warning Step':<12} | {'Score'}")
             print("-" * 50)
             
+            '''
+            Trying to Brute Force every single of the 20 combinations to fins the best one
+            '''
             for w_s in warning_range:
                 for d_s in diagnosis_range:
                     self.warning_sensitivity = w_s
@@ -742,10 +795,14 @@ class FailurePredictionSystem:
                     first_warning_step = None
                     
                     for i in range(len(test_df)):
+                        # Predictions are first made using the the current combination
                         res = self.predict(test_df.iloc[[i]])
+                        
+                        # Finds the first "Non Healthy" row 
                         if res['alert_level'] != "HEALTHY" and first_warning_step is None:
                             first_warning_step = i + 1
                     
+                    # Checks how close the prediction was to the actual value
                     if first_warning_step:
                         score = 1.0 / (abs(target_step_for_warning - first_warning_step) + 1)
                     else:
@@ -753,6 +810,7 @@ class FailurePredictionSystem:
                     
                     print(f"{w_s:<10.2f} | {d_s:<10.2f} | {str(first_warning_step):<12} | {score:.2f}")
                     
+                    # Stores the best params
                     if score > best_score:
                         best_score = score
                         best_params = {'warning_sensitivity': w_s, 'diagnosis_sensitivity': d_s}
@@ -760,6 +818,7 @@ class FailurePredictionSystem:
             print("-" * 50)
             print(f"Optimal Parameters: {best_params}")
             
+            # Resets everything so it does not effect actual predictions
             self.history = []
             if hasattr(self, 'prob_history'):
                 self.prob_history = [] 
@@ -774,12 +833,14 @@ if __name__ == '__main__':
     FinalSystem = FailurePredictionSystem(
         'ai4i2020.csv',
         'Machine failure',
-        0.765,
+        0.765, # After a lot of trial and error this is sort of the best risk_tolerance i found
         ignore_list,
         target_labels
     )
     FinalSystem.LoadModels()
 
+    #Fake data based on the real dataset so that by the time the last row is 
+    #reached a HDF Failure will only happen
     test_rows = [
         [300.1, 310.2, 1500, 40.0, 100], 
         [300.4, 310.5, 1500, 40.2, 102], 
