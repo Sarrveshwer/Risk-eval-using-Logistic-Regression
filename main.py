@@ -18,6 +18,7 @@ sns.set_theme(
     palette="crest_r"
 )
 
+# ─── Sets Up Automatic Logging ────────────────────────────────────────────────
 
 if __name__ == '__main__':
     auto_logger.setup_logging('main.py')
@@ -66,33 +67,26 @@ class RiskEvalModel:
         if ignore is None:
             ignore = []
 
-        df = pd.read_csv(filename)
+        self.df = pd.read_csv(filename)
 
         if failure_only:
-            df = df[df[target] == 1]
+            self.df = df[df[target] == 1]
         
-        y = df[target].astype(int)
-        X = df.drop(columns=ignore + [target])
+        y = self.df[target].astype(int)
+        X = self.df.drop(columns=ignore + [target])
 
         mask = X.notna().all(axis=1)
-        X = X.loc[mask].reset_index(drop=True)
-        y = y.loc[mask].reset_index(drop=True)
+        self.X = X.loc[mask].reset_index(drop=True)
+        self.y = y.loc[mask].reset_index(drop=True)
 
         idx = int(0.8 * len(X))
 
-        X_train = X.iloc[:idx]
-        y_train = y.iloc[:idx]
+        self.X_train = X.iloc[:idx]
+        self.y_train = y.iloc[:idx]
 
-        X_test  = X.iloc[idx:]
-        y_test  = y.iloc[idx:]
+        self.X_test  = X.iloc[idx:]
+        self.y_test  = y.iloc[idx:]
         
-        self.X
-        self.y
-        self.X_train
-        self.y_train
-        self.X_test
-        self.y_test
-        self.df
 
     def train_run(self):
         '''
@@ -351,31 +345,50 @@ class FailureClassificationModel:
                     True,
                     self.ignore + remaining_params + [self.target]
                     )
+        
+        #Similar to RiskEvalModel a pipeline is created where StandardScaler(Z-scaling is applied)
+        #then the normalized data is passed to LogisticRegression for training
         pipe = Pipeline([
             ("scaler", StandardScaler()),
             ("clf", LogisticRegression(class_weight="balanced", max_iter=3000))
         ])
 
         pipe.fit(self.X_train,self.y_train)
-        self.y_prob = pipe.predict_proba(self.X_test)[:, 1]
-        self.roc = roc_auc_score(self.y_test, self.y_prob)
-        self.plot(self.roc,0.50,param)
-        self.evaluate()
         
+        #y_prob is used to get the exact probability
+        self.y_prob = pipe.predict_proba(self.X_test)[:, 1]
+        #Passes the roc score
+        self.roc = roc_auc_score(self.y_test, self.y_prob)
+        
+        #calls plot method which is withing the class
+        self.plot(self.roc,0.50,param)
+
+        #Dont need this but for tinkering with the models in the future
         model_name= f"Risk_eval_{param}.pkl"
         jb.dump(pipe,model_name)
         
         return model_name
     
     def plot(self,roc,target_recall,param):
-        
+        #TODO: CURRENTLY THIS FUNCTION IS REDUNDANT AND THE ALMOST THE SAME AS THE plot()
+        #IN RiskEval AND ONLY A MARGINAL DIFFERENCE
+        '''
+        This method is for making 4 different graphs integrated into a single dashboard
+        1) KDE plot of risk
+        2) Confusion Matrix
+        3) ROC-AUC graph
+        4) Precision-Recall Graph
+        '''
         palette = sns.color_palette("crest", 10)
 
         layout = [["confusion", "roc"],
                 ["prc", "kde"]]
-
+        
         fig, axes = plt.subplot_mosaic(layout, figsize=(12, 10))
 
+        # ─── ROC-AUC Curve ────────────────────────────────────────────
+
+        #Stores the False positive rate and True Positive rate which is to be plotted
         fpr, tpr, _ = roc_curve(self.y_test, self.y_prob)
 
         axes["roc"].plot(fpr, tpr, lw=2.5, label=f"AUC = {roc:.3f}")
@@ -387,7 +400,9 @@ class FailureClassificationModel:
         axes["roc"].set_title("ROC Curve")
         axes["roc"].legend()
 
-        sns.kdeplot(
+        # ─── Risk Score Distribution ──────────────────────────────────
+        
+        sns.kdeplot(  #prints the kde plot for no failures
             self.y_prob[self.y_test == 0],
             fill=True,
             color=palette[1],
@@ -397,7 +412,7 @@ class FailureClassificationModel:
             ax=axes["kde"]
         )
 
-        sns.kdeplot(
+        sns.kdeplot(  #prints the kde plot for failures
             self.y_prob[self.y_test == 1],
             fill=True,
             color=palette[7],
@@ -411,7 +426,11 @@ class FailureClassificationModel:
         axes["kde"].set_title("Risk Score Distribution")
         axes["kde"].legend()
 
+        # ─── Precision Recall Curve ───────────────────────────────────
+
         precision, recall, risk_tolerances = precision_recall_curve(self.y_test, self.y_prob)
+        
+        #Finds the average precision score which serves as a single-number summary of the Precision-Recall curve
         ap = average_precision_score(self.y_test, self.y_prob)
 
         axes["prc"].plot(recall, precision, lw=2.5, label=f"AP = {ap:.3f}")
@@ -420,16 +439,24 @@ class FailureClassificationModel:
         axes["prc"].set_title("Precision–Recall Curve")
         axes["prc"].legend()
 
+        # ─── Confusion Matrix ─────────────────────────────────────────
+        '''
+        Finds where the threshold. [0][-1] here -1 is chose because Picks the highest 
+        possible threshold that still satisfies the 90% recall requirement.
+        '''
         idx = np.where(recall >= target_recall)[0][-1]
+        
+        #Finds which associates as a positive for the model to predict
         self.risk_tolerance = risk_tolerances[idx]
-
+        
+        #Filters the y_prob according to the risk_tolerance
         self.y_pred_thr = (self.y_prob >= self.risk_tolerance).astype(int)
 
         cm = confusion_matrix(self.y_test, self.y_pred_thr)
         tn, fp, fn, tp = cm.ravel()
 
-        cm_percent = cm / cm.sum() * 100
-        labels = np.array([
+        cm_percent = cm / cm.sum() * 100 #Array of induvidual percentages of TN,FP,FN,TP
+        labels = np.array([ #Creates the induavidual label for each part of the confusion matrix
             [f"TN:{tn}\n({cm_percent[0,0]:.1f}%)", f"FP:{fp}\n({cm_percent[0,1]:.1f}%)"],
             [f"FN:{fn}\n({cm_percent[1,0]:.1f}%)", f"TP:{tp}\n({cm_percent[1,1]:.1f}%)"]
         ])
@@ -456,9 +483,14 @@ class FailureClassificationModel:
         plt.tight_layout()
         fig.savefig(f"images/Dashboard_{param}_{self.filename}.png", dpi=300)
         plt.show()
+        
+        # Automatically Calls Evaluate
         self.evaluate()
         
     def evaluate(self):
+        '''
+        This function prints the Neccessary data required for evaluating the efficiency of the model
+        '''
         tn, fp, fn, tp = confusion_matrix(self.y_test, self.y_pred_thr).ravel()
         print("========== Model Features =========")
         print(*self.X.columns, sep='\n')
@@ -494,6 +526,9 @@ failure occured.
 class FailurePredictionSystem:
     def __init__(self, filename, target, risk_tolerance, ignore=None, classifications=None, 
                  warning_sensitivity=0.6, diagnosis_sensitivity=0.4, persistence_threshold=3):
+        
+        #Initialisation of variables
+        
         self.filename = filename
         self.target = target
         self.risk_tolerance = risk_tolerance
@@ -508,12 +543,16 @@ class FailurePredictionSystem:
         self.persistence_threshold = persistence_threshold
 
     def LoadModels(self):
+        '''
+        This function first check if the models exists
+        If it exsists then it 
+        '''
         risk_model_path = "Risk_eval_model.pkl"
-        if os.path.exists(risk_model_path):
+        if os.path.exists(risk_model_path): #Checks if an already trained RiskEvalModel exsists
             self.risk_model = jb.load(risk_model_path)
             print("Loaded RiskEvalModel from disk.")
-        else:
-            risk_model = RiskEvalModel(
+        else: #If RiskEvalModel is not already trained it will trained saved and loaded
+            risk_model = RiskEvalModel( 
                 self.filename,
                 self.target,
                 self.risk_tolerance,
@@ -522,6 +561,10 @@ class FailurePredictionSystem:
             risk_model_path = risk_model.train_run()
             self.risk_model = jb.load(risk_model_path)
 
+        '''
+        Recursively checks if each of the model for each type of ailure that exsists
+        if a model doesnt exists a model is trained, saved and loaded for use.
+        '''
         for failure in self.classifications:
             model_path = f"Risk_eval_{failure}.pkl"
             if os.path.exists(model_path):
@@ -536,28 +579,52 @@ class FailurePredictionSystem:
                 )
                 model_path = clf.train_run(failure)
                 self.classification_models[failure] = jb.load(model_path)
+    
+    '''
+    This is the main function that is used to predict data.
+    The funtion first imports a row as input to be predicted.
+    It creates the features automatically which are required
+    by the model to predict the data.
+    
+    These Features include:
+    
+        1)The Rolling Mean is a smoothing technique used to identify the underlying trend 
+        of a dataset by filtering noise.
 
+        2)Volatility(Rolling Standard deviation) measures the dispersion of data points around 
+        the mean over a specific window. In predictive modeling, it is the primary indicator of
+        risk or instability.
+    
+        3)Delta represents the absolute change between the current value and a previous value. 
+        It shifts the focus from the "level" of the data to the "change" in the data.
+        
+        4)The Rolling Delta is a second-order feature. It typically measures the average change 
+        (the average Delta) over a specific window, or the difference between two rolling means.
+    '''
     def predict(self, X: pd.DataFrame):
+        
+        #When multiple rows of data is present, this piece code filters out the most recent one.
         current_row_dict = X.iloc[0].to_dict()
         self.history.append(current_row_dict)
         if len(self.history) > 5:
             self.history.pop(0)
 
-        current_data_df = X.copy()
+        current_data_df = X.copy() #Creating a copy to preserve original data
         history_dataframe = pd.DataFrame(self.history)
         
         cols_to_exclude = [self.target] + self.classifications + self.ignore
         
-        dynamic_features = [
+        dynamic_features = [ #includes only the data necessary for the model
             c for c in X.columns 
             if c not in cols_to_exclude 
             and not any(x in c for x in ['_Rolling_Mean', '_Volatility', '_Delta', '_Rolling_Delta'])
         ]
 
         for col in dynamic_features:
-            current_data_df[f'{col}_Rolling_Mean'] = history_dataframe[col].mean()
+            #Rolling mean doest need the Safety net
+            current_data_df[f'{col}_Rolling_Mean'] = history_dataframe[col].mean() 
             
-            if len(self.history) > 1:
+            if len(self.history) > 1: #acts a safety net so that it does throw a ZeroError
                 current_data_df[f'{col}_Volatility'] = history_dataframe[col].std()
                 current_data_df[f'{col}_Delta'] = self.history[-1][col] - self.history[-2][col]
                 current_data_df[f'{col}_Rolling_Delta'] = history_dataframe[col].diff().mean()
@@ -566,11 +633,14 @@ class FailurePredictionSystem:
                 current_data_df[f'{col}_Delta'] = 0.0
                 current_data_df[f'{col}_Rolling_Delta'] = 0.0
 
+        #Ensures no NaN values creep in
         current_data_df = current_data_df.fillna(0)
 
+        #Cleans up the data one ladst time and puts the features in the exact order the model expects.
         inference_df = current_data_df.drop(columns=[c for c in cols_to_exclude if c in current_data_df.columns])
         inference_df = inference_df[self.risk_model.feature_names_in_]
         
+        #Gives the exact probabilty of a Failure happening
         raw_risk_prob = float(self.risk_model.predict_proba(inference_df)[:, 1][0])
         
         if not hasattr(self, 'prob_history'):
