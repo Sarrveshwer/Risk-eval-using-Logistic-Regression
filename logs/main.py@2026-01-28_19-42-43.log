@@ -1,0 +1,38 @@
+[19:42:43] --- Logging Initialized for main.py ---
+[19:42:43] Log file: logs/main.py@2026-01-28_19-42-43.log
+[19:42:43] Loaded RiskEvalModel from disk.
+[19:42:43] Loaded classifier for TWF
+[19:42:43] Loaded classifier for HDF
+[19:42:43] Loaded classifier for PWF
+[19:42:43] Loaded classifier for OSF
+[19:42:43] All models ready.
+
+[19:42:43] ============================== CRASH DETECTED ==============================
+[19:42:43] Timestamp: 2026-01-28 19:42:43.249806
+[19:42:43] Traceback (most recent call last):
+[19:42:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 550, in <module>
+[19:42:43]     predictions = model.predict(X)
+[19:42:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 497, in predict
+[19:42:43]     risk_prob = float(self.risk_model.predict_proba(X)[:, 1][0])
+[19:42:43]                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+[19:42:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 623, in predict_proba
+[19:42:43]     return self.best_estimator_.predict_proba(X)
+[19:42:43]            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+[19:42:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/pipeline.py", line 858, in predict_proba
+[19:42:43]     Xt = transform.transform(Xt)
+[19:42:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/_set_output.py", line 316, in wrapped
+[19:42:43]     data_to_wrap = f(self, X, *args, **kwargs)
+[19:42:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/preprocessing/_data.py", line 1094, in transform
+[19:42:43]     X = validate_data(
+[19:42:43]         self,
+[19:42:43]     ...<6 lines>...
+[19:42:43]         ensure_all_finite="allow-nan",
+[19:42:43]     )
+[19:42:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 2902, in validate_data
+[19:42:43]     out = check_array(X, input_name="X", **check_params)
+[19:42:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 1060, in check_array
+[19:42:43]     raise ValueError(msg)
+[19:42:43] ValueError: Expected a 2-dimensional container but got <class 'pandas.core.series.Series'> instead. Pass a DataFrame containing a single row (i.e. single sample) or a single column (i.e. single feature) instead.
+
+[19:42:43] ============================================================================
+

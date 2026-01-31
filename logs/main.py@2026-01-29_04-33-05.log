@@ -1,0 +1,20 @@
+[04:33:05] --- Logging Initialized for main.py ---
+[04:33:05] Log file: logs/main.py@2026-01-29_04-33-05.log
+[04:33:05] Step   | Risk Prob  | Alert      | Diagnosis
+[04:33:05] ------------------------------------------------------------
+
+[04:33:05] ============================== CRASH DETECTED ==============================
+[04:33:05] Timestamp: 2026-01-29 04:33:05.788598
+[04:33:05] Traceback (most recent call last):
+[04:33:05]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 526, in <module>
+[04:33:05]     FinalSystem.evaluate_test_set(test_data)
+[04:33:05]     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+[04:33:05]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 496, in evaluate_test_set
+[04:33:05]     res = self.predict(test_dataframe_X.iloc[[i]])
+[04:33:05]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 467, in predict
+[04:33:05]     inference_df = inference_df[self.risk_model.feature_names_in_]
+[04:33:05]                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[04:33:05] AttributeError: 'NoneType' object has no attribute 'feature_names_in_'
+
+[04:33:05] ============================================================================
+

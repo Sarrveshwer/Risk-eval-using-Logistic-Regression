@@ -1,0 +1,19 @@
+[06:01:24] --- Logging Initialized for main.py ---
+[06:01:24] Log file: logs/main.py@2026-01-28_06-01-24.log
+
+[06:01:24] ============================== CRASH DETECTED ==============================
+[06:01:24] Timestamp: 2026-01-28 06:01:24.509830
+[06:01:24] Traceback (most recent call last):
+[06:01:24]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 459, in <module>
+[06:01:24]     model = FailurePredictionSystem('ai4i2020.csv',
+[06:01:24]                                     'Machine failure',
+[06:01:24]     ...<2 lines>...
+[06:01:24]                                    ['TWF','HDF','PWF','OSF']
+[06:01:24]                                    )
+[06:01:24]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 447, in __init__
+[06:01:24]     if self.classifications == None or self.classifications == []:
+[06:01:24]        ^^^^^^^^^^^^^^^^^^^^
+[06:01:24] AttributeError: 'FailurePredictionSystem' object has no attribute 'classifications'
+
+[06:01:24] ============================================================================
+

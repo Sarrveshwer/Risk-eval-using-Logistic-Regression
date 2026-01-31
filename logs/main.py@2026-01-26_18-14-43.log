@@ -1,0 +1,93 @@
+[18:14:43] --- Logging Initialized for main.py ---
+[18:14:43] Log file: logs/main.py@2026-01-26_18-14-43.log
+[18:14:43] Fitting 5 folds for each of 30 candidates, totalling 150 fits
+
+[18:14:46] ============================== CRASH DETECTED ==============================
+[18:14:46] Timestamp: 2026-01-26 18:14:46.175491
+[18:14:46] joblib.externals.loky.process_executor._RemoteTraceback: 
+[18:14:46] """
+[18:14:46] Traceback (most recent call last):
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/externals/loky/process_executor.py", line 490, in _process_worker
+[18:14:46]     r = call_item()
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/externals/loky/process_executor.py", line 291, in __call__
+[18:14:46]     return self.fn(*self.args, **self.kwargs)
+[18:14:46]            ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 607, in __call__
+[18:14:46]     return [func(*args, **kwargs) for func, args, kwargs in self.items]
+[18:14:46]             ~~~~^^^^^^^^^^^^^^^^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/parallel.py", line 184, in __call__
+[18:14:46]     return self.function(*args, **kwargs)
+[18:14:46]            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_validation.py", line 833, in _fit_and_score
+[18:14:46]     estimator.fit(X_train, y_train, **fit_params)
+[18:14:46]     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+[18:14:46]     return fit_method(estimator, *args, **kwargs)
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/pipeline.py", line 621, in fit
+[18:14:46]     self._final_estimator.fit(Xt, y, **last_step_params["fit"])
+[18:14:46]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+[18:14:46]     return fit_method(estimator, *args, **kwargs)
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/linear_model/_logistic.py", line 1147, in fit
+[18:14:46]     solver = _check_solver(self.solver, penalty, self.dual)
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/linear_model/_logistic.py", line 65, in _check_solver
+[18:14:46]     raise ValueError(
+[18:14:46]     ...<2 lines>...
+[18:14:46]     )
+[18:14:46] ValueError: Solver lbfgs supports only 'l2' or None penalties, got elasticnet penalty.
+[18:14:46] """
+
+[18:14:46] The above exception was the direct cause of the following exception:
+
+[18:14:46] Traceback (most recent call last):
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 205, in <module>
+[18:14:46]     model.train_run()
+[18:14:46]     ~~~~~~~~~~~~~~~^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 82, in train_run
+[18:14:46]     search.fit(self.X_train,self.y_train)
+[18:14:46]     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+[18:14:46]     return fit_method(estimator, *args, **kwargs)
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 1053, in fit
+[18:14:46]     self._run_search(evaluate_candidates)
+[18:14:46]     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 2002, in _run_search
+[18:14:46]     evaluate_candidates(
+[18:14:46]     ~~~~~~~~~~~~~~~~~~~^
+[18:14:46]         ParameterSampler(
+[18:14:46]         ^^^^^^^^^^^^^^^^^
+[18:14:46]             self.param_distributions, self.n_iter, random_state=self.random_state
+[18:14:46]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[18:14:46]         )
+[18:14:46]         ^
+[18:14:46]     )
+[18:14:46]     ^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 999, in evaluate_candidates
+[18:14:46]     out = parallel(
+[18:14:46]         delayed(_fit_and_score)(
+[18:14:46]     ...<13 lines>...
+[18:14:46]         )
+[18:14:46]     )
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/parallel.py", line 91, in __call__
+[18:14:46]     return super().__call__(iterable_with_config_and_warning_filters)
+[18:14:46]            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 2072, in __call__
+[18:14:46]     return output if self.return_generator else list(output)
+[18:14:46]                                                 ~~~~^^^^^^^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 1682, in _get_outputs
+[18:14:46]     yield from self._retrieve()
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 1784, in _retrieve
+[18:14:46]     self._raise_error_fast()
+[18:14:46]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 1859, in _raise_error_fast
+[18:14:46]     error_job.get_result(self.timeout)
+[18:14:46]     ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 758, in get_result
+[18:14:46]     return self._return_or_raise()
+[18:14:46]            ~~~~~~~~~~~~~~~~~~~~~^^
+[18:14:46]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 773, in _return_or_raise
+[18:14:46]     raise self._result
+[18:14:46] ValueError: Solver lbfgs supports only 'l2' or None penalties, got elasticnet penalty.
+
+[18:14:46] ============================================================================
+

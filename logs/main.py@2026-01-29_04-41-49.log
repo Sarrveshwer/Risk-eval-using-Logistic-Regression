@@ -1,0 +1,19 @@
+[04:41:49] --- Logging Initialized for main.py ---
+[04:41:49] Log file: logs/main.py@2026-01-29_04-41-49.log
+
+[04:41:49] ============================== CRASH DETECTED ==============================
+[04:41:49] Timestamp: 2026-01-29 04:41:49.379107
+[04:41:49] Traceback (most recent call last):
+[04:41:49]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 518, in <module>
+[04:41:49]     FinalSystem = FailurePredictionSystem(
+[04:41:49]         'ai4i2020.csv',
+[04:41:49]     ...<3 lines>...
+[04:41:49]         target_labels
+[04:41:49]     )
+[04:41:49]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 417, in __init__
+[04:41:49]     self.risk_tolerance = risk_tolerance
+[04:41:49]                           ^^^^^^^^^^^^^^
+[04:41:49] NameError: name 'risk_tolerance' is not defined. Did you mean: 'srisk_tolerance'?
+
+[04:41:49] ============================================================================
+

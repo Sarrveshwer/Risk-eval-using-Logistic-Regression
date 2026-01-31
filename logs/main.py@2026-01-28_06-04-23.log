@@ -1,0 +1,14 @@
+[06:04:23] --- Logging Initialized for main.py ---
+[06:04:23] Log file: logs/main.py@2026-01-28_06-04-23.log
+
+[06:04:23] ============================== CRASH DETECTED ==============================
+[06:04:23] Timestamp: 2026-01-28 06:04:23.505095
+[06:04:23] Traceback (most recent call last):
+[06:04:23]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 467, in <module>
+[06:04:23]     moedl_names = model.LoadModels()
+[06:04:23]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 457, in LoadModels
+[06:04:23]     RiskEvalModelNames = RiskEvalModel.train_run()
+[06:04:23] TypeError: RiskEvalModel.train_run() missing 1 required positional argument: 'self'
+
+[06:04:23] ============================================================================
+

@@ -1,0 +1,65 @@
+[16:29:43] --- Logging Initialized for main.py ---
+[16:29:43] Log file: logs/main.py@2026-01-26_16-29-43.log
+[16:29:43] Air temperature [K]
+[16:29:43] Process temperature [K]
+[16:29:43] Rotational speed [rpm]
+[16:29:43] Torque [Nm]
+[16:29:43] Tool wear [min]
+[16:29:43] ROC-AUC Score: 0.8977104826161431
+
+[16:29:43] ============================== CRASH DETECTED ==============================
+[16:29:43] Timestamp: 2026-01-26 16:29:43.970681
+[16:29:43] Traceback (most recent call last):
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 151, in <module>
+[16:29:43]     model.train_run()
+[16:29:43]     ~~~~~~~~~~~~~~~^^
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 74, in train_run
+[16:29:43]     self.plot(roc)
+[16:29:43]     ~~~~~~~~~^^^^^
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 98, in plot
+[16:29:43]     sns.kdeplot(self.y_prob[self.y_test == 1], label="Fault", fill=True,pallete='mako')
+[16:29:43]     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/distributions.py", line 1682, in kdeplot
+[16:29:43]     color = _default_color(method, hue, color, kwargs)
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/seaborn/utils.py", line 136, in _default_color
+[16:29:43]     scout = method([], [], **kws)
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/__init__.py", line 1524, in inner
+[16:29:43]     return func(
+[16:29:43]         ax,
+[16:29:43]         *map(cbook.sanitize_sequence, args),
+[16:29:43]         **{k: cbook.sanitize_sequence(v) for k, v in kwargs.items()})
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/axes/_axes.py", line 5722, in fill_between
+[16:29:43]     return self._fill_between_x_or_y(
+[16:29:43]            ~~~~~~~~~~~~~~~~~~~~~~~~~^
+[16:29:43]         "x", x, y1, y2,
+[16:29:43]         ^^^^^^^^^^^^^^^
+[16:29:43]         where=where, interpolate=interpolate, step=step, **kwargs)
+[16:29:43]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/axes/_axes.py", line 5707, in _fill_between_x_or_y
+[16:29:43]     collection = mcoll.FillBetweenPolyCollection(
+[16:29:43]         ind_dir, ind, dep1, dep2,
+[16:29:43]         where=where, interpolate=interpolate, step=step, **kwargs)
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/collections.py", line 1332, in __init__
+[16:29:43]     super().__init__(verts, **kwargs)
+[16:29:43]     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/collections.py", line 1201, in __init__
+[16:29:43]     super().__init__(**kwargs)
+[16:29:43]     ~~~~~~~~~~~~~~~~^^^^^^^^^^
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/collections.py", line 209, in __init__
+[16:29:43]     self._internal_update(kwargs)
+[16:29:43]     ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/artist.py", line 1233, in _internal_update
+[16:29:43]     return self._update_props(
+[16:29:43]            ~~~~~~~~~~~~~~~~~~^
+[16:29:43]         kwargs, "{cls.__name__}.set() got an unexpected keyword argument "
+[16:29:43]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[16:29:43]         "{prop_name!r}")
+[16:29:43]         ^^^^^^^^^^^^^^^^
+[16:29:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/matplotlib/artist.py", line 1206, in _update_props
+[16:29:43]     raise AttributeError(
+[16:29:43]         errfmt.format(cls=type(self), prop_name=k),
+[16:29:43]         name=k)
+[16:29:43] AttributeError: FillBetweenPolyCollection.set() got an unexpected keyword argument 'pallete'
+
+[16:29:43] ============================================================================
+

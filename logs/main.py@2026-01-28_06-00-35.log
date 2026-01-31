@@ -1,0 +1,19 @@
+[06:00:35] --- Logging Initialized for main.py ---
+[06:00:35] Log file: logs/main.py@2026-01-28_06-00-35.log
+
+[06:00:35] ============================== CRASH DETECTED ==============================
+[06:00:35] Timestamp: 2026-01-28 06:00:35.493703
+[06:00:35] Traceback (most recent call last):
+[06:00:35]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 463, in <module>
+[06:00:35]     model = FailurePredictionSystem('ai4i2020.csv',
+[06:00:35]                                     'Machine failure',
+[06:00:35]     ...<2 lines>...
+[06:00:35]                                    ['TWF','HDF','PWF','OSF']
+[06:00:35]                                    )
+[06:00:35]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 447, in __init__
+[06:00:35]     del filename_modified
+[06:00:35]         ^^^^^^^^^^^^^^^^^
+[06:00:35] UnboundLocalError: cannot access local variable 'filename_modified' where it is not associated with a value
+
+[06:00:35] ============================================================================
+

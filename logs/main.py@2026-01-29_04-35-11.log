@@ -1,0 +1,71 @@
+[04:35:11] --- Logging Initialized for main.py ---
+[04:35:11] Log file: logs/main.py@2026-01-29_04-35-11.log
+[04:35:11] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[04:35:16] ========== Model Features =========
+[04:35:16] Air temperature [K]
+[04:35:16] Process temperature [K]
+[04:35:16] Rotational speed [rpm]
+[04:35:16] Torque [Nm]
+[04:35:16] Tool wear [min]
+[04:35:16] Air temperature [K]_Rolling_Mean
+[04:35:16] Air temperature [K]_Volatility
+[04:35:16] Air temperature [K]_Delta
+[04:35:16] Process temperature [K]_Rolling_Mean
+[04:35:16] Process temperature [K]_Volatility
+[04:35:16] Process temperature [K]_Delta
+[04:35:16] Rotational speed [rpm]_Rolling_Mean
+[04:35:16] Rotational speed [rpm]_Volatility
+[04:35:16] Rotational speed [rpm]_Delta
+[04:35:16] Torque [Nm]_Rolling_Mean
+[04:35:16] Torque [Nm]_Volatility
+[04:35:16] Torque [Nm]_Delta
+[04:35:16] Tool wear [min]_Rolling_Mean
+[04:35:16] Tool wear [min]_Volatility
+[04:35:16] Tool wear [min]_Delta
+[04:35:16] Power_Factor_Rolling
+
+[04:35:16] === Model Evaluation (Test Set) ===
+[04:35:16] ROC-AUC score :0.897
+[04:35:16] risk_tolerance used : 0.095
+[04:35:16] TP: 32 | FP: 554
+[04:35:16] FN: 7 | TN: 1407
+
+[04:35:16] Rates:
+[04:35:16] Recall (TPR) : 0.821
+[04:35:16] Precision    : 0.055
+[04:35:16] False PosRate: 0.283
+[04:35:16] ====================================
+[04:35:18] Model evaluation complete.
+[04:35:18] Model evaluation complete.
+[04:35:20] Model evaluation complete.
+[04:35:20] Model evaluation complete.
+[04:35:21] Model evaluation complete.
+[04:35:21] Model evaluation complete.
+[04:35:23] Model evaluation complete.
+[04:35:23] Model evaluation complete.
+[04:35:23] Step   | Risk Prob  | Alert      | Diagnosis
+[04:35:23] ------------------------------------------------------------
+
+[04:35:23] ============================== CRASH DETECTED ==============================
+[04:35:23] Timestamp: 2026-01-29 04:35:23.800080
+[04:35:23] Traceback (most recent call last):
+[04:35:23]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 528, in <module>
+[04:35:23]     FinalSystem.evaluate_test_set(test_data)
+[04:35:23]     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+[04:35:23]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 496, in evaluate_test_set
+[04:35:23]     res = self.predict(test_dataframe_X.iloc[[i]])
+[04:35:23]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 467, in predict
+[04:35:23]     inference_df = inference_df[self.risk_model.feature_names_in_]
+[04:35:23]                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[04:35:23]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/frame.py", line 4119, in __getitem__
+[04:35:23]     indexer = self.columns._get_indexer_strict(key, "columns")[1]
+[04:35:23]               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+[04:35:23]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+[04:35:23]     self._raise_if_missing(keyarr, indexer, axis_name)
+[04:35:23]     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[04:35:23]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+[04:35:23]     raise KeyError(f"{not_found} not in index")
+[04:35:23] KeyError: "['Power_Factor_Rolling'] not in index"
+
+[04:35:23] ============================================================================
+

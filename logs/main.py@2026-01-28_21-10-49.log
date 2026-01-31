@@ -1,0 +1,54 @@
+[21:10:49] --- Logging Initialized for main.py ---
+[21:10:49] Log file: logs/main.py@2026-01-28_21-10-49.log
+[21:10:49] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[21:10:56] ========== Model Features =========
+[21:10:56] Air temperature [K]
+[21:10:56] Process temperature [K]
+[21:10:56] Rotational speed [rpm]
+[21:10:56] Torque [Nm]
+[21:10:56] Tool wear [min]
+[21:10:56] Air temperature [K]_Rolling_Mean
+[21:10:56] Air temperature [K]_Volatility
+[21:10:56] Air temperature [K]_Delta
+[21:10:56] Process temperature [K]_Rolling_Mean
+[21:10:56] Process temperature [K]_Volatility
+[21:10:56] Process temperature [K]_Delta
+[21:10:56] Rotational speed [rpm]_Rolling_Mean
+[21:10:56] Rotational speed [rpm]_Volatility
+[21:10:56] Rotational speed [rpm]_Delta
+[21:10:56] Torque [Nm]_Rolling_Mean
+[21:10:56] Torque [Nm]_Volatility
+[21:10:56] Torque [Nm]_Delta
+[21:10:56] Tool wear [min]_Rolling_Mean
+[21:10:56] Tool wear [min]_Volatility
+[21:10:56] Tool wear [min]_Delta
+[21:10:56] Power_Factor_Rolling
+
+[21:10:56] === Model Evaluation (Test Set) ===
+[21:10:56] ROC-AUC score :0.897
+[21:10:56] risk_tolerance used : 0.095
+[21:10:56] TP: 32 | FP: 554
+[21:10:56] FN: 7 | TN: 1407
+
+[21:10:56] Rates:
+[21:10:56] Recall (TPR) : 0.821
+[21:10:56] Precision    : 0.055
+[21:10:56] False PosRate: 0.283
+[21:10:56] ====================================
+[21:10:56] Loaded RiskEvalModel from disk.
+[21:10:56] Loaded classifier for TWF
+[21:10:56] Loaded classifier for HDF
+[21:10:57] Loaded classifier for PWF
+[21:10:57] Loaded classifier for OSF
+[21:10:57] All models ready.
+
+[21:10:57] ============================== CRASH DETECTED ==============================
+[21:10:57] Timestamp: 2026-01-28 21:10:57.020783
+[21:10:57] Traceback (most recent call last):
+[21:10:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 585, in <module>
+[21:10:57]     inference_system.evaluate_test_set(gatekeeper_trainer.X_test.head(200))
+[21:10:57]     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[21:10:57] AttributeError: 'FailurePredictionSystem' object has no attribute 'evaluate_test_set'
+
+[21:10:57] ============================================================================
+

@@ -1,0 +1,25 @@
+[17:49:23] --- Logging Initialized for main.py ---
+[17:49:23] Log file: logs/main.py@2026-01-26_17-49-23.log
+[17:49:23] Air temperature [K]
+[17:49:23] Process temperature [K]
+[17:49:23] Rotational speed [rpm]
+[17:49:23] Torque [Nm]
+[17:49:23] Tool wear [min]
+[17:49:23] ROC-AUC Score: 0.8977104826161431
+
+[17:49:25] ============================== CRASH DETECTED ==============================
+[17:49:25] Timestamp: 2026-01-26 17:49:25.842227
+[17:49:25] Traceback (most recent call last):
+[17:49:25]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 188, in <module>
+[17:49:25]     model.train_run()
+[17:49:25]     ~~~~~~~~~~~~~~~^^
+[17:49:25]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 73, in train_run
+[17:49:25]     self.plot(roc)
+[17:49:25]     ~~~~~~~~~^^^^^
+[17:49:25]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 172, in plot
+[17:49:25]     self.evaluate()
+[17:49:25]     ~~~~~~~~~~~~~^^
+[17:49:25] TypeError: LogisticClassifier.evaluate() missing 4 required positional arguments: 'y_true', 'y_prob', 'y_pred', and 'threshold'
+
+[17:49:25] ============================================================================
+

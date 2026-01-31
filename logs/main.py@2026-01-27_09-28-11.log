@@ -1,0 +1,17 @@
+[09:28:11] --- Logging Initialized for main.py ---
+[09:28:11] Log file: logs/main.py@2026-01-27_09-28-11.log
+[09:28:11] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+
+[09:28:13] ============================== CRASH DETECTED ==============================
+[09:28:13] Timestamp: 2026-01-27 09:28:13.933255
+[09:28:13] Traceback (most recent call last):
+[09:28:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 207, in <module>
+[09:28:13]     model.train_run()
+[09:28:13]     ~~~~~~~~~~~~~~~^^
+[09:28:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 87, in train_run
+[09:28:13]     self.plto(self.roc,i)
+[09:28:13]     ^^^^^^^^^
+[09:28:13] AttributeError: 'LogisticClassifier' object has no attribute 'plto'
+
+[09:28:13] ============================================================================
+

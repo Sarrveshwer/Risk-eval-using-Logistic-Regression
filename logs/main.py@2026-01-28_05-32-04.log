@@ -1,0 +1,18 @@
+[05:32:04] --- Logging Initialized for main.py ---
+[05:32:04] Log file: logs/main.py@2026-01-28_05-32-04.log
+
+[05:32:04] ============================== CRASH DETECTED ==============================
+[05:32:04] Timestamp: 2026-01-28 05:32:04.319098
+[05:32:04] Traceback (most recent call last):
+[05:32:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 439, in <module>
+[05:32:04]     moedl_names = model.run()
+[05:32:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 431, in run
+[05:32:04]     self.train_run(i)
+[05:32:04]     ~~~~~~~~~~~~~~^^^
+[05:32:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 300, in train_run
+[05:32:04]     self.y_prob = rfc.predict_proba(self.X_test)[:, 1]
+[05:32:04]                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+[05:32:04] IndexError: index 1 is out of bounds for axis 1 with size 1
+
+[05:32:04] ============================================================================
+

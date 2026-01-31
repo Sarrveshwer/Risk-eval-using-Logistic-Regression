@@ -1,0 +1,154 @@
+[20:38:28] --- Logging Initialized for main.py ---
+[20:38:28] Log file: logs/main.py@2026-01-27_20-38-28.log
+[20:38:31] ========== Model Features =========
+[20:38:31] Air temperature [K]
+[20:38:31] Process temperature [K]
+[20:38:31] Rotational speed [rpm]
+[20:38:31] Torque [Nm]
+[20:38:31] Tool wear [min]
+[20:38:31] TWF
+
+[20:38:31] === Model Evaluation (Test Set) ===
+[20:38:31] ROC-AUC score :0.982
+[20:38:31] Threshold used : 0.410
+[20:38:31] TP: 32 | FP: 8
+[20:38:31] FN: 7 | TN: 1953
+
+[20:38:31] Rates:
+[20:38:31] Recall (TPR) : 0.821
+[20:38:31] Precision    : 0.800
+[20:38:31] False PosRate: 0.004
+[20:38:31] ====================================
+[20:38:31] ========== Model Features =========
+[20:38:31] Air temperature [K]
+[20:38:31] Process temperature [K]
+[20:38:31] Rotational speed [rpm]
+[20:38:31] Torque [Nm]
+[20:38:31] Tool wear [min]
+[20:38:31] TWF
+
+[20:38:31] === Model Evaluation (Test Set) ===
+[20:38:31] ROC-AUC score :0.982
+[20:38:31] Threshold used : 0.410
+[20:38:31] TP: 32 | FP: 8
+[20:38:31] FN: 7 | TN: 1953
+
+[20:38:31] Rates:
+[20:38:31] Recall (TPR) : 0.821
+[20:38:31] Precision    : 0.800
+[20:38:31] False PosRate: 0.004
+[20:38:31] ====================================
+[20:38:33] ========== Model Features =========
+[20:38:33] Air temperature [K]
+[20:38:33] Process temperature [K]
+[20:38:33] Rotational speed [rpm]
+[20:38:33] Torque [Nm]
+[20:38:33] Tool wear [min]
+[20:38:33] HDF
+
+[20:38:33] === Model Evaluation (Test Set) ===
+[20:38:33] ROC-AUC score :0.956
+[20:38:33] Threshold used : 0.060
+[20:38:33] TP: 32 | FP: 76
+[20:38:33] FN: 7 | TN: 1885
+
+[20:38:33] Rates:
+[20:38:33] Recall (TPR) : 0.821
+[20:38:33] Precision    : 0.296
+[20:38:33] False PosRate: 0.039
+[20:38:33] ====================================
+[20:38:33] ========== Model Features =========
+[20:38:33] Air temperature [K]
+[20:38:33] Process temperature [K]
+[20:38:33] Rotational speed [rpm]
+[20:38:33] Torque [Nm]
+[20:38:33] Tool wear [min]
+[20:38:33] HDF
+
+[20:38:33] === Model Evaluation (Test Set) ===
+[20:38:33] ROC-AUC score :0.956
+[20:38:33] Threshold used : 0.060
+[20:38:33] TP: 32 | FP: 76
+[20:38:33] FN: 7 | TN: 1885
+
+[20:38:33] Rates:
+[20:38:33] Recall (TPR) : 0.821
+[20:38:33] Precision    : 0.296
+[20:38:33] False PosRate: 0.039
+[20:38:33] ====================================
+[20:38:35] ========== Model Features =========
+[20:38:35] Air temperature [K]
+[20:38:35] Process temperature [K]
+[20:38:35] Rotational speed [rpm]
+[20:38:35] Torque [Nm]
+[20:38:35] Tool wear [min]
+[20:38:35] PWF
+
+[20:38:35] === Model Evaluation (Test Set) ===
+[20:38:35] ROC-AUC score :0.960
+[20:38:35] Threshold used : 0.090
+[20:38:35] TP: 32 | FP: 42
+[20:38:35] FN: 7 | TN: 1919
+
+[20:38:35] Rates:
+[20:38:35] Recall (TPR) : 0.821
+[20:38:35] Precision    : 0.432
+[20:38:35] False PosRate: 0.021
+[20:38:35] ====================================
+[20:38:35] ========== Model Features =========
+[20:38:35] Air temperature [K]
+[20:38:35] Process temperature [K]
+[20:38:35] Rotational speed [rpm]
+[20:38:35] Torque [Nm]
+[20:38:35] Tool wear [min]
+[20:38:35] PWF
+
+[20:38:35] === Model Evaluation (Test Set) ===
+[20:38:35] ROC-AUC score :0.960
+[20:38:35] Threshold used : 0.090
+[20:38:35] TP: 32 | FP: 42
+[20:38:35] FN: 7 | TN: 1919
+
+[20:38:35] Rates:
+[20:38:35] Recall (TPR) : 0.821
+[20:38:35] Precision    : 0.432
+[20:38:35] False PosRate: 0.021
+[20:38:35] ====================================
+[20:38:37] ========== Model Features =========
+[20:38:37] Air temperature [K]
+[20:38:37] Process temperature [K]
+[20:38:37] Rotational speed [rpm]
+[20:38:37] Torque [Nm]
+[20:38:37] Tool wear [min]
+[20:38:37] OSF
+
+[20:38:37] === Model Evaluation (Test Set) ===
+[20:38:37] ROC-AUC score :0.943
+[20:38:37] Threshold used : 0.080
+[20:38:37] TP: 32 | FP: 49
+[20:38:37] FN: 7 | TN: 1912
+
+[20:38:37] Rates:
+[20:38:37] Recall (TPR) : 0.821
+[20:38:37] Precision    : 0.395
+[20:38:37] False PosRate: 0.025
+[20:38:37] ====================================
+[20:38:37] ========== Model Features =========
+[20:38:37] Air temperature [K]
+[20:38:37] Process temperature [K]
+[20:38:37] Rotational speed [rpm]
+[20:38:37] Torque [Nm]
+[20:38:37] Tool wear [min]
+[20:38:37] OSF
+
+[20:38:37] === Model Evaluation (Test Set) ===
+[20:38:37] ROC-AUC score :0.943
+[20:38:37] Threshold used : 0.080
+[20:38:37] TP: 32 | FP: 49
+[20:38:37] FN: 7 | TN: 1912
+
+[20:38:37] Rates:
+[20:38:37] Recall (TPR) : 0.821
+[20:38:37] Precision    : 0.395
+[20:38:37] False PosRate: 0.025
+[20:38:37] ====================================

@@ -1,0 +1,69 @@
+[20:56:43] --- Logging Initialized for main.py ---
+[20:56:43] Log file: logs/main.py@2026-01-28_20-56-43.log
+[20:56:43] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[20:56:49] ========== Model Features =========
+[20:56:49] Air temperature [K]
+[20:56:49] Process temperature [K]
+[20:56:49] Rotational speed [rpm]
+[20:56:49] Torque [Nm]
+[20:56:49] Tool wear [min]
+[20:56:49] TWF
+[20:56:49] HDF
+[20:56:49] PWF
+[20:56:49] OSF
+[20:56:49] Air temperature [K]_Rolling_Mean
+[20:56:49] Air temperature [K]_Volatility
+[20:56:49] Air temperature [K]_Delta
+[20:56:49] Process temperature [K]_Rolling_Mean
+[20:56:49] Process temperature [K]_Volatility
+[20:56:49] Process temperature [K]_Delta
+[20:56:49] Rotational speed [rpm]_Rolling_Mean
+[20:56:49] Rotational speed [rpm]_Volatility
+[20:56:49] Rotational speed [rpm]_Delta
+[20:56:49] Torque [Nm]_Rolling_Mean
+[20:56:49] Torque [Nm]_Volatility
+[20:56:49] Torque [Nm]_Delta
+[20:56:49] Tool wear [min]_Rolling_Mean
+[20:56:49] Tool wear [min]_Volatility
+[20:56:49] Tool wear [min]_Delta
+[20:56:49] Power_Factor_Rolling
+
+[20:56:49] === Model Evaluation (Test Set) ===
+[20:56:49] ROC-AUC score :0.972
+[20:56:49] risk_tolerance used : 0.999
+[20:56:49] TP: 32 | FP: 0
+[20:56:49] FN: 7 | TN: 1961
+
+[20:56:49] Rates:
+[20:56:49] Recall (TPR) : 0.821
+[20:56:49] Precision    : 1.000
+[20:56:49] False PosRate: 0.000
+[20:56:49] ====================================
+[20:56:49] Loaded RiskEvalModel from disk.
+[20:56:49] Loaded classifier for TWF
+[20:56:49] Loaded classifier for HDF
+[20:56:49] Loaded classifier for PWF
+[20:56:49] Loaded classifier for OSF
+[20:56:49] All models ready.
+[20:56:49] Step   | Risk Prob  | Alert      | Diagnosis
+[20:56:49] ------------------------------------------------------------
+[20:56:49] 1      | 0.3152     | HEALTHY    | None
+[20:56:49] 2      | 0.1723     | HEALTHY    | None
+[20:56:49] 3      | 0.0004     | HEALTHY    | None
+[20:56:49] 4      | 0.0031     | HEALTHY    | None
+[20:56:49] 5      | 0.0004     | HEALTHY    | None
+[20:56:49] 6      | 0.0098     | HEALTHY    | None
+[20:56:49] 7      | 0.0013     | HEALTHY    | None
+[20:56:49] 8      | 0.0001     | HEALTHY    | None
+[20:56:49] 9      | 0.0006     | HEALTHY    | None
+[20:56:49] 10     | 0.0000     | HEALTHY    | None
+[20:56:49] 11     | 0.0001     | HEALTHY    | None
+[20:56:49] 12     | 0.0001     | HEALTHY    | None
+[20:56:49] 13     | 0.0040     | HEALTHY    | None
+[20:56:49] 14     | 0.0007     | HEALTHY    | None
+[20:56:49] 15     | 0.0041     | HEALTHY    | None
+[20:56:49] 16     | 0.0003     | HEALTHY    | None
+[20:56:49] 17     | 0.0530     | HEALTHY    | None
+[20:56:49] 18     | 0.0007     | HEALTHY    | None
+[20:56:49] 19     | 0.0001     | HEALTHY    | None
+[20:56:49] 20     | 0.2610     | HEALTHY    | None

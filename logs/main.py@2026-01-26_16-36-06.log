@@ -1,0 +1,8 @@
+[16:36:06] --- Logging Initialized for main.py ---
+[16:36:06] Log file: logs/main.py@2026-01-26_16-36-06.log
+[16:36:06] Air temperature [K]
+[16:36:06] Process temperature [K]
+[16:36:06] Rotational speed [rpm]
+[16:36:06] Torque [Nm]
+[16:36:06] Tool wear [min]
+[16:36:06] ROC-AUC Score: 0.8977104826161431

@@ -1,0 +1,34 @@
+[10:37:57] --- Logging Initialized for main.py ---
+[10:37:57] Log file: logs/main.py@2026-01-28_10-37-57.log
+[10:37:57] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[10:38:04] ========== Model Features =========
+[10:38:04] Air temperature [K]
+[10:38:04] Process temperature [K]
+[10:38:04] Rotational speed [rpm]
+[10:38:04] Torque [Nm]
+[10:38:04] Tool wear [min]
+
+[10:38:04] === Model Evaluation (Test Set) ===
+[10:38:04] ROC-AUC score :0.897
+[10:38:04] Threshold used : 0.165
+[10:38:04] TP: 32 | FP: 376
+[10:38:04] FN: 7 | TN: 1585
+
+[10:38:04] Rates:
+[10:38:04] Recall (TPR) : 0.821
+[10:38:04] Precision    : 0.078
+[10:38:04] False PosRate: 0.192
+[10:38:04] ====================================
+[10:38:04] Successfully Loaded RiskEvalModel....
+
+[10:38:04] ============================== CRASH DETECTED ==============================
+[10:38:04] Timestamp: 2026-01-28 10:38:04.442955
+[10:38:04] Traceback (most recent call last):
+[10:38:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 479, in <module>
+[10:38:04]     moedl_names = model.LoadModels()
+[10:38:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 468, in LoadModels
+[10:38:04]     ClassificationModelName = ClassificationModel.train_run()
+[10:38:04] TypeError: FailureClassificationModel.train_run() missing 1 required positional argument: 'param'
+
+[10:38:04] ============================================================================
+

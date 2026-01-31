@@ -1,0 +1,35 @@
+[06:08:35] --- Logging Initialized for main.py ---
+[06:08:35] Log file: logs/main.py@2026-01-28_06-08-35.log
+[06:08:35] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[06:08:43] ========== Model Features =========
+[06:08:43] Air temperature [K]
+[06:08:43] Process temperature [K]
+[06:08:43] Rotational speed [rpm]
+[06:08:43] Torque [Nm]
+[06:08:43] Tool wear [min]
+
+[06:08:43] === Model Evaluation (Test Set) ===
+[06:08:43] ROC-AUC score :0.897
+[06:08:43] Threshold used : 0.165
+[06:08:43] TP: 32 | FP: 376
+[06:08:43] FN: 7 | TN: 1585
+
+[06:08:43] Rates:
+[06:08:43] Recall (TPR) : 0.821
+[06:08:43] Precision    : 0.078
+[06:08:43] False PosRate: 0.192
+[06:08:43] ====================================
+[06:08:43] Successfully Loaded RiskEvalModel....
+
+[06:08:43] ============================== CRASH DETECTED ==============================
+[06:08:43] Timestamp: 2026-01-28 06:08:43.848606
+[06:08:43] Traceback (most recent call last):
+[06:08:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 468, in <module>
+[06:08:43]     moedl_names = model.LoadModels()
+[06:08:43]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 459, in LoadModels
+[06:08:43]     risk_model = joblib.load("risk_model.pkl")
+[06:08:43]                  ^^^^^^
+[06:08:43] NameError: name 'joblib' is not defined
+
+[06:08:43] ============================================================================
+

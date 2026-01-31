@@ -1,0 +1,93 @@
+[18:17:54] --- Logging Initialized for main.py ---
+[18:17:54] Log file: logs/main.py@2026-01-26_18-17-54.log
+[18:17:54] Fitting 5 folds for each of 20 candidates, totalling 100 fits
+
+[18:17:57] ============================== CRASH DETECTED ==============================
+[18:17:57] Timestamp: 2026-01-26 18:17:57.167583
+[18:17:57] joblib.externals.loky.process_executor._RemoteTraceback: 
+[18:17:57] """
+[18:17:57] Traceback (most recent call last):
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/externals/loky/process_executor.py", line 490, in _process_worker
+[18:17:57]     r = call_item()
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/externals/loky/process_executor.py", line 291, in __call__
+[18:17:57]     return self.fn(*self.args, **self.kwargs)
+[18:17:57]            ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 607, in __call__
+[18:17:57]     return [func(*args, **kwargs) for func, args, kwargs in self.items]
+[18:17:57]             ~~~~^^^^^^^^^^^^^^^^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/parallel.py", line 184, in __call__
+[18:17:57]     return self.function(*args, **kwargs)
+[18:17:57]            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_validation.py", line 821, in _fit_and_score
+[18:17:57]     estimator = estimator.set_params(**clone(parameters, safe=False))
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/pipeline.py", line 287, in set_params
+[18:17:57]     self._set_params("steps", **kwargs)
+[18:17:57]     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/metaestimators.py", line 75, in _set_params
+[18:17:57]     super().set_params(**params)
+[18:17:57]     ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 366, in set_params
+[18:17:57]     raise ValueError(
+[18:17:57]     ...<2 lines>...
+[18:17:57]     )
+[18:17:57] ValueError: Invalid parameter 'clf_C' for estimator Pipeline(steps=[('scaler', StandardScaler()),
+[18:17:57]                 ('clf',
+[18:17:57]                  LogisticRegression(class_weight='balanced', max_iter=3000))]). Valid parameters are: ['memory', 'steps', 'transform_input', 'verbose'].
+[18:17:57] """
+
+[18:17:57] The above exception was the direct cause of the following exception:
+
+[18:17:57] Traceback (most recent call last):
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 204, in <module>
+[18:17:57]     model.train_run()
+[18:17:57]     ~~~~~~~~~~~~~~~^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 81, in train_run
+[18:17:57]     search.fit(self.X_train,self.y_train)
+[18:17:57]     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+[18:17:57]     return fit_method(estimator, *args, **kwargs)
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 1053, in fit
+[18:17:57]     self._run_search(evaluate_candidates)
+[18:17:57]     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 2002, in _run_search
+[18:17:57]     evaluate_candidates(
+[18:17:57]     ~~~~~~~~~~~~~~~~~~~^
+[18:17:57]         ParameterSampler(
+[18:17:57]         ^^^^^^^^^^^^^^^^^
+[18:17:57]             self.param_distributions, self.n_iter, random_state=self.random_state
+[18:17:57]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[18:17:57]         )
+[18:17:57]         ^
+[18:17:57]     )
+[18:17:57]     ^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 999, in evaluate_candidates
+[18:17:57]     out = parallel(
+[18:17:57]         delayed(_fit_and_score)(
+[18:17:57]     ...<13 lines>...
+[18:17:57]         )
+[18:17:57]     )
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/parallel.py", line 91, in __call__
+[18:17:57]     return super().__call__(iterable_with_config_and_warning_filters)
+[18:17:57]            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 2072, in __call__
+[18:17:57]     return output if self.return_generator else list(output)
+[18:17:57]                                                 ~~~~^^^^^^^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 1682, in _get_outputs
+[18:17:57]     yield from self._retrieve()
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 1784, in _retrieve
+[18:17:57]     self._raise_error_fast()
+[18:17:57]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 1859, in _raise_error_fast
+[18:17:57]     error_job.get_result(self.timeout)
+[18:17:57]     ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 758, in get_result
+[18:17:57]     return self._return_or_raise()
+[18:17:57]            ~~~~~~~~~~~~~~~~~~~~~^^
+[18:17:57]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 773, in _return_or_raise
+[18:17:57]     raise self._result
+[18:17:57] ValueError: Invalid parameter 'clf_C' for estimator Pipeline(steps=[('scaler', StandardScaler()),
+[18:17:57]                 ('clf',
+[18:17:57]                  LogisticRegression(class_weight='balanced', max_iter=3000))]). Valid parameters are: ['memory', 'steps', 'transform_input', 'verbose'].
+
+[18:17:57] ============================================================================
+

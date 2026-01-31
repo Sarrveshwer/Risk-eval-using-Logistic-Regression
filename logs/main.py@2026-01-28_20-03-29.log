@@ -1,0 +1,18 @@
+[20:03:29] --- Logging Initialized for main.py ---
+[20:03:29] Log file: logs/main.py@2026-01-28_20-03-29.log
+[20:03:29] Loaded RiskEvalModel from disk.
+[20:03:29] Loaded classifier for TWF
+[20:03:29] Loaded classifier for HDF
+[20:03:29] Loaded classifier for PWF
+[20:03:29] Loaded classifier for OSF
+[20:03:29] All models ready.
+
+[20:03:29] ============================== CRASH DETECTED ==============================
+[20:03:29] Timestamp: 2026-01-28 20:03:29.101035
+[20:03:29] Traceback (most recent call last):
+[20:03:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 568, in <module>
+[20:03:29]     prediction = FailurePredictionSystem.predict(current_snapshot)
+[20:03:29] TypeError: FailurePredictionSystem.predict() missing 1 required positional argument: 'X'
+
+[20:03:29] ============================================================================
+

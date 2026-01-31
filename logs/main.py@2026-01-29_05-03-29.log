@@ -1,0 +1,15 @@
+[05:03:29] --- Logging Initialized for main.py ---
+[05:03:29] Log file: logs/main.py@2026-01-29_05-03-29.log
+[05:03:29] Loaded RiskEvalModel from disk.
+[05:03:29] Step   | Risk Prob  | Alert      | Diagnosis
+[05:03:29] ------------------------------------------------------------
+[05:03:29] 1      | 0.0357     | HEALTHY    | None
+[05:03:29] 2      | 0.0825     | HEALTHY    | None
+[05:03:29] 3      | 0.1571     | HEALTHY    | None
+[05:03:29] 4      | 0.7015     | WARNING    | RandomFailure
+[05:03:29] 5      | 0.9429     | CRITICAL   | RandomFailure
+[05:03:29] 6      | 0.9564     | CRITICAL   | RandomFailure
+[05:03:30] 7      | 0.9163     | CRITICAL   | RandomFailure
+[05:03:30] 8      | 0.8300     | CRITICAL   | RandomFailure
+[05:03:30] 9      | 0.9962     | CRITICAL   | RandomFailure
+[05:03:30] 10     | 1.0000     | CRITICAL   | RandomFailure

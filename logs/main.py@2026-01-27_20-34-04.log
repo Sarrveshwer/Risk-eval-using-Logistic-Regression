@@ -1,0 +1,20 @@
+[20:34:04] --- Logging Initialized for main.py ---
+[20:34:04] Log file: logs/main.py@2026-01-27_20-34-04.log
+[20:34:04] ['TWF', 'HDF', 'PWF', 'OSF']
+
+[20:34:04] ============================== CRASH DETECTED ==============================
+[20:34:04] Timestamp: 2026-01-27 20:34:04.382913
+[20:34:04] Traceback (most recent call last):
+[20:34:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 396, in <module>
+[20:34:04]     model.run()
+[20:34:04]     ~~~~~~~~~^^
+[20:34:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 393, in run
+[20:34:04]     self.train_run(i)
+[20:34:04]     ~~~~~~~~~~~~~~^^^
+[20:34:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 257, in train_run
+[20:34:04]     print(+self.classifications.remove(param))
+[20:34:04]           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[20:34:04] TypeError: bad operand type for unary +: 'NoneType'
+
+[20:34:04] ============================================================================
+

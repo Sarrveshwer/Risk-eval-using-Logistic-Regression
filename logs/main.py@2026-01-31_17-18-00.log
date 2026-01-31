@@ -1,0 +1,77 @@
+[17:18:00] --- Logging Initialized for main.py ---
+[17:18:00] Log file: logs/main.py@2026-01-31_17-18-00.log
+[17:18:00] Fitting 5 folds for each of 100 candidates, totalling 500 fits
+[17:18:23] ========== Model Features =========
+[17:18:23] Air temperature [K]
+[17:18:23] Process temperature [K]
+[17:18:23] Rotational speed [rpm]
+[17:18:23] Torque [Nm]
+[17:18:23] Tool wear [min]
+[17:18:23] Air temperature [K]_Rolling_Mean
+[17:18:23] Air temperature [K]_Volatility
+[17:18:23] Air temperature [K]_Delta
+[17:18:23] Process temperature [K]_Rolling_Mean
+[17:18:23] Process temperature [K]_Volatility
+[17:18:23] Process temperature [K]_Delta
+[17:18:23] Rotational speed [rpm]_Rolling_Mean
+[17:18:23] Rotational speed [rpm]_Volatility
+[17:18:23] Rotational speed [rpm]_Delta
+[17:18:23] Torque [Nm]_Rolling_Mean
+[17:18:23] Torque [Nm]_Volatility
+[17:18:23] Torque [Nm]_Delta
+[17:18:23] Tool wear [min]_Rolling_Mean
+[17:18:23] Tool wear [min]_Volatility
+[17:18:23] Tool wear [min]_Delta
+[17:18:23] Air temperature [K]_Rolling_Delta
+[17:18:23] Process temperature [K]_Rolling_Delta
+[17:18:23] Rotational speed [rpm]_Rolling_Delta
+[17:18:23] Torque [Nm]_Rolling_Delta
+[17:18:23] Tool wear [min]_Rolling_Delta
+
+[17:18:23] === Model Evaluation (Test Set) ===
+[17:18:23] ROC-AUC score :0.899
+[17:18:23] Risk Tolerance used : 0.303
+[17:18:23] TP: 30 | FP: 183
+[17:18:23] FN: 9 | TN: 1777
+
+[17:18:23] Rates:
+[17:18:23] Recall (TPR) : 0.769
+[17:18:23] Precision    : 0.141
+[17:18:23] False PosRate: 0.093
+[17:18:23] ====================================
+[17:18:24] Warning_S  | Diag_S     | Warning Step | Score
+[17:18:24] --------------------------------------------------
+[17:18:24] 0.30       | 0.20       | 4            | 1.00
+[17:18:24] 0.30       | 0.30       | 2            | 0.33
+[17:18:24] 0.30       | 0.40       | 2            | 0.33
+[17:18:24] 0.30       | 0.50       | 2            | 0.33
+[17:18:24] 0.40       | 0.20       | 2            | 0.33
+[17:18:24] 0.40       | 0.30       | 2            | 0.33
+[17:18:24] 0.40       | 0.40       | 2            | 0.33
+[17:18:24] 0.40       | 0.50       | 2            | 0.33
+[17:18:24] 0.50       | 0.20       | 2            | 0.33
+[17:18:25] 0.50       | 0.30       | 2            | 0.33
+[17:18:25] 0.50       | 0.40       | 2            | 0.33
+[17:18:25] 0.50       | 0.50       | 2            | 0.33
+[17:18:25] 0.60       | 0.20       | 5            | 0.50
+[17:18:25] 0.60       | 0.30       | 5            | 0.50
+[17:18:25] 0.60       | 0.40       | 5            | 0.50
+[17:18:25] 0.60       | 0.50       | 5            | 0.50
+[17:18:25] 0.70       | 0.20       | 5            | 0.50
+[17:18:25] 0.70       | 0.30       | 5            | 0.50
+[17:18:25] 0.70       | 0.40       | 5            | 0.50
+[17:18:25] 0.70       | 0.50       | 5            | 0.50
+[17:18:25] --------------------------------------------------
+[17:18:25] Optimal Parameters: {'warning_sensitivity': np.float64(0.3), 'diagnosis_sensitivity': np.float64(0.2)}
+[17:18:25] Step  | Risk    | Streak | Alert      | Diagnosis
+[17:18:25] -----------------------------------------------------------------
+[17:18:25] 1     | 0.6667  | 2      | HEALTHY    | None
+[17:18:25] 2     | 0.3335  | 4      | WARNING    | TWF
+[17:18:25] 3     | 0.0001  | 0      | HEALTHY    | None
+[17:18:25] 4     | 0.0001  | 0      | HEALTHY    | None
+[17:18:26] 5     | 0.3330  | 2      | HEALTHY    | None
+[17:18:26] 6     | 0.6662  | 4      | WARNING    | HDF
+[17:18:26] 7     | 0.9994  | 0      | CRITICAL   | HDF
+[17:18:26] 8     | 0.9990  | 0      | CRITICAL   | HDF
+[17:18:26] 9     | 0.9991  | 0      | CRITICAL   | HDF
+[17:18:26] 10    | 0.9992  | 0      | CRITICAL   | HDF

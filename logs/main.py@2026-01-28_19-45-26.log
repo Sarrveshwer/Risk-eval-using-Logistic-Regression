@@ -1,0 +1,11 @@
+[19:45:26] --- Logging Initialized for main.py ---
+[19:45:26] Log file: logs/main.py@2026-01-28_19-45-26.log
+[19:45:26] Loaded RiskEvalModel from disk.
+[19:45:26] Loaded classifier for TWF
+[19:45:26] Loaded classifier for HDF
+[19:45:26] Loaded classifier for PWF
+[19:45:26] Loaded classifier for OSF
+[19:45:26] All models ready.
+[19:45:26]       Air temperature [K]  Process temperature [K]  Rotational speed [rpm]  Torque [Nm]  Tool wear [min]
+[19:45:26] 9822                298.5                    309.4                    1360         60.9              187
+[19:45:26] {'risk_prob': 0.8559461325354095, 'risk': 1, 'failure_type': 'OSF', 'details': {'TWF': 0, 'HDF': 0, 'PWF': 0, 'OSF': 1}}

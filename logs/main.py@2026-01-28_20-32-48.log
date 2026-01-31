@@ -1,0 +1,15 @@
+[20:32:48] --- Logging Initialized for main.py ---
+[20:32:48] Log file: logs/main.py@2026-01-28_20-32-48.log
+[20:32:48] Loaded RiskEvalModel from disk.
+[20:32:48] Loaded classifier for TWF
+[20:32:48] Loaded classifier for HDF
+[20:32:48] Loaded classifier for PWF
+[20:32:48] Loaded classifier for OSF
+[20:32:48] All models ready.
+[20:32:48] Step   | Torque   | Risk Prob  | Alert      | Diagnosis
+[20:32:48] ------------------------------------------------------------
+[20:32:48] 1      | 38.0     | 0.0584     | HEALTHY    | None
+[20:32:48] 2      | 45.0     | 0.1594     | HEALTHY    | None
+[20:32:48] 3      | 52.0     | 0.3235     | HEALTHY    | None
+[20:32:48] 4      | 60.9     | 0.7025     | WARNING    | PWF
+[20:32:48] 5      | 75.0     | 0.9381     | CRITICAL   | PWF

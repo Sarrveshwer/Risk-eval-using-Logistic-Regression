@@ -1,0 +1,49 @@
+[19:42:12] --- Logging Initialized for main.py ---
+[19:42:12] Log file: logs/main.py@2026-01-28_19-42-12.log
+[19:42:12] Loaded RiskEvalModel from disk.
+[19:42:12] Loaded classifier for TWF
+[19:42:12] Loaded classifier for HDF
+[19:42:12] Loaded classifier for PWF
+[19:42:12] Loaded classifier for OSF
+[19:42:12] All models ready.
+
+[19:42:12] ============================== CRASH DETECTED ==============================
+[19:42:12] Timestamp: 2026-01-28 19:42:12.851903
+[19:42:12] Traceback (most recent call last):
+[19:42:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexing.py", line 1715, in _get_list_axis
+[19:42:12]     return self.obj._take_with_is_copy(key, axis=axis)
+[19:42:12]            ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+[19:42:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/generic.py", line 4175, in _take_with_is_copy
+[19:42:12]     result = self.take(indices=indices, axis=axis)
+[19:42:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/generic.py", line 4155, in take
+[19:42:12]     new_data = self._mgr.take(
+[19:42:12]         indices,
+[19:42:12]         axis=self._get_block_manager_axis(axis),
+[19:42:12]         verify=True,
+[19:42:12]     )
+[19:42:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/internals/managers.py", line 910, in take
+[19:42:12]     indexer = maybe_convert_indices(indexer, n, verify=verify)
+[19:42:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexers/utils.py", line 282, in maybe_convert_indices
+[19:42:12]     raise IndexError("indices are out-of-bounds")
+[19:42:12] IndexError: indices are out-of-bounds
+
+[19:42:12] The above exception was the direct cause of the following exception:
+
+[19:42:12] Traceback (most recent call last):
+[19:42:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 550, in <module>
+[19:42:12]     predictions = model.predict(X)
+[19:42:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 495, in predict
+[19:42:12]     X = X.iloc[[0]]
+[19:42:12]         ~~~~~~^^^^^
+[19:42:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexing.py", line 1192, in __getitem__
+[19:42:12]     return self._getitem_axis(maybe_callable, axis=axis)
+[19:42:12]            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[19:42:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexing.py", line 1744, in _getitem_axis
+[19:42:12]     return self._get_list_axis(key, axis=axis)
+[19:42:12]            ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+[19:42:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexing.py", line 1718, in _get_list_axis
+[19:42:12]     raise IndexError("positional indexers are out-of-bounds") from err
+[19:42:12] IndexError: positional indexers are out-of-bounds
+
+[19:42:12] ============================================================================
+

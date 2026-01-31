@@ -1,0 +1,26 @@
+[04:28:50] --- Logging Initialized for main.py ---
+[04:28:50] Log file: logs/main.py@2026-01-28_04-28-50.log
+
+[04:28:50] ============================== CRASH DETECTED ==============================
+[04:28:50] Timestamp: 2026-01-28 04:28:50.798276
+[04:28:50] Traceback (most recent call last):
+[04:28:50]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 432, in <module>
+[04:28:50]     model.run()
+[04:28:50]     ~~~~~~~~~^^
+[04:28:50]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 424, in run
+[04:28:50]     self.train_run(i)
+[04:28:50]     ~~~~~~~~~~~~~~^^^
+[04:28:50]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 285, in train_run
+[04:28:50]     self.X,self.y,self.X_train,self.y_train,self.X_test,self.y_test,self.df=self.dataset(self.filename + self.ext,param,
+[04:28:50]                                                                             ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[04:28:50]                                                                                          param,
+[04:28:50]                                                                                          ^^^^^^
+[04:28:50]     ...<2 lines>...
+[04:28:50]                                                                                          self.ignore + remaining_params + ["Machine failure"]
+[04:28:50]                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[04:28:50]                                                                                          )
+[04:28:50]                                                                                          ^
+[04:28:50] TypeError: FailureClassificationModel.dataset() takes from 4 to 6 positional arguments but 7 were given
+
+[04:28:50] ============================================================================
+

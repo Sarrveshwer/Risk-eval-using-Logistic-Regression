@@ -1,0 +1,17 @@
+[09:28:26] --- Logging Initialized for main.py ---
+[09:28:26] Log file: logs/main.py@2026-01-27_09-28-26.log
+[09:28:26] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+
+[09:28:29] ============================== CRASH DETECTED ==============================
+[09:28:29] Timestamp: 2026-01-27 09:28:29.008618
+[09:28:29] Traceback (most recent call last):
+[09:28:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 207, in <module>
+[09:28:29]     model.train_run()
+[09:28:29]     ~~~~~~~~~~~~~~~^^
+[09:28:29]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 87, in train_run
+[09:28:29]     self.plot(self.roc,i)
+[09:28:29]                        ^
+[09:28:29] NameError: name 'i' is not defined. Did you mean: 'id'?
+
+[09:28:29] ============================================================================
+

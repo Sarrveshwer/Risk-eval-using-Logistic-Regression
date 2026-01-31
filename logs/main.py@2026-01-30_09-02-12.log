@@ -1,0 +1,22 @@
+[09:02:12] --- Logging Initialized for main.py ---
+[09:02:12] Log file: logs/main.py@2026-01-30_09-02-12.log
+[09:02:12] Loaded RiskEvalModel from disk.
+
+[09:02:13] ============================== CRASH DETECTED ==============================
+[09:02:13] Timestamp: 2026-01-30 09:02:13.173817
+[09:02:13] Traceback (most recent call last):
+[09:02:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 703, in <module>
+[09:02:13]     FinalSystem.LoadModels()
+[09:02:13]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[09:02:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 565, in LoadModels
+[09:02:13]     model_path = clf.train_run(failure)
+[09:02:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 363, in train_run
+[09:02:13]     self.plot(self.roc,param)
+[09:02:13]     ~~~~~~~~~^^^^^^^^^^^^^^^^
+[09:02:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 443, in plot
+[09:02:13]     idx = np.where(recall >= target_recall)[0][-1]
+[09:02:13]                    ^^^^^^^^^^^^^^^^^^^^^^^
+[09:02:13] numpy._core._exceptions._UFuncNoLoopError: ufunc 'greater_equal' did not contain a loop with signature matching types (<class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.StrDType'>) -> None
+
+[09:02:13] ============================================================================
+

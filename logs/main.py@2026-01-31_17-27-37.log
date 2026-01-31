@@ -1,0 +1,105 @@
+[17:27:37] --- Logging Initialized for main.py ---
+[17:27:37] Log file: logs/main.py@2026-01-31_17-27-37.log
+[17:27:37] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+
+[17:27:39] ============================== CRASH DETECTED ==============================
+[17:27:39] Timestamp: 2026-01-31 17:27:39.578009
+[17:27:39] joblib.externals.loky.process_executor._RemoteTraceback: 
+[17:27:39] """
+[17:27:39] Traceback (most recent call last):
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/externals/loky/process_executor.py", line 490, in _process_worker
+[17:27:39]     r = call_item()
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/externals/loky/process_executor.py", line 291, in __call__
+[17:27:39]     return self.fn(*self.args, **self.kwargs)
+[17:27:39]            ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 607, in __call__
+[17:27:39]     return [func(*args, **kwargs) for func, args, kwargs in self.items]
+[17:27:39]             ~~~~^^^^^^^^^^^^^^^^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/parallel.py", line 184, in __call__
+[17:27:39]     return self.function(*args, **kwargs)
+[17:27:39]            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_validation.py", line 833, in _fit_and_score
+[17:27:39]     estimator.fit(X_train, y_train, **fit_params)
+[17:27:39]     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+[17:27:39]     return fit_method(estimator, *args, **kwargs)
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/pipeline.py", line 621, in fit
+[17:27:39]     self._final_estimator.fit(Xt, y, **last_step_params["fit"])
+[17:27:39]     ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1329, in wrapper
+[17:27:39]     estimator._validate_params()
+[17:27:39]     ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 492, in _validate_params
+[17:27:39]     validate_parameter_constraints(
+[17:27:39]     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+[17:27:39]         self._parameter_constraints,
+[17:27:39]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:27:39]         self.get_params(deep=False),
+[17:27:39]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:27:39]         caller_name=self.__class__.__name__,
+[17:27:39]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:27:39]     )
+[17:27:39]     ^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 98, in validate_parameter_constraints
+[17:27:39]     raise InvalidParameterError(
+[17:27:39]     ...<2 lines>...
+[17:27:39]     )
+[17:27:39] sklearn.utils._param_validation.InvalidParameterError: The 'penalty' parameter of LogisticRegression must be a str among {'elasticnet', 'l1', 'l2'} or None. Got 'l1_ratio' instead.
+[17:27:39] """
+
+[17:27:39] The above exception was the direct cause of the following exception:
+
+[17:27:39] Traceback (most recent call last):
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 755, in <module>
+[17:27:39]     FinalSystem.LoadModels()
+[17:27:39]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 563, in LoadModels
+[17:27:39]     risk_model_path = risk_model.train_run()
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 128, in train_run
+[17:27:39]     search.fit(self.X_train,self.y_train)
+[17:27:39]     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/base.py", line 1336, in wrapper
+[17:27:39]     return fit_method(estimator, *args, **kwargs)
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 1053, in fit
+[17:27:39]     self._run_search(evaluate_candidates)
+[17:27:39]     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 2002, in _run_search
+[17:27:39]     evaluate_candidates(
+[17:27:39]     ~~~~~~~~~~~~~~~~~~~^
+[17:27:39]         ParameterSampler(
+[17:27:39]         ^^^^^^^^^^^^^^^^^
+[17:27:39]             self.param_distributions, self.n_iter, random_state=self.random_state
+[17:27:39]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:27:39]         )
+[17:27:39]         ^
+[17:27:39]     )
+[17:27:39]     ^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 999, in evaluate_candidates
+[17:27:39]     out = parallel(
+[17:27:39]         delayed(_fit_and_score)(
+[17:27:39]     ...<13 lines>...
+[17:27:39]         )
+[17:27:39]     )
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/parallel.py", line 91, in __call__
+[17:27:39]     return super().__call__(iterable_with_config_and_warning_filters)
+[17:27:39]            ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 2072, in __call__
+[17:27:39]     return output if self.return_generator else list(output)
+[17:27:39]                                                 ~~~~^^^^^^^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 1682, in _get_outputs
+[17:27:39]     yield from self._retrieve()
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 1784, in _retrieve
+[17:27:39]     self._raise_error_fast()
+[17:27:39]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 1859, in _raise_error_fast
+[17:27:39]     error_job.get_result(self.timeout)
+[17:27:39]     ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 758, in get_result
+[17:27:39]     return self._return_or_raise()
+[17:27:39]            ~~~~~~~~~~~~~~~~~~~~~^^
+[17:27:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/parallel.py", line 773, in _return_or_raise
+[17:27:39]     raise self._result
+[17:27:39] sklearn.utils._param_validation.InvalidParameterError: The 'penalty' parameter of LogisticRegression must be a str among {'elasticnet', 'l1', 'l2'} or None. Got 'l1_ratio' instead.
+
+[17:27:39] ============================================================================
+

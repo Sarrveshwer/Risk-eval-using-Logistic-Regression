@@ -1,0 +1,57 @@
+[09:00:54] --- Logging Initialized for main.py ---
+[09:00:54] Log file: logs/main.py@2026-01-30_09-00-54.log
+[09:00:54] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[09:01:00] ========== Model Features =========
+[09:01:00] Air temperature [K]
+[09:01:00] Process temperature [K]
+[09:01:00] Rotational speed [rpm]
+[09:01:00] Torque [Nm]
+[09:01:00] Tool wear [min]
+[09:01:00] Air temperature [K]_Rolling_Mean
+[09:01:00] Air temperature [K]_Volatility
+[09:01:00] Air temperature [K]_Delta
+[09:01:00] Process temperature [K]_Rolling_Mean
+[09:01:00] Process temperature [K]_Volatility
+[09:01:00] Process temperature [K]_Delta
+[09:01:00] Rotational speed [rpm]_Rolling_Mean
+[09:01:00] Rotational speed [rpm]_Volatility
+[09:01:00] Rotational speed [rpm]_Delta
+[09:01:00] Torque [Nm]_Rolling_Mean
+[09:01:00] Torque [Nm]_Volatility
+[09:01:00] Torque [Nm]_Delta
+[09:01:00] Tool wear [min]_Rolling_Mean
+[09:01:00] Tool wear [min]_Volatility
+[09:01:00] Tool wear [min]_Delta
+[09:01:00] Air temperature [K]_Rolling_Delta
+[09:01:00] Process temperature [K]_Rolling_Delta
+[09:01:00] Rotational speed [rpm]_Rolling_Delta
+[09:01:00] Torque [Nm]_Rolling_Delta
+[09:01:00] Tool wear [min]_Rolling_Delta
+
+[09:01:00] === Model Evaluation (Test Set) ===
+[09:01:00] ROC-AUC score :0.901
+[09:01:00] Risk Tolerance used : 0.124
+[09:01:00] TP: 32 | FP: 492
+[09:01:00] FN: 7 | TN: 1468
+
+[09:01:00] Rates:
+[09:01:00] Recall (TPR) : 0.821
+[09:01:00] Precision    : 0.061
+[09:01:00] False PosRate: 0.251
+[09:01:00] ====================================
+
+[09:01:00] ============================== CRASH DETECTED ==============================
+[09:01:00] Timestamp: 2026-01-30 09:01:00.438705
+[09:01:00] Traceback (most recent call last):
+[09:01:00]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 703, in <module>
+[09:01:00]     FinalSystem.LoadModels()
+[09:01:00]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[09:01:00]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 565, in LoadModels
+[09:01:00]     model_path = clf.train_run(failure)
+[09:01:00]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 363, in train_run
+[09:01:00]     self.plot(self.roc,0.50,param)
+[09:01:00]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+[09:01:00] TypeError: FailureClassificationModel.plot() takes 3 positional arguments but 4 were given
+
+[09:01:00] ============================================================================
+

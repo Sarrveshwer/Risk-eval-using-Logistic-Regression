@@ -1,0 +1,16 @@
+[18:05:51] --- Logging Initialized for main.py ---
+[18:05:51] Log file: logs/main.py@2026-01-26_18-05-51.log
+
+[18:05:51] ============================== CRASH DETECTED ==============================
+[18:05:51] Timestamp: 2026-01-26 18:05:51.259679
+[18:05:51] Traceback (most recent call last):
+[18:05:51]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 203, in <module>
+[18:05:51]     model.train_run()
+[18:05:51]     ~~~~~~~~~~~~~~~^^
+[18:05:51]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 71, in train_run
+[18:05:51]     search = RandomizedSearchCV(
+[18:05:51]              ^^^^^^^^^^^^^^^^^^
+[18:05:51] NameError: name 'RandomizedSearchCV' is not defined
+
+[18:05:51] ============================================================================
+

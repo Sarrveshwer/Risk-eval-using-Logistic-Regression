@@ -1,0 +1,19 @@
+[20:41:18] --- Logging Initialized for main.py ---
+[20:41:18] Log file: logs/main.py@2026-01-27_20-41-18.log
+
+[20:41:18] ============================== CRASH DETECTED ==============================
+[20:41:18] Timestamp: 2026-01-27 20:41:18.388557
+[20:41:18] Traceback (most recent call last):
+[20:41:18]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 397, in <module>
+[20:41:18]     model.run()
+[20:41:18]     ~~~~~~~~~^^
+[20:41:18]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 394, in run
+[20:41:18]     self.train_run(i)
+[20:41:18]     ~~~~~~~~~~~~~~^^^
+[20:41:18]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 260, in train_run
+[20:41:18]     self.X,self.y,self.X_train,self.y_train,self.X_test,self.y_test,self.df=dataset(self.filename+self.ext,self.target,self.ignore+remaining_params,failure_only = True)
+[20:41:18]                                                                             ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[20:41:18] TypeError: dataset() got multiple values for argument 'failure_only'
+
+[20:41:18] ============================================================================
+

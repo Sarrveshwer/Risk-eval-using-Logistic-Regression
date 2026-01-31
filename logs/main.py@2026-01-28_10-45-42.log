@@ -1,0 +1,179 @@
+[10:45:42] --- Logging Initialized for main.py ---
+[10:45:42] Log file: logs/main.py@2026-01-28_10-45-42.log
+[10:45:42] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[10:45:47] ========== Model Features =========
+[10:45:47] Air temperature [K]
+[10:45:47] Process temperature [K]
+[10:45:47] Rotational speed [rpm]
+[10:45:47] Torque [Nm]
+[10:45:47] Tool wear [min]
+
+[10:45:47] === Model Evaluation (Test Set) ===
+[10:45:47] ROC-AUC score :0.897
+[10:45:47] Threshold used : 0.165
+[10:45:47] TP: 32 | FP: 376
+[10:45:47] FN: 7 | TN: 1585
+
+[10:45:47] Rates:
+[10:45:47] Recall (TPR) : 0.821
+[10:45:47] Precision    : 0.078
+[10:45:47] False PosRate: 0.192
+[10:45:47] ====================================
+[10:45:47] Successfully Loaded RiskEvalModel....
+[10:45:49] ========== Model Features =========
+[10:45:49] Air temperature [K]
+[10:45:49] Process temperature [K]
+[10:45:49] Rotational speed [rpm]
+[10:45:49] Torque [Nm]
+[10:45:49] Tool wear [min]
+
+[10:45:49] === Model Evaluation (Test Set) ===
+[10:45:49] ROC-AUC score :0.998
+[10:45:49] Threshold used : 0.520
+[10:45:49] TP: 8 | FP: 0
+[10:45:49] FN: 1 | TN: 59
+
+[10:45:49] Rates:
+[10:45:49] Recall (TPR) : 0.889
+[10:45:49] Precision    : 1.000
+[10:45:49] False PosRate: 0.000
+[10:45:49] ====================================
+[10:45:49] ========== Model Features =========
+[10:45:49] Air temperature [K]
+[10:45:49] Process temperature [K]
+[10:45:49] Rotational speed [rpm]
+[10:45:49] Torque [Nm]
+[10:45:49] Tool wear [min]
+
+[10:45:49] === Model Evaluation (Test Set) ===
+[10:45:49] ROC-AUC score :0.998
+[10:45:49] Threshold used : 0.520
+[10:45:49] TP: 8 | FP: 0
+[10:45:49] FN: 1 | TN: 59
+
+[10:45:49] Rates:
+[10:45:49] Recall (TPR) : 0.889
+[10:45:49] Precision    : 1.000
+[10:45:49] False PosRate: 0.000
+[10:45:49] ====================================
+[10:45:51] ========== Model Features =========
+[10:45:51] Air temperature [K]
+[10:45:51] Process temperature [K]
+[10:45:51] Rotational speed [rpm]
+[10:45:51] Torque [Nm]
+[10:45:51] Tool wear [min]
+
+[10:45:51] === Model Evaluation (Test Set) ===
+[10:45:51] ROC-AUC score :0.992
+[10:45:51] Threshold used : 0.900
+[10:45:51] TP: 19 | FP: 0
+[10:45:51] FN: 4 | TN: 45
+
+[10:45:51] Rates:
+[10:45:51] Recall (TPR) : 0.826
+[10:45:51] Precision    : 1.000
+[10:45:51] False PosRate: 0.000
+[10:45:51] ====================================
+[10:45:51] ========== Model Features =========
+[10:45:51] Air temperature [K]
+[10:45:51] Process temperature [K]
+[10:45:51] Rotational speed [rpm]
+[10:45:51] Torque [Nm]
+[10:45:51] Tool wear [min]
+
+[10:45:51] === Model Evaluation (Test Set) ===
+[10:45:51] ROC-AUC score :0.992
+[10:45:51] Threshold used : 0.900
+[10:45:51] TP: 19 | FP: 0
+[10:45:51] FN: 4 | TN: 45
+
+[10:45:51] Rates:
+[10:45:51] Recall (TPR) : 0.826
+[10:45:51] Precision    : 1.000
+[10:45:51] False PosRate: 0.000
+[10:45:51] ====================================
+[10:45:53] ========== Model Features =========
+[10:45:53] Air temperature [K]
+[10:45:53] Process temperature [K]
+[10:45:53] Rotational speed [rpm]
+[10:45:53] Torque [Nm]
+[10:45:53] Tool wear [min]
+
+[10:45:53] === Model Evaluation (Test Set) ===
+[10:45:53] ROC-AUC score :0.989
+[10:45:53] Threshold used : 0.560
+[10:45:53] TP: 16 | FP: 2
+[10:45:53] FN: 3 | TN: 47
+
+[10:45:53] Rates:
+[10:45:53] Recall (TPR) : 0.842
+[10:45:53] Precision    : 0.889
+[10:45:53] False PosRate: 0.041
+[10:45:53] ====================================
+[10:45:53] ========== Model Features =========
+[10:45:53] Air temperature [K]
+[10:45:53] Process temperature [K]
+[10:45:53] Rotational speed [rpm]
+[10:45:53] Torque [Nm]
+[10:45:53] Tool wear [min]
+
+[10:45:53] === Model Evaluation (Test Set) ===
+[10:45:53] ROC-AUC score :0.989
+[10:45:53] Threshold used : 0.560
+[10:45:53] TP: 16 | FP: 2
+[10:45:53] FN: 3 | TN: 47
+
+[10:45:53] Rates:
+[10:45:53] Recall (TPR) : 0.842
+[10:45:53] Precision    : 0.889
+[10:45:53] False PosRate: 0.041
+[10:45:53] ====================================
+[10:45:55] ========== Model Features =========
+[10:45:55] Air temperature [K]
+[10:45:55] Process temperature [K]
+[10:45:55] Rotational speed [rpm]
+[10:45:55] Torque [Nm]
+[10:45:55] Tool wear [min]
+
+[10:45:55] === Model Evaluation (Test Set) ===
+[10:45:55] ROC-AUC score :0.991
+[10:45:55] Threshold used : 0.860
+[10:45:55] TP: 16 | FP: 1
+[10:45:55] FN: 4 | TN: 47
+
+[10:45:55] Rates:
+[10:45:55] Recall (TPR) : 0.800
+[10:45:55] Precision    : 0.941
+[10:45:55] False PosRate: 0.021
+[10:45:55] ====================================
+[10:45:55] ========== Model Features =========
+[10:45:55] Air temperature [K]
+[10:45:55] Process temperature [K]
+[10:45:55] Rotational speed [rpm]
+[10:45:55] Torque [Nm]
+[10:45:55] Tool wear [min]
+
+[10:45:55] === Model Evaluation (Test Set) ===
+[10:45:55] ROC-AUC score :0.991
+[10:45:55] Threshold used : 0.860
+[10:45:55] TP: 16 | FP: 1
+[10:45:55] FN: 4 | TN: 47
+
+[10:45:55] Rates:
+[10:45:55] Recall (TPR) : 0.800
+[10:45:55] Precision    : 0.941
+[10:45:55] False PosRate: 0.021
+[10:45:55] ====================================
+
+[10:45:56] ============================== CRASH DETECTED ==============================
+[10:45:56] Timestamp: 2026-01-28 10:45:56.178654
+[10:45:56] Traceback (most recent call last):
+[10:45:56]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 484, in <module>
+[10:45:56]     moedl_names = model.LoadModels()
+[10:45:56]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 470, in LoadModels
+[10:45:56]     for model_name in model_names:
+[10:45:56]                       ^^^^^^^^^^^
+[10:45:56] TypeError: 'NoneType' object is not iterable
+
+[10:45:56] ============================================================================
+

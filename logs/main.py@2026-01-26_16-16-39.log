@@ -1,0 +1,24 @@
+[16:16:39] --- Logging Initialized for main.py ---
+[16:16:39] Log file: logs/main.py@2026-01-26_16-16-39.log
+[16:16:39] Air temperature [K]
+[16:16:39] Process temperature [K]
+[16:16:39] Rotational speed [rpm]
+[16:16:39] Torque [Nm]
+[16:16:39] Tool wear [min]
+[16:16:39] ROC-AUC Score: 0.8977104826161431
+
+[16:16:41] ============================== CRASH DETECTED ==============================
+[16:16:41] Timestamp: 2026-01-26 16:16:41.773309
+[16:16:41] Traceback (most recent call last):
+[16:16:41]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 138, in <module>
+[16:16:41]     model.train_run()
+[16:16:41]     ~~~~~~~~~~~~~~~^^
+[16:16:41]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 68, in train_run
+[16:16:41]     self.plot(roc)
+[16:16:41]     ~~~~~~~~~^^^^^
+[16:16:41]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 113, in plot
+[16:16:41]     total = sum(tn,tp,fn,fp)
+[16:16:41] TypeError: sum() takes at most 2 arguments (4 given)
+
+[16:16:41] ============================================================================
+

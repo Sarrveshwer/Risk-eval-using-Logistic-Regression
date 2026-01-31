@@ -1,0 +1,24 @@
+[20:47:08] --- Logging Initialized for main.py ---
+[20:47:08] Log file: logs/main.py@2026-01-28_20-47-08.log
+[20:47:08] Step   | Torque   | Risk Prob  | Alert      | Diagnosis
+[20:47:08] ------------------------------------------------------------
+[20:47:08] 1      | 38.0     | 0.0230     | HEALTHY    | None
+[20:47:08] 2      | 38.2     | 0.0323     | HEALTHY    | None
+[20:47:08] 3      | 38.5     | 0.0302     | HEALTHY    | None
+[20:47:08] 4      | 39.0     | 0.0376     | HEALTHY    | None
+[20:47:08] 5      | 39.5     | 0.0363     | HEALTHY    | None
+[20:47:08] 6      | 40.2     | 0.0400     | HEALTHY    | None
+[20:47:08] 7      | 41.0     | 0.0488     | HEALTHY    | None
+[20:47:08] 8      | 42.0     | 0.0482     | HEALTHY    | None
+[20:47:08] 9      | 43.5     | 0.0675     | HEALTHY    | None
+[20:47:08] 10     | 45.0     | 0.0730     | HEALTHY    | None
+[20:47:08] 11     | 48.0     | 0.1167     | HEALTHY    | None
+[20:47:08] 12     | 51.0     | 0.1806     | HEALTHY    | None
+[20:47:08] 13     | 55.0     | 0.3119     | HEALTHY    | None
+[20:47:08] 14     | 60.0     | 0.5379     | WARNING    | PWF
+[20:47:08] 15     | 65.0     | 0.7452     | WARNING    | PWF
+[20:47:08] 16     | 70.0     | 0.9067     | CRITICAL   | PWF
+[20:47:08] 17     | 75.0     | 0.9530     | CRITICAL   | PWF
+[20:47:08] 18     | 80.0     | 0.9842     | CRITICAL   | PWF
+[20:47:08] 19     | 85.0     | 0.9971     | CRITICAL   | PWF
+[20:47:08] 20     | 95.0     | 0.9999     | CRITICAL   | PWF

@@ -1,0 +1,110 @@
+[20:57:13] --- Logging Initialized for main.py ---
+[20:57:13] Log file: logs/main.py@2026-01-28_20-57-13.log
+[20:57:13] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[20:57:19] ========== Model Features =========
+[20:57:19] Air temperature [K]
+[20:57:19] Process temperature [K]
+[20:57:19] Rotational speed [rpm]
+[20:57:19] Torque [Nm]
+[20:57:19] Tool wear [min]
+[20:57:19] TWF
+[20:57:19] HDF
+[20:57:19] PWF
+[20:57:19] OSF
+[20:57:19] Air temperature [K]_Rolling_Mean
+[20:57:19] Air temperature [K]_Volatility
+[20:57:19] Air temperature [K]_Delta
+[20:57:19] Process temperature [K]_Rolling_Mean
+[20:57:19] Process temperature [K]_Volatility
+[20:57:19] Process temperature [K]_Delta
+[20:57:19] Rotational speed [rpm]_Rolling_Mean
+[20:57:19] Rotational speed [rpm]_Volatility
+[20:57:19] Rotational speed [rpm]_Delta
+[20:57:19] Torque [Nm]_Rolling_Mean
+[20:57:19] Torque [Nm]_Volatility
+[20:57:19] Torque [Nm]_Delta
+[20:57:19] Tool wear [min]_Rolling_Mean
+[20:57:19] Tool wear [min]_Volatility
+[20:57:19] Tool wear [min]_Delta
+[20:57:19] Power_Factor_Rolling
+
+[20:57:19] === Model Evaluation (Test Set) ===
+[20:57:19] ROC-AUC score :0.972
+[20:57:19] risk_tolerance used : 0.999
+[20:57:19] TP: 32 | FP: 0
+[20:57:19] FN: 7 | TN: 1961
+
+[20:57:19] Rates:
+[20:57:19] Recall (TPR) : 0.821
+[20:57:19] Precision    : 1.000
+[20:57:19] False PosRate: 0.000
+[20:57:19] ====================================
+[20:57:19] Loaded RiskEvalModel from disk.
+[20:57:19] Loaded classifier for TWF
+[20:57:19] Loaded classifier for HDF
+[20:57:19] Loaded classifier for PWF
+[20:57:19] Loaded classifier for OSF
+[20:57:19] All models ready.
+[20:57:19] Step   | Risk Prob  | Alert      | Diagnosis
+[20:57:19] ------------------------------------------------------------
+[20:57:19] 1      | 0.3152     | HEALTHY    | None
+[20:57:19] 2      | 0.1723     | HEALTHY    | None
+[20:57:19] 3      | 0.0004     | HEALTHY    | None
+[20:57:19] 4      | 0.0031     | HEALTHY    | None
+[20:57:19] 5      | 0.0004     | HEALTHY    | None
+[20:57:19] 6      | 0.0098     | HEALTHY    | None
+[20:57:19] 7      | 0.0013     | HEALTHY    | None
+[20:57:19] 8      | 0.0001     | HEALTHY    | None
+[20:57:19] 9      | 0.0006     | HEALTHY    | None
+[20:57:19] 10     | 0.0000     | HEALTHY    | None
+[20:57:19] 11     | 0.0001     | HEALTHY    | None
+[20:57:19] 12     | 0.0001     | HEALTHY    | None
+[20:57:19] 13     | 0.0040     | HEALTHY    | None
+[20:57:19] 14     | 0.0007     | HEALTHY    | None
+[20:57:19] 15     | 0.0041     | HEALTHY    | None
+[20:57:19] 16     | 0.0003     | HEALTHY    | None
+[20:57:19] 17     | 0.0530     | HEALTHY    | None
+[20:57:19] 18     | 0.0007     | HEALTHY    | None
+[20:57:19] 19     | 0.0001     | HEALTHY    | None
+[20:57:19] 20     | 0.2610     | HEALTHY    | None
+[20:57:19] 21     | 0.0012     | HEALTHY    | None
+[20:57:19] 22     | 0.0009     | HEALTHY    | None
+[20:57:19] 23     | 0.0077     | HEALTHY    | None
+[20:57:19] 24     | 0.0021     | HEALTHY    | None
+[20:57:19] 25     | 0.0022     | HEALTHY    | None
+[20:57:19] 26     | 0.0116     | HEALTHY    | None
+
+[20:57:19] ============================== CRASH DETECTED ==============================
+[20:57:19] Timestamp: 2026-01-28 20:57:19.411497
+[20:57:19] Traceback (most recent call last):
+[20:57:19]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 558, in <module>
+[20:57:19]     inference_system.evaluate_test_set(gatekeeper_trainer.X_test.head(200))
+[20:57:19]     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[20:57:19]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 528, in evaluate_test_set
+[20:57:19]     prediction_output = self.predict(input_row_snapshot)
+[20:57:19]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 503, in predict
+[20:57:19]     class_prob = float(classification_clf.predict_proba(current_snapshot_df)[:, 1][0])
+[20:57:19]                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+[20:57:19]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/ensemble/_forest.py", line 945, in predict_proba
+[20:57:19]     X = self._validate_X_predict(X)
+[20:57:19]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/ensemble/_forest.py", line 637, in _validate_X_predict
+[20:57:19]     X = validate_data(
+[20:57:19]         self,
+[20:57:19]     ...<4 lines>...
+[20:57:19]         ensure_all_finite=ensure_all_finite,
+[20:57:19]     )
+[20:57:19]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 2877, in validate_data
+[20:57:19]     _check_feature_names(_estimator, X, reset=reset)
+[20:57:19]     ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[20:57:19]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 2729, in _check_feature_names
+[20:57:19]     raise ValueError(message)
+[20:57:19] ValueError: The feature names should match those that were passed during fit.
+[20:57:19] Feature names unseen at fit time:
+[20:57:19] - HDF
+[20:57:19] - OSF
+[20:57:19] - PWF
+[20:57:19] - TWF
+
+
+[20:57:19] ============================================================================
+

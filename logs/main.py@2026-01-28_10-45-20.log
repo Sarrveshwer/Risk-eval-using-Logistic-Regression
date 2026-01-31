@@ -1,0 +1,17 @@
+[10:45:20] --- Logging Initialized for main.py ---
+[10:45:20] Log file: logs/main.py@2026-01-28_10-45-20.log
+
+[10:45:20] ============================== CRASH DETECTED ==============================
+[10:45:20] Timestamp: 2026-01-28 10:45:20.044515
+[10:45:20] Traceback (most recent call last):
+[10:45:20]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 436, in <module>
+[10:45:20]     class FailurePredictionSystem:
+[10:45:20]     ...<37 lines>...
+[10:45:20]         print("Successfully Loaded FailureClassificationModels....")
+[10:45:20]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 470, in FailurePredictionSystem
+[10:45:20]     for model_name in model_names:
+[10:45:20]                       ^^^^^^^^^^^
+[10:45:20] NameError: name 'model_names' is not defined
+
+[10:45:20] ============================================================================
+

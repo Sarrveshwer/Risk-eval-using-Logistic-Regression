@@ -1,0 +1,240 @@
+[21:17:19] --- Logging Initialized for main.py ---
+[21:17:19] Log file: logs/main.py@2026-01-28_21-17-19.log
+[21:17:19] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[21:17:25] ========== Model Features =========
+[21:17:25] Air temperature [K]
+[21:17:25] Process temperature [K]
+[21:17:25] Rotational speed [rpm]
+[21:17:25] Torque [Nm]
+[21:17:25] Tool wear [min]
+[21:17:25] Air temperature [K]_Rolling_Mean
+[21:17:25] Air temperature [K]_Volatility
+[21:17:25] Air temperature [K]_Delta
+[21:17:25] Process temperature [K]_Rolling_Mean
+[21:17:25] Process temperature [K]_Volatility
+[21:17:25] Process temperature [K]_Delta
+[21:17:25] Rotational speed [rpm]_Rolling_Mean
+[21:17:25] Rotational speed [rpm]_Volatility
+[21:17:25] Rotational speed [rpm]_Delta
+[21:17:25] Torque [Nm]_Rolling_Mean
+[21:17:25] Torque [Nm]_Volatility
+[21:17:25] Torque [Nm]_Delta
+[21:17:25] Tool wear [min]_Rolling_Mean
+[21:17:25] Tool wear [min]_Volatility
+[21:17:25] Tool wear [min]_Delta
+[21:17:25] Power_Factor_Rolling
+
+[21:17:25] === Model Evaluation (Test Set) ===
+[21:17:25] ROC-AUC score :0.897
+[21:17:25] risk_tolerance used : 0.095
+[21:17:25] TP: 32 | FP: 554
+[21:17:25] FN: 7 | TN: 1407
+
+[21:17:25] Rates:
+[21:17:25] Recall (TPR) : 0.821
+[21:17:25] Precision    : 0.055
+[21:17:25] False PosRate: 0.283
+[21:17:25] ====================================
+[21:17:25] Loaded RiskEvalModel from disk.
+[21:17:25] Step   | Risk Prob  | Alert      | Diagnosis
+[21:17:25] ------------------------------------------------------------
+[21:17:25] 1      | 0.9963     | CRITICAL   | RandomFailure
+[21:17:25] 2      | 0.9652     | CRITICAL   | RandomFailure
+[21:17:25] 3      | 0.0334     | HEALTHY    | None
+[21:17:25] 4      | 0.9668     | CRITICAL   | PWF
+[21:17:25] 5      | 0.1871     | HEALTHY    | None
+[21:17:25] 6      | 0.0410     | HEALTHY    | None
+[21:17:25] 7      | 0.1931     | HEALTHY    | None
+[21:17:25] 8      | 0.0149     | HEALTHY    | None
+[21:17:25] 9      | 0.0265     | HEALTHY    | None
+[21:17:25] 10     | 0.1961     | HEALTHY    | None
+[21:17:25] 11     | 0.8466     | CRITICAL   | OSF
+[21:17:25] 12     | 0.2319     | HEALTHY    | None
+[21:17:25] 13     | 0.8543     | CRITICAL   | OSF
+[21:17:25] 14     | 0.5177     | WARNING    | OSF
+[21:17:25] 15     | 0.1848     | HEALTHY    | None
+[21:17:25] 16     | 0.0582     | HEALTHY    | None
+[21:17:25] 17     | 0.0668     | HEALTHY    | None
+[21:17:25] 18     | 0.0617     | HEALTHY    | None
+[21:17:25] 19     | 0.0450     | HEALTHY    | None
+[21:17:25] 20     | 0.1258     | HEALTHY    | None
+[21:17:25] 21     | 0.0369     | HEALTHY    | None
+[21:17:25] 22     | 0.0323     | HEALTHY    | None
+[21:17:25] 23     | 0.2156     | HEALTHY    | None
+[21:17:25] 24     | 0.1435     | HEALTHY    | None
+[21:17:25] 25     | 0.1436     | HEALTHY    | None
+[21:17:26] 26     | 0.6140     | WARNING    | OSF
+[21:17:26] 27     | 0.4180     | HEALTHY    | None
+[21:17:26] 28     | 0.2354     | HEALTHY    | None
+[21:17:26] 29     | 0.1845     | HEALTHY    | None
+[21:17:26] 30     | 0.0061     | HEALTHY    | None
+[21:17:26] 31     | 0.0107     | HEALTHY    | None
+[21:17:26] 32     | 0.0022     | HEALTHY    | None
+[21:17:26] 33     | 0.0278     | HEALTHY    | None
+[21:17:26] 34     | 0.0033     | HEALTHY    | None
+[21:17:26] 35     | 0.0036     | HEALTHY    | None
+[21:17:26] 36     | 0.0024     | HEALTHY    | None
+[21:17:26] 37     | 0.0366     | HEALTHY    | None
+[21:17:26] 38     | 0.0084     | HEALTHY    | None
+[21:17:26] 39     | 0.0385     | HEALTHY    | None
+[21:17:26] 40     | 0.0028     | HEALTHY    | None
+[21:17:26] 41     | 0.0047     | HEALTHY    | None
+[21:17:26] 42     | 0.0293     | HEALTHY    | None
+[21:17:26] 43     | 0.0221     | HEALTHY    | None
+[21:17:26] 44     | 0.0037     | HEALTHY    | None
+[21:17:26] 45     | 0.0022     | HEALTHY    | None
+[21:17:26] 46     | 0.1437     | HEALTHY    | None
+[21:17:26] 47     | 0.0115     | HEALTHY    | None
+[21:17:26] 48     | 0.0095     | HEALTHY    | None
+[21:17:26] 49     | 0.0086     | HEALTHY    | None
+[21:17:26] 50     | 0.0033     | HEALTHY    | None
+[21:17:26] 51     | 0.1172     | HEALTHY    | None
+[21:17:26] 52     | 0.0023     | HEALTHY    | None
+[21:17:26] 53     | 0.0489     | HEALTHY    | None
+[21:17:26] 54     | 0.0071     | HEALTHY    | None
+[21:17:26] 55     | 0.0486     | HEALTHY    | None
+[21:17:26] 56     | 0.0151     | HEALTHY    | None
+[21:17:26] 57     | 0.0256     | HEALTHY    | None
+[21:17:26] 58     | 0.0089     | HEALTHY    | None
+[21:17:26] 59     | 0.0373     | HEALTHY    | None
+[21:17:26] 60     | 0.0072     | HEALTHY    | None
+[21:17:26] 61     | 0.0083     | HEALTHY    | None
+[21:17:26] 62     | 0.0153     | HEALTHY    | None
+[21:17:26] 63     | 0.0989     | HEALTHY    | None
+[21:17:26] 64     | 0.0186     | HEALTHY    | None
+[21:17:26] 65     | 0.0139     | HEALTHY    | None
+[21:17:26] 66     | 0.0050     | HEALTHY    | None
+[21:17:26] 67     | 0.0079     | HEALTHY    | None
+[21:17:26] 68     | 0.0254     | HEALTHY    | None
+[21:17:26] 69     | 0.0237     | HEALTHY    | None
+[21:17:26] 70     | 0.0095     | HEALTHY    | None
+[21:17:26] 71     | 0.0131     | HEALTHY    | None
+[21:17:26] 72     | 0.0059     | HEALTHY    | None
+[21:17:26] 73     | 0.0176     | HEALTHY    | None
+[21:17:26] 74     | 0.0258     | HEALTHY    | None
+[21:17:26] 75     | 0.0314     | HEALTHY    | None
+[21:17:26] 76     | 0.0232     | HEALTHY    | None
+[21:17:26] 77     | 0.0410     | HEALTHY    | None
+[21:17:26] 78     | 0.0366     | HEALTHY    | None
+[21:17:26] 79     | 0.0053     | HEALTHY    | None
+[21:17:26] 80     | 0.0111     | HEALTHY    | None
+[21:17:26] 81     | 0.0443     | HEALTHY    | None
+[21:17:26] 82     | 0.2940     | HEALTHY    | None
+[21:17:26] 83     | 0.0875     | HEALTHY    | None
+[21:17:26] 84     | 0.0315     | HEALTHY    | None
+[21:17:26] 85     | 0.0814     | HEALTHY    | None
+[21:17:26] 86     | 0.1219     | HEALTHY    | None
+[21:17:26] 87     | 0.0224     | HEALTHY    | None
+[21:17:26] 88     | 0.0474     | HEALTHY    | None
+[21:17:26] 89     | 0.0794     | HEALTHY    | None
+[21:17:26] 90     | 0.0319     | HEALTHY    | None
+[21:17:26] 91     | 0.0869     | HEALTHY    | None
+[21:17:26] 92     | 0.7837     | WARNING    | RandomFailure
+[21:17:26] 93     | 0.0901     | HEALTHY    | None
+[21:17:26] 94     | 0.0175     | HEALTHY    | None
+[21:17:26] 95     | 0.0124     | HEALTHY    | None
+[21:17:26] 96     | 0.2744     | HEALTHY    | None
+[21:17:26] 97     | 0.0354     | HEALTHY    | None
+[21:17:26] 98     | 0.0366     | HEALTHY    | None
+[21:17:26] 99     | 0.0250     | HEALTHY    | None
+[21:17:26] 100    | 0.0128     | HEALTHY    | None
+[21:17:26] 101    | 0.0137     | HEALTHY    | None
+[21:17:26] 102    | 0.0908     | HEALTHY    | None
+[21:17:26] 103    | 0.1269     | HEALTHY    | None
+[21:17:26] 104    | 0.0789     | HEALTHY    | None
+[21:17:26] 105    | 0.0402     | HEALTHY    | None
+[21:17:26] 106    | 0.2441     | HEALTHY    | None
+[21:17:26] 107    | 0.0211     | HEALTHY    | None
+[21:17:26] 108    | 0.1355     | HEALTHY    | None
+[21:17:26] 109    | 0.0212     | HEALTHY    | None
+[21:17:26] 110    | 0.0295     | HEALTHY    | None
+[21:17:26] 111    | 0.2491     | HEALTHY    | None
+[21:17:26] 112    | 0.0447     | HEALTHY    | None
+[21:17:26] 113    | 0.0127     | HEALTHY    | None
+[21:17:26] 114    | 0.0158     | HEALTHY    | None
+[21:17:26] 115    | 0.3727     | HEALTHY    | None
+[21:17:26] 116    | 0.6520     | WARNING    | RandomFailure
+[21:17:26] 117    | 0.0092     | HEALTHY    | None
+[21:17:26] 118    | 0.0257     | HEALTHY    | None
+[21:17:26] 119    | 0.0048     | HEALTHY    | None
+[21:17:26] 120    | 0.0581     | HEALTHY    | None
+[21:17:26] 121    | 0.0038     | HEALTHY    | None
+[21:17:26] 122    | 0.0069     | HEALTHY    | None
+[21:17:26] 123    | 0.0415     | HEALTHY    | None
+[21:17:26] 124    | 0.0023     | HEALTHY    | None
+[21:17:26] 125    | 0.0063     | HEALTHY    | None
+[21:17:26] 126    | 0.0195     | HEALTHY    | None
+[21:17:26] 127    | 0.0018     | HEALTHY    | None
+[21:17:26] 128    | 0.0043     | HEALTHY    | None
+[21:17:26] 129    | 0.0039     | HEALTHY    | None
+[21:17:26] 130    | 0.0070     | HEALTHY    | None
+[21:17:26] 131    | 0.0079     | HEALTHY    | None
+[21:17:26] 132    | 0.0443     | HEALTHY    | None
+[21:17:26] 133    | 0.1006     | HEALTHY    | None
+[21:17:26] 134    | 0.0291     | HEALTHY    | None
+[21:17:26] 135    | 0.0108     | HEALTHY    | None
+[21:17:26] 136    | 0.0056     | HEALTHY    | None
+[21:17:26] 137    | 0.0047     | HEALTHY    | None
+[21:17:26] 138    | 0.0028     | HEALTHY    | None
+[21:17:26] 139    | 0.1361     | HEALTHY    | None
+[21:17:26] 140    | 0.0193     | HEALTHY    | None
+[21:17:26] 141    | 0.0047     | HEALTHY    | None
+[21:17:26] 142    | 0.0513     | HEALTHY    | None
+[21:17:26] 143    | 0.1655     | HEALTHY    | None
+[21:17:26] 144    | 0.0108     | HEALTHY    | None
+[21:17:26] 145    | 0.0420     | HEALTHY    | None
+[21:17:26] 146    | 0.0072     | HEALTHY    | None
+[21:17:26] 147    | 0.0031     | HEALTHY    | None
+[21:17:26] 148    | 0.0111     | HEALTHY    | None
+[21:17:26] 149    | 0.0109     | HEALTHY    | None
+[21:17:26] 150    | 0.1718     | HEALTHY    | None
+[21:17:26] 151    | 0.0194     | HEALTHY    | None
+[21:17:26] 152    | 0.0231     | HEALTHY    | None
+[21:17:26] 153    | 0.0539     | HEALTHY    | None
+[21:17:26] 154    | 0.0522     | HEALTHY    | None
+[21:17:26] 155    | 0.1342     | HEALTHY    | None
+[21:17:26] 156    | 0.1559     | HEALTHY    | None
+[21:17:26] 157    | 0.0113     | HEALTHY    | None
+[21:17:26] 158    | 0.1420     | HEALTHY    | None
+[21:17:26] 159    | 0.0238     | HEALTHY    | None
+[21:17:26] 160    | 0.0316     | HEALTHY    | None
+[21:17:26] 161    | 0.0151     | HEALTHY    | None
+[21:17:26] 162    | 0.0143     | HEALTHY    | None
+[21:17:26] 163    | 0.0247     | HEALTHY    | None
+[21:17:26] 164    | 0.0241     | HEALTHY    | None
+[21:17:26] 165    | 0.0168     | HEALTHY    | None
+[21:17:26] 166    | 0.0121     | HEALTHY    | None
+[21:17:26] 167    | 0.0116     | HEALTHY    | None
+[21:17:26] 168    | 0.0726     | HEALTHY    | None
+[21:17:26] 169    | 0.0328     | HEALTHY    | None
+[21:17:26] 170    | 0.0271     | HEALTHY    | None
+[21:17:26] 171    | 0.2449     | HEALTHY    | None
+[21:17:26] 172    | 0.0501     | HEALTHY    | None
+[21:17:26] 173    | 0.0056     | HEALTHY    | None
+[21:17:26] 174    | 0.0151     | HEALTHY    | None
+[21:17:26] 175    | 0.1625     | HEALTHY    | None
+[21:17:26] 176    | 0.0593     | HEALTHY    | None
+[21:17:26] 177    | 0.0855     | HEALTHY    | None
+[21:17:26] 178    | 0.0831     | HEALTHY    | None
+[21:17:26] 179    | 0.2925     | HEALTHY    | None
+[21:17:26] 180    | 0.0375     | HEALTHY    | None
+[21:17:26] 181    | 0.1204     | HEALTHY    | None
+[21:17:26] 182    | 0.0215     | HEALTHY    | None
+[21:17:26] 183    | 0.0204     | HEALTHY    | None
+[21:17:26] 184    | 0.1148     | HEALTHY    | None
+[21:17:26] 185    | 0.0765     | HEALTHY    | None
+[21:17:26] 186    | 0.1939     | HEALTHY    | None
+[21:17:26] 187    | 0.0242     | HEALTHY    | None
+[21:17:26] 188    | 0.1585     | HEALTHY    | None
+[21:17:26] 189    | 0.0692     | HEALTHY    | None
+[21:17:26] 190    | 0.0618     | HEALTHY    | None
+[21:17:26] 191    | 0.0921     | HEALTHY    | None
+[21:17:26] 192    | 0.0271     | HEALTHY    | None
+[21:17:26] 193    | 0.8765     | CRITICAL   | OSF
+[21:17:26] 194    | 0.0602     | HEALTHY    | None
+[21:17:26] 195    | 0.2521     | HEALTHY    | None
+[21:17:26] 196    | 0.7692     | WARNING    | OSF
+[21:17:26] 197    | 0.1148     | HEALTHY    | None
+[21:17:26] 198    | 0.2219     | HEALTHY    | None
+[21:17:26] 199    | 0.2559     | HEALTHY    | None
+[21:17:26] 200    | 0.0374     | HEALTHY    | None

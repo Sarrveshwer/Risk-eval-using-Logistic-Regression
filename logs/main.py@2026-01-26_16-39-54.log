@@ -1,0 +1,25 @@
+[16:39:54] --- Logging Initialized for main.py ---
+[16:39:54] Log file: logs/main.py@2026-01-26_16-39-54.log
+[16:39:54] Air temperature [K]
+[16:39:54] Process temperature [K]
+[16:39:54] Rotational speed [rpm]
+[16:39:54] Torque [Nm]
+[16:39:54] Tool wear [min]
+[16:39:54] ROC-AUC Score: 0.8977104826161431
+
+[16:39:55] ============================== CRASH DETECTED ==============================
+[16:39:55] Timestamp: 2026-01-26 16:39:55.077531
+[16:39:55] Traceback (most recent call last):
+[16:39:55]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 152, in <module>
+[16:39:55]     model.train_run()
+[16:39:55]     ~~~~~~~~~~~~~~~^^
+[16:39:55]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 73, in train_run
+[16:39:55]     self.plot(roc)
+[16:39:55]     ~~~~~~~~~^^^^^
+[16:39:55]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 85, in plot
+[16:39:55]     axes['roc'].figure(figsize=(5,5))
+[16:39:55]     ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+[16:39:55] TypeError: 'Figure' object is not callable
+
+[16:39:55] ============================================================================
+

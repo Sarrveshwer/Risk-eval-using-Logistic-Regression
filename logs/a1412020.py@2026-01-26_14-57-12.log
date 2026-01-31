@@ -1,0 +1,19 @@
+[14:57:12] --- Logging Initialized for a1412020.py ---
+[14:57:12] Log file: logs/a1412020.py@2026-01-26_14-57-12.log
+
+[14:57:12] ============================== CRASH DETECTED ==============================
+[14:57:12] Timestamp: 2026-01-26 14:57:12.041683
+[14:57:12] Traceback (most recent call last):
+[14:57:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/a1412020_eda.py", line 20, in <module>
+[14:57:12]     shutil.copy2('iot_equipment_monitoring_dataset.csv',file_path)
+[14:57:12]     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[14:57:12]   File "/usr/lib/python3.14/shutil.py", line 529, in copy2
+[14:57:12]     copyfile(src, dst, follow_symlinks=follow_symlinks)
+[14:57:12]     ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[14:57:12]   File "/usr/lib/python3.14/shutil.py", line 313, in copyfile
+[14:57:12]     with open(src, 'rb') as fsrc:
+[14:57:12]          ~~~~^^^^^^^^^^^
+[14:57:12] FileNotFoundError: [Errno 2] No such file or directory: 'iot_equipment_monitoring_dataset.csv'
+
+[14:57:12] ============================================================================
+

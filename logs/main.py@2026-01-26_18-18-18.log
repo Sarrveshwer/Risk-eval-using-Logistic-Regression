@@ -1,0 +1,21 @@
+[18:18:18] --- Logging Initialized for main.py ---
+[18:18:18] Log file: logs/main.py@2026-01-26_18-18-18.log
+[18:18:18] Fitting 5 folds for each of 20 candidates, totalling 100 fits
+[18:18:24] ========== Model Features =========
+[18:18:24] Air temperature [K]
+[18:18:24] Process temperature [K]
+[18:18:24] Rotational speed [rpm]
+[18:18:24] Torque [Nm]
+[18:18:24] Tool wear [min]
+
+[18:18:24] === Model Evaluation (Test Set) ===
+[18:18:24] ROC-AUC score :0.897
+[18:18:24] Threshold used : 0.165
+[18:18:24] TP: 32 | FP: 376
+[18:18:24] FN: 7 | TN: 1585
+
+[18:18:24] Rates:
+[18:18:24] Recall (TPR) : 0.821
+[18:18:24] Precision    : 0.078
+[18:18:24] False PosRate: 0.192
+[18:18:24] ====================================

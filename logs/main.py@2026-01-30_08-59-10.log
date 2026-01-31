@@ -1,0 +1,20 @@
+[08:59:10] --- Logging Initialized for main.py ---
+[08:59:10] Log file: logs/main.py@2026-01-30_08-59-10.log
+
+[08:59:10] ============================== CRASH DETECTED ==============================
+[08:59:10] Timestamp: 2026-01-30 08:59:10.608264
+[08:59:10] Traceback (most recent call last):
+[08:59:10]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 710, in <module>
+[08:59:10]     FinalSystem.LoadModels()
+[08:59:10]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[08:59:10]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 557, in LoadModels
+[08:59:10]     risk_model_path = risk_model.train_run()
+[08:59:10]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 103, in train_run
+[08:59:10]     self.dataset(self.filename+self.ext,self.target,False,self.ignore)
+[08:59:10]     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[08:59:10]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 89, in dataset
+[08:59:10]     self.X
+[08:59:10] AttributeError: 'RiskEvalModel' object has no attribute 'X'. Did you mean: 'x'?
+
+[08:59:10] ============================================================================
+

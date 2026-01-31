@@ -1,0 +1,41 @@
+[20:23:06] --- Logging Initialized for main.py ---
+[20:23:06] Log file: logs/main.py@2026-01-27_20-23-06.log
+
+[20:23:06] ============================== CRASH DETECTED ==============================
+[20:23:06] Timestamp: 2026-01-27 20:23:06.344685
+[20:23:06] Traceback (most recent call last):
+[20:23:06]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 384, in <module>
+[20:23:06]     model.train_run()
+[20:23:06]     ~~~~~~~~~~~~~~~^^
+[20:23:06]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 74, in train_run
+[20:23:06]     self.X,self.y,self.X_train,self.y_train,self.X_test,self.y_test,self.df=dataset(self.filename,self.target,self.ignore)
+[20:23:06]                                                                             ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[20:23:06]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 32, in dataset
+[20:23:06]     df = pd.read_csv(filename)
+[20:23:06]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+[20:23:06]     return _read(filepath_or_buffer, kwds)
+[20:23:06]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/io/parsers/readers.py", line 620, in _read
+[20:23:06]     parser = TextFileReader(filepath_or_buffer, **kwds)
+[20:23:06]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
+[20:23:06]     self._engine = self._make_engine(f, self.engine)
+[20:23:06]                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+[20:23:06]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
+[20:23:06]     self.handles = get_handle(
+[20:23:06]                    ~~~~~~~~~~^
+[20:23:06]         f,
+[20:23:06]         ^^
+[20:23:06]     ...<6 lines>...
+[20:23:06]         storage_options=self.options.get("storage_options", None),
+[20:23:06]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[20:23:06]     )
+[20:23:06]     ^
+[20:23:06]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/io/common.py", line 873, in get_handle
+[20:23:06]     handle = open(
+[20:23:06]         handle,
+[20:23:06]     ...<3 lines>...
+[20:23:06]         newline="",
+[20:23:06]     )
+[20:23:06] FileNotFoundError: [Errno 2] No such file or directory: 'ai4i2020'
+
+[20:23:06] ============================================================================
+

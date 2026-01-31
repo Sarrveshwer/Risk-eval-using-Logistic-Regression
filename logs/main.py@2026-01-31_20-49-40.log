@@ -1,0 +1,60 @@
+[20:49:40] --- Logging Initialized for main.py ---
+[20:49:40] Log file: logs/main.py@2026-01-31_20-49-40.log
+[20:49:40] Fitting 3 folds for each of 50 candidates, totalling 150 fits
+[20:51:26] ========== Model Features =========
+[20:51:26] Air temperature [K]
+[20:51:26] Process temperature [K]
+[20:51:26] Rotational speed [rpm]
+[20:51:26] Torque [Nm]
+[20:51:26] Tool wear [min]
+[20:51:26] Air temperature [K]_Rolling_Mean
+[20:51:26] Air temperature [K]_Volatility
+[20:51:26] Air temperature [K]_Delta
+[20:51:26] Process temperature [K]_Rolling_Mean
+[20:51:26] Process temperature [K]_Volatility
+[20:51:26] Process temperature [K]_Delta
+[20:51:26] Rotational speed [rpm]_Rolling_Mean
+[20:51:26] Rotational speed [rpm]_Volatility
+[20:51:26] Rotational speed [rpm]_Delta
+[20:51:26] Torque [Nm]_Rolling_Mean
+[20:51:26] Torque [Nm]_Volatility
+[20:51:26] Torque [Nm]_Delta
+[20:51:26] Tool wear [min]_Rolling_Mean
+[20:51:26] Tool wear [min]_Volatility
+[20:51:26] Tool wear [min]_Delta
+[20:51:26] Air temperature [K]_Rolling_Delta
+[20:51:26] Process temperature [K]_Rolling_Delta
+[20:51:26] Rotational speed [rpm]_Rolling_Delta
+[20:51:26] Torque [Nm]_Rolling_Delta
+[20:51:26] Tool wear [min]_Rolling_Delta
+
+[20:51:26] === Model Evaluation (Test Set) ===
+[20:51:26] ROC-AUC score :0.901
+[20:51:26] Risk Tolerance used : 0.304
+[20:51:26] TP: 30 | FP: 192
+[20:51:26] FN: 9 | TN: 1768
+
+[20:51:26] Rates:
+[20:51:26] Recall (TPR) : 0.769
+[20:51:26] Precision    : 0.135
+[20:51:26] False PosRate: 0.098
+[20:51:26] ====================================
+
+[20:51:27] ============================== CRASH DETECTED ==============================
+[20:51:27] Timestamp: 2026-01-31 20:51:27.059509
+[20:51:27] Traceback (most recent call last):
+[20:51:27]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 844, in <module>
+[20:51:27]     FinalSystem.LoadModels()
+[20:51:27]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[20:51:27]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 607, in LoadModels
+[20:51:27]     risk_model_path = risk_model.train_run()
+[20:51:27]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 137, in train_run
+[20:51:27]     jb.dump(search,model_name)
+[20:51:27]     ~~~~~~~^^^^^^^^^^^^^^^^^^^
+[20:51:27]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/numpy_pickle.py", line 599, in dump
+[20:51:27]     with open(filename, "wb") as f:
+[20:51:27]          ~~~~^^^^^^^^^^^^^^^^
+[20:51:27] FileNotFoundError: [Errno 2] No such file or directory: '/models/Risk_eval_model.pkl'
+
+[20:51:27] ============================================================================
+

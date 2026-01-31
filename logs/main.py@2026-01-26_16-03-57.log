@@ -1,0 +1,25 @@
+[16:03:57] --- Logging Initialized for main.py ---
+[16:03:57] Log file: logs/main.py@2026-01-26_16-03-57.log
+[16:03:57] Air temperature [K]
+[16:03:57] Process temperature [K]
+[16:03:57] Rotational speed [rpm]
+[16:03:57] Torque [Nm]
+[16:03:57] Tool wear [min]
+[16:03:57] ROC-AUC Score: 0.8977104826161431
+
+[16:04:00] ============================== CRASH DETECTED ==============================
+[16:04:00] Timestamp: 2026-01-26 16:04:00.245137
+[16:04:00] Traceback (most recent call last):
+[16:04:00]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 119, in <module>
+[16:04:00]     model.train_run()
+[16:04:00]     ~~~~~~~~~~~~~~~^^
+[16:04:00]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 67, in train_run
+[16:04:00]     self.plot(roc)
+[16:04:00]     ~~~~~~~~~^^^^^
+[16:04:00]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 113, in plot
+[16:04:00]     plt.title(f"Confusion Matrix (threshold={self.threshold})")
+[16:04:00]                                              ^^^^^^^^^^^^^^
+[16:04:00] AttributeError: 'LogisticClassifier' object has no attribute 'threshold'
+
+[16:04:00] ============================================================================
+

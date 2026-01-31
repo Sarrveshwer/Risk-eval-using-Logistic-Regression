@@ -1,0 +1,28 @@
+[16:29:04] --- Logging Initialized for main.py ---
+[16:29:04] Log file: logs/main.py@2026-01-31_16-29-04.log
+[16:29:04] Loaded RiskEvalModel from disk.
+[16:29:04] Warning_S  | Diag_S     | Warning Step | Score
+[16:29:04] --------------------------------------------------
+
+[16:29:04] ============================== CRASH DETECTED ==============================
+[16:29:04] Timestamp: 2026-01-31 16:29:04.997677
+[16:29:04] Traceback (most recent call last):
+[16:29:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 755, in <module>
+[16:29:04]     best_config = FinalSystem.calibrate_sensitivities(test_data, target_step_for_warning=4)
+[16:29:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 708, in calibrate_sensitivities
+[16:29:04]     res = self.predict(test_df.iloc[[i]])
+[16:29:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 616, in predict
+[16:29:04]     inference_df = inference_df[self.risk_model.feature_names_in_]
+[16:29:04]                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[16:29:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/frame.py", line 4119, in __getitem__
+[16:29:04]     indexer = self.columns._get_indexer_strict(key, "columns")[1]
+[16:29:04]               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+[16:29:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+[16:29:04]     self._raise_if_missing(keyarr, indexer, axis_name)
+[16:29:04]     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[16:29:04]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+[16:29:04]     raise KeyError(f"{not_found} not in index")
+[16:29:04] KeyError: "['Air temperature [K]_Rolling_Mean', 'Air temperature [K]_Volatility', 'Air temperature [K]_Delta', 'Process temperature [K]_Rolling_Mean', 'Process temperature [K]_Volatility', 'Process temperature [K]_Delta', 'Rotational speed [rpm]_Rolling_Mean', 'Rotational speed [rpm]_Volatility', 'Rotational speed [rpm]_Delta', 'Torque [Nm]_Rolling_Mean', 'Torque [Nm]_Volatility', 'Torque [Nm]_Delta', 'Tool wear [min]_Rolling_Mean', 'Tool wear [min]_Volatility', 'Tool wear [min]_Delta', 'Air temperature [K]_Rolling_Delta', 'Process temperature [K]_Rolling_Delta', 'Rotational speed [rpm]_Rolling_Delta', 'Torque [Nm]_Rolling_Delta', 'Tool wear [min]_Rolling_Delta'] not in index"
+
+[16:29:04] ============================================================================
+

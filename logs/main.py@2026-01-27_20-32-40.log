@@ -1,0 +1,19 @@
+[20:32:40] --- Logging Initialized for main.py ---
+[20:32:40] Log file: logs/main.py@2026-01-27_20-32-40.log
+
+[20:32:40] ============================== CRASH DETECTED ==============================
+[20:32:40] Timestamp: 2026-01-27 20:32:40.405481
+[20:32:40] Traceback (most recent call last):
+[20:32:40]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 394, in <module>
+[20:32:40]     model.run()
+[20:32:40]     ~~~~~~~~~^^
+[20:32:40]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 391, in run
+[20:32:40]     self.train_run(i)
+[20:32:40]     ~~~~~~~~~~~~~~^^^
+[20:32:40]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 257, in train_run
+[20:32:40]     self.X,self.y,self.X_train,self.y_train,self.X_test,self.y_test,self.df=dataset(self.filename+self.ext,self.target,self.ignore+self.classifications.remove(param))
+[20:32:40]                                                                                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[20:32:40] TypeError: can only concatenate list (not "NoneType") to list
+
+[20:32:40] ============================================================================
+

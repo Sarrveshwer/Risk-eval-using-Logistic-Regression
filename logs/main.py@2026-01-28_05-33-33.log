@@ -1,0 +1,44 @@
+[05:33:33] --- Logging Initialized for main.py ---
+[05:33:33] Log file: logs/main.py@2026-01-28_05-33-33.log
+
+[05:33:33] ============================== CRASH DETECTED ==============================
+[05:33:33] Timestamp: 2026-01-28 05:33:33.074345
+[05:33:33] Traceback (most recent call last):
+[05:33:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+[05:33:33]     return self._engine.get_loc(casted_key)
+[05:33:33]            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+[05:33:33]   File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+[05:33:33]   File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+[05:33:33]   File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+[05:33:33]   File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+[05:33:33] KeyError: True
+
+[05:33:33] The above exception was the direct cause of the following exception:
+
+[05:33:33] Traceback (most recent call last):
+[05:33:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 439, in <module>
+[05:33:33]     moedl_names = model.run()
+[05:33:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 431, in run
+[05:33:33]     self.train_run(i)
+[05:33:33]     ~~~~~~~~~~~~~~^^^
+[05:33:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 291, in train_run
+[05:33:33]     self.dataset(self.filename + self.ext,
+[05:33:33]     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+[05:33:33]                 param,
+[05:33:33]                 ^^^^^^
+[05:33:33]     ...<2 lines>...
+[05:33:33]                 self.ignore + remaining_params + ["Machine failure"]
+[05:33:33]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[05:33:33]                 )
+[05:33:33]                 ^
+[05:33:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 269, in dataset
+[05:33:33]     df = df[df[filter] == 1]
+[05:33:33]             ~~^^^^^^^^
+[05:33:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+[05:33:33]     indexer = self.columns.get_loc(key)
+[05:33:33]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3819, in get_loc
+[05:33:33]     raise KeyError(key) from err
+[05:33:33] KeyError: True
+
+[05:33:33] ============================================================================
+

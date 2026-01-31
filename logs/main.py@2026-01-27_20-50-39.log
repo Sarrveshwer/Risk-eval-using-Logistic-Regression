@@ -1,0 +1,6 @@
+[20:50:39] --- Logging Initialized for main.py ---
+[20:50:39] Log file: logs/main.py@2026-01-27_20-50-39.log
+[20:50:43] tp=np.int64(13) fp=np.int64(3) fn=np.int64(3) tn=np.int64(49)
+[20:50:44] tp=np.int64(0) fp=np.int64(1) fn=np.int64(0) tn=np.int64(67)
+[20:50:45] tp=np.int64(19) fp=np.int64(2) fn=np.int64(4) tn=np.int64(43)
+[20:50:46] tp=np.int64(26) fp=np.int64(0) fn=np.int64(6) tn=np.int64(36)

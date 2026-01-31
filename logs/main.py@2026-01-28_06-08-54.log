@@ -1,0 +1,37 @@
+[06:08:54] --- Logging Initialized for main.py ---
+[06:08:54] Log file: logs/main.py@2026-01-28_06-08-54.log
+[06:08:54] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[06:08:59] ========== Model Features =========
+[06:08:59] Air temperature [K]
+[06:08:59] Process temperature [K]
+[06:08:59] Rotational speed [rpm]
+[06:08:59] Torque [Nm]
+[06:08:59] Tool wear [min]
+
+[06:08:59] === Model Evaluation (Test Set) ===
+[06:08:59] ROC-AUC score :0.897
+[06:08:59] Threshold used : 0.165
+[06:08:59] TP: 32 | FP: 376
+[06:08:59] FN: 7 | TN: 1585
+
+[06:08:59] Rates:
+[06:08:59] Recall (TPR) : 0.821
+[06:08:59] Precision    : 0.078
+[06:08:59] False PosRate: 0.192
+[06:08:59] ====================================
+[06:08:59] Successfully Loaded RiskEvalModel....
+
+[06:08:59] ============================== CRASH DETECTED ==============================
+[06:08:59] Timestamp: 2026-01-28 06:08:59.304328
+[06:08:59] Traceback (most recent call last):
+[06:08:59]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 468, in <module>
+[06:08:59]     moedl_names = model.LoadModels()
+[06:08:59]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 459, in LoadModels
+[06:08:59]     risk_model = jb.load("risk_model.pkl")
+[06:08:59]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/joblib/numpy_pickle.py", line 735, in load
+[06:08:59]     with open(filename, "rb") as f:
+[06:08:59]          ~~~~^^^^^^^^^^^^^^^^
+[06:08:59] FileNotFoundError: [Errno 2] No such file or directory: 'risk_model.pkl'
+
+[06:08:59] ============================================================================
+

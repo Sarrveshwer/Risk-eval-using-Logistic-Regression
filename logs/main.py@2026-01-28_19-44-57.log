@@ -1,0 +1,9 @@
+[19:44:57] --- Logging Initialized for main.py ---
+[19:44:57] Log file: logs/main.py@2026-01-28_19-44-57.log
+[19:44:57] Loaded RiskEvalModel from disk.
+[19:44:57] Loaded classifier for TWF
+[19:44:57] Loaded classifier for HDF
+[19:44:57] Loaded classifier for PWF
+[19:44:57] Loaded classifier for OSF
+[19:44:57] All models ready.
+[19:44:57] {'risk_prob': 0.8559461325354095, 'risk': 1, 'failure_type': 'OSF', 'details': {'TWF': 0, 'HDF': 0, 'PWF': 0, 'OSF': 1}}

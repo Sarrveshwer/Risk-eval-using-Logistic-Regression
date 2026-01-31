@@ -1,0 +1,21 @@
+[05:34:57] --- Logging Initialized for main.py ---
+[05:34:57] Log file: logs/main.py@2026-01-28_05-34-57.log
+
+[05:34:58] ============================== CRASH DETECTED ==============================
+[05:34:58] Timestamp: 2026-01-28 05:34:58.377784
+[05:34:58] Traceback (most recent call last):
+[05:34:58]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 439, in <module>
+[05:34:58]     moedl_names = model.run()
+[05:34:58]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 431, in run
+[05:34:58]     self.train_run(i)
+[05:34:58]     ~~~~~~~~~~~~~~^^^
+[05:34:58]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 302, in train_run
+[05:34:58]     self.plot(self.roc,0.80)
+[05:34:58]     ~~~~~~~~~^^^^^^^^^^^^^^^
+[05:34:58]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 405, in plot
+[05:34:58]     fig.savefig(f"images/Dashboard_{param}_{self.filename}.png", dpi=300)
+[05:34:58]                                     ^^^^^
+[05:34:58] NameError: name 'param' is not defined
+
+[05:34:58] ============================================================================
+

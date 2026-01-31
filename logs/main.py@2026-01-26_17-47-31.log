@@ -1,0 +1,44 @@
+[17:47:31] --- Logging Initialized for main.py ---
+[17:47:31] Log file: logs/main.py@2026-01-26_17-47-31.log
+[17:47:31] Air temperature [K]
+[17:47:31] Process temperature [K]
+[17:47:31] Rotational speed [rpm]
+[17:47:31] Torque [Nm]
+[17:47:31] Tool wear [min]
+[17:47:31] ROC-AUC Score: 0.8977104826161431
+
+[17:47:36] ============================== CRASH DETECTED ==============================
+[17:47:36] Timestamp: 2026-01-26 17:47:36.214522
+[17:47:36] Traceback (most recent call last):
+[17:47:36]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 185, in <module>
+[17:47:36]     model.train_run()
+[17:47:36]     ~~~~~~~~~~~~~~~^^
+[17:47:36]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 73, in train_run
+[17:47:36]     self.plot(roc)
+[17:47:36]     ~~~~~~~~~^^^^^
+[17:47:36]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 170, in plot
+[17:47:36]     self.evaluate(self.y,self.y_prob,self.y_pred,threshold)
+[17:47:36]     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:47:36]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 172, in evaluate
+[17:47:36]     tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+[17:47:36]                      ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+[17:47:36]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/_param_validation.py", line 218, in wrapper
+[17:47:36]     return func(*args, **kwargs)
+[17:47:36]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/metrics/_classification.py", line 549, in confusion_matrix
+[17:47:36]     y_type, y_true, y_pred, sample_weight = _check_targets(
+[17:47:36]                                             ~~~~~~~~~~~~~~^
+[17:47:36]         y_true, y_pred, sample_weight
+[17:47:36]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:47:36]     )
+[17:47:36]     ^
+[17:47:36]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/metrics/_classification.py", line 108, in _check_targets
+[17:47:36]     check_consistent_length(y_true, y_pred, sample_weight)
+[17:47:36]     ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[17:47:36]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 464, in check_consistent_length
+[17:47:36]     raise ValueError(
+[17:47:36]     ...<2 lines>...
+[17:47:36]     )
+[17:47:36] ValueError: Found input variables with inconsistent numbers of samples: [10000, 2000, 10000]
+
+[17:47:36] ============================================================================
+

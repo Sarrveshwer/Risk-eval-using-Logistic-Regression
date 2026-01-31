@@ -1,0 +1,18 @@
+[17:54:39] --- Logging Initialized for main.py ---
+[17:54:39] Log file: logs/main.py@2026-01-26_17-54-39.log
+[17:54:39] Air temperature [K]
+[17:54:39] Process temperature [K]
+[17:54:39] Rotational speed [rpm]
+[17:54:39] Torque [Nm]
+[17:54:39] Tool wear [min]
+
+[17:54:40] === Model Evaluation (Test Set) ===
+[17:54:40] ROC-AUC score :0.898
+[17:54:40] Threshold used : 0.167
+[17:54:40] TP: 32 | FP: 376
+[17:54:40] FN: 7 | TN: 1585
+
+[17:54:40] Rates:
+[17:54:40] Recall (TPR) : 0.821
+[17:54:40] Precision    : 0.078
+[17:54:40] False PosRate: 0.192

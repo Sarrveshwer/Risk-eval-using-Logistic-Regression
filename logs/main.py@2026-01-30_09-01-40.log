@@ -1,0 +1,19 @@
+[09:01:40] --- Logging Initialized for main.py ---
+[09:01:40] Log file: logs/main.py@2026-01-30_09-01-40.log
+[09:01:40] Loaded RiskEvalModel from disk.
+
+[09:01:40] ============================== CRASH DETECTED ==============================
+[09:01:40] Timestamp: 2026-01-30 09:01:40.738650
+[09:01:40] Traceback (most recent call last):
+[09:01:40]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 703, in <module>
+[09:01:40]     FinalSystem.LoadModels()
+[09:01:40]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[09:01:40]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 565, in LoadModels
+[09:01:40]     model_path = clf.train_run(failure)
+[09:01:40]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 363, in train_run
+[09:01:40]     self.plot(self.roc,0.50,param)
+[09:01:40]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+[09:01:40] TypeError: FailureClassificationModel.plot() takes 3 positional arguments but 4 were given
+
+[09:01:40] ============================================================================
+

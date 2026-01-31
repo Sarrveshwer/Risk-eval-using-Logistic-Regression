@@ -1,0 +1,29 @@
+[04:33:45] --- Logging Initialized for main.py ---
+[04:33:45] Log file: logs/main.py@2026-01-28_04-33-45.log
+
+[04:33:45] ============================== CRASH DETECTED ==============================
+[04:33:45] Timestamp: 2026-01-28 04:33:45.255052
+[04:33:45] Traceback (most recent call last):
+[04:33:45]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 433, in <module>
+[04:33:45]     model.run()
+[04:33:45]     ~~~~~~~~~^^
+[04:33:45]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 425, in run
+[04:33:45]     self.train_run(i)
+[04:33:45]     ~~~~~~~~~~~~~~^^^
+[04:33:45]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 286, in train_run
+[04:33:45]     self.dataset(self.filename + self.ext,
+[04:33:45]     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+[04:33:45]                 param,
+[04:33:45]                 ^^^^^^
+[04:33:45]     ...<2 lines>...
+[04:33:45]                 self.ignore + remaining_params + ["Machine failure"]
+[04:33:45]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[04:33:45]                 )
+[04:33:45]                 ^
+[04:33:45]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 276, in dataset
+[04:33:45]     self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
+[04:33:45]                                                            ^^^^^^^^^^^^^^^^
+[04:33:45] NameError: name 'train_test_split' is not defined
+
+[04:33:45] ============================================================================
+

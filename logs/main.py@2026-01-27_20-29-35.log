@@ -1,0 +1,17 @@
+[20:29:35] --- Logging Initialized for main.py ---
+[20:29:35] Log file: logs/main.py@2026-01-27_20-29-35.log
+[20:29:35] Error classification cannot be empty....
+
+[20:29:35] ============================== CRASH DETECTED ==============================
+[20:29:35] Timestamp: 2026-01-27 20:29:35.108028
+[20:29:35] Traceback (most recent call last):
+[20:29:35]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 394, in <module>
+[20:29:35]     model.run()
+[20:29:35]     ~~~~~~~~~^^
+[20:29:35]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 390, in run
+[20:29:35]     for i in self.param:
+[20:29:35]              ^^^^^^^^^^
+[20:29:35] AttributeError: 'FailureClassificationModel' object has no attribute 'param'
+
+[20:29:35] ============================================================================
+

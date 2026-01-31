@@ -1,0 +1,12 @@
+[18:39:39] --- Logging Initialized for main.py ---
+[18:39:39] Log file: logs/main.py@2026-01-27_18-39-39.log
+
+[18:39:39] ============================== CRASH DETECTED ==============================
+[18:39:39] Timestamp: 2026-01-27 18:39:39.883607
+[18:39:39] Traceback (most recent call last):
+[18:39:39]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 385, in <module>
+[18:39:39]     model = FailureClassificationModel('ai4i2020.csv','Machine failure',['TWF','HDF','PWF','OSF','RNF','UDI','Product ID','Type'])
+[18:39:39] TypeError: FailureClassificationModel.__init__() takes 1 positional argument but 4 were given
+
+[18:39:39] ============================================================================
+

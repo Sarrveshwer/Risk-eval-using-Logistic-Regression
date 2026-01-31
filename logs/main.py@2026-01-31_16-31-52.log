@@ -1,0 +1,20 @@
+[16:31:52] --- Logging Initialized for main.py ---
+[16:31:52] Log file: logs/main.py@2026-01-31_16-31-52.log
+[16:31:52] Loaded RiskEvalModel from disk.
+[16:31:52] Warning_S  | Diag_S     | Warning Step | Score
+[16:31:52] --------------------------------------------------
+
+[16:31:52] ============================== CRASH DETECTED ==============================
+[16:31:52] Timestamp: 2026-01-31 16:31:52.078530
+[16:31:52] Traceback (most recent call last):
+[16:31:52]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 769, in <module>
+[16:31:52]     best_config = FinalSystem.calibrate_sensitivities(test_data, target_step_for_warning=4)
+[16:31:52]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 722, in calibrate_sensitivities
+[16:31:52]     res = self.predict(test_df.iloc[[i]])
+[16:31:52]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 634, in predict
+[16:31:52]     raw_logit = float(self.risk_model.decision_function(inference_df)[0])
+[16:31:52]                                                         ^^^^^^^^^^^^
+[16:31:52] NameError: name 'inference_df' is not defined
+
+[16:31:52] ============================================================================
+

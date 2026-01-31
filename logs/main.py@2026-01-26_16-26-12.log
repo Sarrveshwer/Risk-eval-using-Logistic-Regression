@@ -1,0 +1,25 @@
+[16:26:12] --- Logging Initialized for main.py ---
+[16:26:12] Log file: logs/main.py@2026-01-26_16-26-12.log
+[16:26:12] Air temperature [K]
+[16:26:12] Process temperature [K]
+[16:26:12] Rotational speed [rpm]
+[16:26:12] Torque [Nm]
+[16:26:12] Tool wear [min]
+[16:26:12] ROC-AUC Score: 0.8977104826161431
+
+[16:26:12] ============================== CRASH DETECTED ==============================
+[16:26:12] Timestamp: 2026-01-26 16:26:12.955308
+[16:26:12] Traceback (most recent call last):
+[16:26:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 151, in <module>
+[16:26:12]     model.train_run()
+[16:26:12]     ~~~~~~~~~~~~~~~^^
+[16:26:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 74, in train_run
+[16:26:12]     self.plot(roc)
+[16:26:12]     ~~~~~~~~~^^^^^
+[16:26:12]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 79, in plot
+[16:26:12]     fig , axes = plt.subplot_mosaic()
+[16:26:12]                  ~~~~~~~~~~~~~~~~~~^^
+[16:26:12] TypeError: subplot_mosaic() missing 1 required positional argument: 'mosaic'
+
+[16:26:12] ============================================================================
+

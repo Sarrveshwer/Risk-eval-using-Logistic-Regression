@@ -1,0 +1,22 @@
+[16:03:34] --- Logging Initialized for main.py ---
+[16:03:34] Log file: logs/main.py@2026-01-26_16-03-34.log
+[16:03:34] Air temperature [K]
+[16:03:34] Process temperature [K]
+[16:03:34] Rotational speed [rpm]
+[16:03:34] Torque [Nm]
+[16:03:34] Tool wear [min]
+[16:03:34] ROC-AUC Score: 0.8977104826161431
+
+[16:03:34] ============================== CRASH DETECTED ==============================
+[16:03:34] Timestamp: 2026-01-26 16:03:34.698773
+[16:03:34] Traceback (most recent call last):
+[16:03:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 119, in <module>
+[16:03:34]     model.train_run()
+[16:03:34]     ~~~~~~~~~~~~~~~^^
+[16:03:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 67, in train_run
+[16:03:34]     self.plot(self.y,self.y_pred,roc)
+[16:03:34]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+[16:03:34] TypeError: LogisticClassifier.plot() takes 2 positional arguments but 4 were given
+
+[16:03:34] ============================================================================
+

@@ -1,0 +1,16 @@
+[13:29:34] --- Logging Initialized for main.py ---
+[13:29:34] Log file: logs/main.py@2026-01-27_13-29-34.log
+
+[13:29:34] ============================== CRASH DETECTED ==============================
+[13:29:34] Timestamp: 2026-01-27 13:29:34.734741
+[13:29:34] Traceback (most recent call last):
+[13:29:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 276, in <module>
+[13:29:34]     model.train_run()
+[13:29:34]     ~~~~~~~~~~~~~~~^^
+[13:29:34]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 93, in train_run
+[13:29:34]     self.X,self.y,self.X_train,self.y_train,self.X_test,self.y_test=dataset(self.filename,self.target,self.ignore)
+[13:29:34]                                                                                                       ^^^^^^^^^^^
+[13:29:34] AttributeError: 'RiskEvalModel' object has no attribute 'ignore'
+
+[13:29:34] ============================================================================
+

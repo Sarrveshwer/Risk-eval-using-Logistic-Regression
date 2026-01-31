@@ -1,0 +1,21 @@
+[20:30:19] --- Logging Initialized for main.py ---
+[20:30:19] Log file: logs/main.py@2026-01-28_20-30-19.log
+[20:30:19] Loaded RiskEvalModel from disk.
+[20:30:19] Loaded classifier for TWF
+[20:30:19] Loaded classifier for HDF
+[20:30:19] Loaded classifier for PWF
+[20:30:19] Loaded classifier for OSF
+[20:30:19] All models ready.
+[20:30:19] Step   | Torque   | Risk Prob  | Alert      | Diagnosis
+[20:30:19] ------------------------------------------------------------
+
+[20:30:19] ============================== CRASH DETECTED ==============================
+[20:30:19] Timestamp: 2026-01-28 20:30:19.269869
+[20:30:19] Traceback (most recent call last):
+[20:30:19]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 569, in <module>
+[20:30:19]     fail_type = result['failure_type']
+[20:30:19]                 ~~~~~~^^^^^^^^^^^^^^^^
+[20:30:19] KeyError: 'failure_type'
+
+[20:30:19] ============================================================================
+

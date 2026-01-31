@@ -1,0 +1,58 @@
+[04:39:03] --- Logging Initialized for main.py ---
+[04:39:03] Log file: logs/main.py@2026-01-29_04-39-03.log
+[04:39:03] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[04:39:08] ========== Model Features =========
+[04:39:08] Air temperature [K]
+[04:39:08] Process temperature [K]
+[04:39:08] Rotational speed [rpm]
+[04:39:08] Torque [Nm]
+[04:39:08] Tool wear [min]
+[04:39:08] Air temperature [K]_Rolling_Mean
+[04:39:08] Air temperature [K]_Volatility
+[04:39:08] Air temperature [K]_Delta
+[04:39:08] Process temperature [K]_Rolling_Mean
+[04:39:08] Process temperature [K]_Volatility
+[04:39:08] Process temperature [K]_Delta
+[04:39:08] Rotational speed [rpm]_Rolling_Mean
+[04:39:08] Rotational speed [rpm]_Volatility
+[04:39:08] Rotational speed [rpm]_Delta
+[04:39:08] Torque [Nm]_Rolling_Mean
+[04:39:08] Torque [Nm]_Volatility
+[04:39:08] Torque [Nm]_Delta
+[04:39:08] Tool wear [min]_Rolling_Mean
+[04:39:08] Tool wear [min]_Volatility
+[04:39:08] Tool wear [min]_Delta
+
+[04:39:08] === Model Evaluation (Test Set) ===
+[04:39:08] ROC-AUC score :0.898
+[04:39:08] risk_tolerance used : 0.100
+[04:39:08] TP: 32 | FP: 540
+[04:39:08] FN: 7 | TN: 1421
+
+[04:39:08] Rates:
+[04:39:08] Recall (TPR) : 0.821
+[04:39:08] Precision    : 0.056
+[04:39:08] False PosRate: 0.275
+[04:39:08] ====================================
+
+[04:39:10] ============================== CRASH DETECTED ==============================
+[04:39:10] Timestamp: 2026-01-29 04:39:10.099562
+[04:39:10] Traceback (most recent call last):
+[04:39:10]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 525, in <module>
+[04:39:10]     FinalSystem.LoadModels()
+[04:39:10]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[04:39:10]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 451, in LoadModels
+[04:39:10]     model_path = clf.train_run(failure)
+[04:39:10]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 290, in train_run
+[04:39:10]     self.plot(self.roc,0.80,param)
+[04:39:10]     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+[04:39:10]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 387, in plot
+[04:39:10]     self.evaluate()
+[04:39:10]     ~~~~~~~~~~~~~^^
+[04:39:10]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 390, in evaluate
+[04:39:10]     tn, fp, fn, tp = confusion_matrix(self.y_test, self.y_pred_thr).ravel()
+[04:39:10]                                                    ^^^^^^^^^^^^^^^
+[04:39:10] AttributeError: 'FailureClassificationModel' object has no attribute 'y_pred_thr'
+
+[04:39:10] ============================================================================
+

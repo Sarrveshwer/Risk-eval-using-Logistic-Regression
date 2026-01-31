@@ -1,0 +1,17 @@
+[17:47:20] --- Logging Initialized for main.py ---
+[17:47:20] Log file: logs/main.py@2026-01-26_17-47-20.log
+
+[17:47:20] ============================== CRASH DETECTED ==============================
+[17:47:20] Timestamp: 2026-01-26 17:47:20.393442
+[17:47:20] Traceback (most recent call last):
+[17:47:20]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 26, in <module>
+[17:47:20]     class LogisticClassifier:
+[17:47:20]     ...<153 lines>...
+[17:47:20]             print(f"FPR      : {fp/(fp+tn):.3f}")
+[17:47:20]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 170, in LogisticClassifier
+[17:47:20]     self.evaluate(self.y,self.y_prob,self.y_pred,threshold)
+[17:47:20]     ^^^^
+[17:47:20] NameError: name 'self' is not defined
+
+[17:47:20] ============================================================================
+

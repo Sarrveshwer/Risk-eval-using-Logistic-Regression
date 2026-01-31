@@ -1,0 +1,172 @@
+[20:14:40] --- Logging Initialized for main.py ---
+[20:14:40] Log file: logs/main.py@2026-01-28_20-14-40.log
+[20:14:40] Training RiskEvalModel...
+[20:14:40] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[20:14:46] ========== Model Features =========
+[20:14:46] Air temperature [K]
+[20:14:46] Process temperature [K]
+[20:14:46] Rotational speed [rpm]
+[20:14:46] Torque [Nm]
+[20:14:46] Tool wear [min]
+
+[20:14:46] === Model Evaluation (Test Set) ===
+[20:14:46] ROC-AUC score :0.897
+[20:14:46] risk_tolerance used : 0.165
+[20:14:46] TP: 32 | FP: 376
+[20:14:46] FN: 7 | TN: 1585
+
+[20:14:46] Rates:
+[20:14:46] Recall (TPR) : 0.821
+[20:14:46] Precision    : 0.078
+[20:14:46] False PosRate: 0.192
+[20:14:46] ====================================
+[20:14:46] Training classifier for TWF...
+[20:14:48] ========== Model Features =========
+[20:14:48] Air temperature [K]
+[20:14:48] Process temperature [K]
+[20:14:48] Rotational speed [rpm]
+[20:14:48] Torque [Nm]
+[20:14:48] Tool wear [min]
+
+[20:14:48] === Model Evaluation (Test Set) ===
+[20:14:48] ROC-AUC score :1.000
+[20:14:48] risk_tolerance used : 0.520
+[20:14:48] TP: 8 | FP: 0
+[20:14:48] FN: 1 | TN: 59
+
+[20:14:48] Rates:
+[20:14:48] Recall (TPR) : 0.889
+[20:14:48] Precision    : 1.000
+[20:14:48] False PosRate: 0.000
+[20:14:48] ====================================
+[20:14:48] ========== Model Features =========
+[20:14:48] Air temperature [K]
+[20:14:48] Process temperature [K]
+[20:14:48] Rotational speed [rpm]
+[20:14:48] Torque [Nm]
+[20:14:48] Tool wear [min]
+
+[20:14:48] === Model Evaluation (Test Set) ===
+[20:14:48] ROC-AUC score :1.000
+[20:14:48] risk_tolerance used : 0.520
+[20:14:48] TP: 8 | FP: 0
+[20:14:48] FN: 1 | TN: 59
+
+[20:14:48] Rates:
+[20:14:48] Recall (TPR) : 0.889
+[20:14:48] Precision    : 1.000
+[20:14:48] False PosRate: 0.000
+[20:14:48] ====================================
+[20:14:48] Training classifier for HDF...
+[20:14:50] ========== Model Features =========
+[20:14:50] Air temperature [K]
+[20:14:50] Process temperature [K]
+[20:14:50] Rotational speed [rpm]
+[20:14:50] Torque [Nm]
+[20:14:50] Tool wear [min]
+
+[20:14:50] === Model Evaluation (Test Set) ===
+[20:14:50] ROC-AUC score :0.994
+[20:14:50] risk_tolerance used : 0.840
+[20:14:50] TP: 19 | FP: 0
+[20:14:50] FN: 4 | TN: 45
+
+[20:14:50] Rates:
+[20:14:50] Recall (TPR) : 0.826
+[20:14:50] Precision    : 1.000
+[20:14:50] False PosRate: 0.000
+[20:14:50] ====================================
+[20:14:50] ========== Model Features =========
+[20:14:50] Air temperature [K]
+[20:14:50] Process temperature [K]
+[20:14:50] Rotational speed [rpm]
+[20:14:50] Torque [Nm]
+[20:14:50] Tool wear [min]
+
+[20:14:50] === Model Evaluation (Test Set) ===
+[20:14:50] ROC-AUC score :0.994
+[20:14:50] risk_tolerance used : 0.840
+[20:14:50] TP: 19 | FP: 0
+[20:14:50] FN: 4 | TN: 45
+
+[20:14:50] Rates:
+[20:14:50] Recall (TPR) : 0.826
+[20:14:50] Precision    : 1.000
+[20:14:50] False PosRate: 0.000
+[20:14:50] ====================================
+[20:14:50] Training classifier for PWF...
+[20:14:51] ========== Model Features =========
+[20:14:51] Air temperature [K]
+[20:14:51] Process temperature [K]
+[20:14:51] Rotational speed [rpm]
+[20:14:51] Torque [Nm]
+[20:14:51] Tool wear [min]
+
+[20:14:51] === Model Evaluation (Test Set) ===
+[20:14:51] ROC-AUC score :0.991
+[20:14:51] risk_tolerance used : 0.580
+[20:14:51] TP: 16 | FP: 1
+[20:14:51] FN: 3 | TN: 48
+
+[20:14:51] Rates:
+[20:14:51] Recall (TPR) : 0.842
+[20:14:51] Precision    : 0.941
+[20:14:51] False PosRate: 0.020
+[20:14:51] ====================================
+[20:14:51] ========== Model Features =========
+[20:14:51] Air temperature [K]
+[20:14:51] Process temperature [K]
+[20:14:51] Rotational speed [rpm]
+[20:14:51] Torque [Nm]
+[20:14:51] Tool wear [min]
+
+[20:14:51] === Model Evaluation (Test Set) ===
+[20:14:51] ROC-AUC score :0.991
+[20:14:51] risk_tolerance used : 0.580
+[20:14:51] TP: 16 | FP: 1
+[20:14:51] FN: 3 | TN: 48
+
+[20:14:51] Rates:
+[20:14:51] Recall (TPR) : 0.842
+[20:14:51] Precision    : 0.941
+[20:14:51] False PosRate: 0.020
+[20:14:51] ====================================
+[20:14:52] Training classifier for OSF...
+[20:14:53] ========== Model Features =========
+[20:14:53] Air temperature [K]
+[20:14:53] Process temperature [K]
+[20:14:53] Rotational speed [rpm]
+[20:14:53] Torque [Nm]
+[20:14:53] Tool wear [min]
+
+[20:14:53] === Model Evaluation (Test Set) ===
+[20:14:53] ROC-AUC score :0.994
+[20:14:53] risk_tolerance used : 0.860
+[20:14:53] TP: 16 | FP: 1
+[20:14:53] FN: 4 | TN: 47
+
+[20:14:53] Rates:
+[20:14:53] Recall (TPR) : 0.800
+[20:14:53] Precision    : 0.941
+[20:14:53] False PosRate: 0.021
+[20:14:53] ====================================
+[20:14:53] ========== Model Features =========
+[20:14:53] Air temperature [K]
+[20:14:53] Process temperature [K]
+[20:14:53] Rotational speed [rpm]
+[20:14:53] Torque [Nm]
+[20:14:53] Tool wear [min]
+
+[20:14:53] === Model Evaluation (Test Set) ===
+[20:14:53] ROC-AUC score :0.994
+[20:14:53] risk_tolerance used : 0.860
+[20:14:53] TP: 16 | FP: 1
+[20:14:53] FN: 4 | TN: 47
+
+[20:14:53] Rates:
+[20:14:53] Recall (TPR) : 0.800
+[20:14:53] Precision    : 0.941
+[20:14:53] False PosRate: 0.021
+[20:14:53] ====================================
+[20:14:53] All models ready.
+[20:14:53] {'risk_prob': 0.8559461325354095, 'risk': 1, 'failure_type': 'OSF', 'details': {'TWF': 0, 'HDF': 0, 'PWF': 0, 'OSF': 1}}

@@ -1,0 +1,116 @@
+[14:57:30] --- Logging Initialized for a1412020.py ---
+[14:57:30] Log file: logs/a1412020.py@2026-01-26_14-57-30.log
+[14:57:30] Backup made at Backup/ai4i2020.csv
+[14:57:30] ----------------------------------------------------------------------------------------------------
+[14:57:30] Total number of per columnDatapoints:
+[14:57:30] UDI                        10000
+[14:57:30] Product ID                 10000
+[14:57:30] Type                       10000
+[14:57:30] Air temperature [K]        10000
+[14:57:30] Process temperature [K]    10000
+[14:57:30] Rotational speed [rpm]     10000
+[14:57:30] Torque [Nm]                10000
+[14:57:30] Tool wear [min]            10000
+[14:57:30] Machine failure            10000
+[14:57:30] TWF                        10000
+[14:57:30] HDF                        10000
+[14:57:30] PWF                        10000
+[14:57:30] OSF                        10000
+[14:57:30] RNF                        10000
+[14:57:30] dtype: int64
+[14:57:30] ----------------------------------------------------------------------------------------------------
+[14:57:30] ----------------------------------------------------------------------------------------------------
+[14:57:30] All numerical features of the columns:
+[14:57:30]                UDI  Air temperature [K]  Process temperature [K]  \
+[14:57:30] count  10000.00000         10000.000000             10000.000000   
+[14:57:30] mean    5000.50000           300.004930               310.005560   
+[14:57:30] std     2886.89568             2.000259                 1.483734   
+[14:57:30] min        1.00000           295.300000               305.700000   
+[14:57:30] 25%     2500.75000           298.300000               308.800000   
+[14:57:30] 50%     5000.50000           300.100000               310.100000   
+[14:57:30] 75%     7500.25000           301.500000               311.100000   
+[14:57:30] max    10000.00000           304.500000               313.800000   
+
+[14:57:30]        Rotational speed [rpm]   Torque [Nm]  Tool wear [min]  Machine failure  \
+[14:57:30] count            10000.000000  10000.000000     10000.000000     10000.000000   
+[14:57:30] mean              1538.776100     39.986910       107.951000         0.033900   
+[14:57:30] std                179.284096      9.968934        63.654147         0.180981   
+[14:57:30] min               1168.000000      3.800000         0.000000         0.000000   
+[14:57:30] 25%               1423.000000     33.200000        53.000000         0.000000   
+[14:57:30] 50%               1503.000000     40.100000       108.000000         0.000000   
+[14:57:30] 75%               1612.000000     46.800000       162.000000         0.000000   
+[14:57:30] max               2886.000000     76.600000       253.000000         1.000000   
+
+[14:57:30]                 TWF           HDF           PWF           OSF          RNF  
+[14:57:30] count  10000.000000  10000.000000  10000.000000  10000.000000  10000.00000  
+[14:57:30] mean       0.004600      0.011500      0.009500      0.009800      0.00190  
+[14:57:30] std        0.067671      0.106625      0.097009      0.098514      0.04355  
+[14:57:30] min        0.000000      0.000000      0.000000      0.000000      0.00000  
+[14:57:30] 25%        0.000000      0.000000      0.000000      0.000000      0.00000  
+[14:57:30] 50%        0.000000      0.000000      0.000000      0.000000      0.00000  
+[14:57:30] 75%        0.000000      0.000000      0.000000      0.000000      0.00000  
+[14:57:30] max        1.000000      1.000000      1.000000      1.000000      1.00000  
+[14:57:30] ----------------------------------------------------------------------------------------------------
+[14:57:30] ----------------------------------------------------------------------------------------------------
+[14:57:30] Cheecking for NaN values:
+[14:57:30] UDI                        0.0
+[14:57:30] Product ID                 0.0
+[14:57:30] Type                       0.0
+[14:57:30] Air temperature [K]        0.0
+[14:57:30] Process temperature [K]    0.0
+[14:57:30] Rotational speed [rpm]     0.0
+[14:57:30] Torque [Nm]                0.0
+[14:57:30] Tool wear [min]            0.0
+[14:57:30] Machine failure            0.0
+[14:57:30] TWF                        0.0
+[14:57:30] HDF                        0.0
+[14:57:30] PWF                        0.0
+[14:57:30] OSF                        0.0
+[14:57:30] RNF                        0.0
+[14:57:30] dtype: float64
+[14:57:30] ----------------------------------------------------------------------------------------------------
+[14:57:30] ----------------------------------------------------------------------------------------------------
+[14:57:30] dtypes of the columns:
+[14:57:30] UDI                          int64
+[14:57:30] Product ID                  object
+[14:57:30] Type                        object
+[14:57:30] Air temperature [K]        float64
+[14:57:30] Process temperature [K]    float64
+[14:57:30] Rotational speed [rpm]       int64
+[14:57:30] Torque [Nm]                float64
+[14:57:30] Tool wear [min]              int64
+[14:57:30] Machine failure              int64
+[14:57:30] TWF                          int64
+[14:57:30] HDF                          int64
+[14:57:30] PWF                          int64
+[14:57:30] OSF                          int64
+[14:57:30] RNF                          int64
+[14:57:30] dtype: object
+[14:57:30] ----------------------------------------------------------------------------------------------------
+
+[14:57:30] ============================== CRASH DETECTED ==============================
+[14:57:30] Timestamp: 2026-01-26 14:57:30.685564
+[14:57:30] Traceback (most recent call last):
+[14:57:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+[14:57:30]     return self._engine.get_loc(casted_key)
+[14:57:30]            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+[14:57:30]   File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+[14:57:30]   File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+[14:57:30]   File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+[14:57:30]   File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+[14:57:30] KeyError: 'Fault_Type'
+
+[14:57:30] The above exception was the direct cause of the following exception:
+
+[14:57:30] Traceback (most recent call last):
+[14:57:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/a1412020_eda.py", line 36, in <module>
+[14:57:30]     print(f'{df["Fault_Type"].value_counts(dropna=False)}')
+[14:57:30]              ~~^^^^^^^^^^^^^^
+[14:57:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+[14:57:30]     indexer = self.columns.get_loc(key)
+[14:57:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3819, in get_loc
+[14:57:30]     raise KeyError(key) from err
+[14:57:30] KeyError: 'Fault_Type'
+
+[14:57:30] ============================================================================
+

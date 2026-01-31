@@ -1,0 +1,316 @@
+[20:42:11] --- Logging Initialized for main.py ---
+[20:42:11] Log file: logs/main.py@2026-01-28_20-42-11.log
+[20:42:11] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[20:42:18] ========== Model Features =========
+[20:42:18] Air temperature [K]
+[20:42:18] Process temperature [K]
+[20:42:18] Rotational speed [rpm]
+[20:42:18] Torque [Nm]
+[20:42:18] Tool wear [min]
+[20:42:18] Air temperature [K]_Rolling_Mean
+[20:42:18] Air temperature [K]_Volatility
+[20:42:18] Air temperature [K]_Delta
+[20:42:18] Process temperature [K]_Rolling_Mean
+[20:42:18] Process temperature [K]_Volatility
+[20:42:18] Process temperature [K]_Delta
+[20:42:18] Rotational speed [rpm]_Rolling_Mean
+[20:42:18] Rotational speed [rpm]_Volatility
+[20:42:18] Rotational speed [rpm]_Delta
+[20:42:18] Torque [Nm]_Rolling_Mean
+[20:42:18] Torque [Nm]_Volatility
+[20:42:18] Torque [Nm]_Delta
+[20:42:18] Tool wear [min]_Rolling_Mean
+[20:42:18] Tool wear [min]_Volatility
+[20:42:18] Tool wear [min]_Delta
+[20:42:18] Power_Factor_Rolling
+
+[20:42:18] === Model Evaluation (Test Set) ===
+[20:42:18] ROC-AUC score :0.897
+[20:42:18] risk_tolerance used : 0.095
+[20:42:18] TP: 32 | FP: 554
+[20:42:18] FN: 7 | TN: 1407
+
+[20:42:18] Rates:
+[20:42:18] Recall (TPR) : 0.821
+[20:42:18] Precision    : 0.055
+[20:42:18] False PosRate: 0.283
+[20:42:18] ====================================
+[20:42:22] ========== Model Features =========
+[20:42:22] Air temperature [K]
+[20:42:22] Process temperature [K]
+[20:42:22] Rotational speed [rpm]
+[20:42:22] Torque [Nm]
+[20:42:22] Tool wear [min]
+[20:42:22] Air temperature [K]_Rolling_Mean
+[20:42:22] Air temperature [K]_Volatility
+[20:42:22] Air temperature [K]_Delta
+[20:42:22] Process temperature [K]_Rolling_Mean
+[20:42:22] Process temperature [K]_Volatility
+[20:42:22] Process temperature [K]_Delta
+[20:42:22] Rotational speed [rpm]_Rolling_Mean
+[20:42:22] Rotational speed [rpm]_Volatility
+[20:42:22] Rotational speed [rpm]_Delta
+[20:42:22] Torque [Nm]_Rolling_Mean
+[20:42:22] Torque [Nm]_Volatility
+[20:42:22] Torque [Nm]_Delta
+[20:42:22] Tool wear [min]_Rolling_Mean
+[20:42:22] Tool wear [min]_Volatility
+[20:42:22] Tool wear [min]_Delta
+[20:42:22] Power_Factor_Rolling
+
+[20:42:22] === Model Evaluation (Test Set) ===
+[20:42:22] ROC-AUC score :0.998
+[20:42:22] risk_tolerance used : 0.540
+[20:42:22] TP: 8 | FP: 0
+[20:42:22] FN: 1 | TN: 59
+
+[20:42:22] Rates:
+[20:42:22] Recall (TPR) : 0.889
+[20:42:22] Precision    : 1.000
+[20:42:22] False PosRate: 0.000
+[20:42:22] ====================================
+[20:42:22] ========== Model Features =========
+[20:42:22] Air temperature [K]
+[20:42:22] Process temperature [K]
+[20:42:22] Rotational speed [rpm]
+[20:42:22] Torque [Nm]
+[20:42:22] Tool wear [min]
+[20:42:22] Air temperature [K]_Rolling_Mean
+[20:42:22] Air temperature [K]_Volatility
+[20:42:22] Air temperature [K]_Delta
+[20:42:22] Process temperature [K]_Rolling_Mean
+[20:42:22] Process temperature [K]_Volatility
+[20:42:22] Process temperature [K]_Delta
+[20:42:22] Rotational speed [rpm]_Rolling_Mean
+[20:42:22] Rotational speed [rpm]_Volatility
+[20:42:22] Rotational speed [rpm]_Delta
+[20:42:22] Torque [Nm]_Rolling_Mean
+[20:42:22] Torque [Nm]_Volatility
+[20:42:22] Torque [Nm]_Delta
+[20:42:22] Tool wear [min]_Rolling_Mean
+[20:42:22] Tool wear [min]_Volatility
+[20:42:22] Tool wear [min]_Delta
+[20:42:22] Power_Factor_Rolling
+
+[20:42:22] === Model Evaluation (Test Set) ===
+[20:42:22] ROC-AUC score :0.998
+[20:42:22] risk_tolerance used : 0.540
+[20:42:22] TP: 8 | FP: 0
+[20:42:22] FN: 1 | TN: 59
+
+[20:42:22] Rates:
+[20:42:22] Recall (TPR) : 0.889
+[20:42:22] Precision    : 1.000
+[20:42:22] False PosRate: 0.000
+[20:42:22] ====================================
+[20:42:24] ========== Model Features =========
+[20:42:24] Air temperature [K]
+[20:42:24] Process temperature [K]
+[20:42:24] Rotational speed [rpm]
+[20:42:24] Torque [Nm]
+[20:42:24] Tool wear [min]
+[20:42:24] Air temperature [K]_Rolling_Mean
+[20:42:24] Air temperature [K]_Volatility
+[20:42:24] Air temperature [K]_Delta
+[20:42:24] Process temperature [K]_Rolling_Mean
+[20:42:24] Process temperature [K]_Volatility
+[20:42:24] Process temperature [K]_Delta
+[20:42:24] Rotational speed [rpm]_Rolling_Mean
+[20:42:24] Rotational speed [rpm]_Volatility
+[20:42:24] Rotational speed [rpm]_Delta
+[20:42:24] Torque [Nm]_Rolling_Mean
+[20:42:24] Torque [Nm]_Volatility
+[20:42:24] Torque [Nm]_Delta
+[20:42:24] Tool wear [min]_Rolling_Mean
+[20:42:24] Tool wear [min]_Volatility
+[20:42:24] Tool wear [min]_Delta
+[20:42:24] Power_Factor_Rolling
+
+[20:42:24] === Model Evaluation (Test Set) ===
+[20:42:24] ROC-AUC score :0.983
+[20:42:24] risk_tolerance used : 0.750
+[20:42:24] TP: 19 | FP: 0
+[20:42:24] FN: 4 | TN: 45
+
+[20:42:24] Rates:
+[20:42:24] Recall (TPR) : 0.826
+[20:42:24] Precision    : 1.000
+[20:42:24] False PosRate: 0.000
+[20:42:24] ====================================
+[20:42:24] ========== Model Features =========
+[20:42:24] Air temperature [K]
+[20:42:24] Process temperature [K]
+[20:42:24] Rotational speed [rpm]
+[20:42:24] Torque [Nm]
+[20:42:24] Tool wear [min]
+[20:42:24] Air temperature [K]_Rolling_Mean
+[20:42:24] Air temperature [K]_Volatility
+[20:42:24] Air temperature [K]_Delta
+[20:42:24] Process temperature [K]_Rolling_Mean
+[20:42:24] Process temperature [K]_Volatility
+[20:42:24] Process temperature [K]_Delta
+[20:42:24] Rotational speed [rpm]_Rolling_Mean
+[20:42:24] Rotational speed [rpm]_Volatility
+[20:42:24] Rotational speed [rpm]_Delta
+[20:42:24] Torque [Nm]_Rolling_Mean
+[20:42:24] Torque [Nm]_Volatility
+[20:42:24] Torque [Nm]_Delta
+[20:42:24] Tool wear [min]_Rolling_Mean
+[20:42:24] Tool wear [min]_Volatility
+[20:42:24] Tool wear [min]_Delta
+[20:42:24] Power_Factor_Rolling
+
+[20:42:24] === Model Evaluation (Test Set) ===
+[20:42:24] ROC-AUC score :0.983
+[20:42:24] risk_tolerance used : 0.750
+[20:42:24] TP: 19 | FP: 0
+[20:42:24] FN: 4 | TN: 45
+
+[20:42:24] Rates:
+[20:42:24] Recall (TPR) : 0.826
+[20:42:24] Precision    : 1.000
+[20:42:24] False PosRate: 0.000
+[20:42:24] ====================================
+[20:42:26] ========== Model Features =========
+[20:42:26] Air temperature [K]
+[20:42:26] Process temperature [K]
+[20:42:26] Rotational speed [rpm]
+[20:42:26] Torque [Nm]
+[20:42:26] Tool wear [min]
+[20:42:26] Air temperature [K]_Rolling_Mean
+[20:42:26] Air temperature [K]_Volatility
+[20:42:26] Air temperature [K]_Delta
+[20:42:26] Process temperature [K]_Rolling_Mean
+[20:42:26] Process temperature [K]_Volatility
+[20:42:26] Process temperature [K]_Delta
+[20:42:26] Rotational speed [rpm]_Rolling_Mean
+[20:42:26] Rotational speed [rpm]_Volatility
+[20:42:26] Rotational speed [rpm]_Delta
+[20:42:26] Torque [Nm]_Rolling_Mean
+[20:42:26] Torque [Nm]_Volatility
+[20:42:26] Torque [Nm]_Delta
+[20:42:26] Tool wear [min]_Rolling_Mean
+[20:42:26] Tool wear [min]_Volatility
+[20:42:26] Tool wear [min]_Delta
+[20:42:26] Power_Factor_Rolling
+
+[20:42:26] === Model Evaluation (Test Set) ===
+[20:42:26] ROC-AUC score :0.983
+[20:42:26] risk_tolerance used : 0.440
+[20:42:26] TP: 16 | FP: 1
+[20:42:26] FN: 3 | TN: 48
+
+[20:42:26] Rates:
+[20:42:26] Recall (TPR) : 0.842
+[20:42:26] Precision    : 0.941
+[20:42:26] False PosRate: 0.020
+[20:42:26] ====================================
+[20:42:26] ========== Model Features =========
+[20:42:26] Air temperature [K]
+[20:42:26] Process temperature [K]
+[20:42:26] Rotational speed [rpm]
+[20:42:26] Torque [Nm]
+[20:42:26] Tool wear [min]
+[20:42:26] Air temperature [K]_Rolling_Mean
+[20:42:26] Air temperature [K]_Volatility
+[20:42:26] Air temperature [K]_Delta
+[20:42:26] Process temperature [K]_Rolling_Mean
+[20:42:26] Process temperature [K]_Volatility
+[20:42:26] Process temperature [K]_Delta
+[20:42:26] Rotational speed [rpm]_Rolling_Mean
+[20:42:26] Rotational speed [rpm]_Volatility
+[20:42:26] Rotational speed [rpm]_Delta
+[20:42:26] Torque [Nm]_Rolling_Mean
+[20:42:26] Torque [Nm]_Volatility
+[20:42:26] Torque [Nm]_Delta
+[20:42:26] Tool wear [min]_Rolling_Mean
+[20:42:26] Tool wear [min]_Volatility
+[20:42:26] Tool wear [min]_Delta
+[20:42:26] Power_Factor_Rolling
+
+[20:42:26] === Model Evaluation (Test Set) ===
+[20:42:26] ROC-AUC score :0.983
+[20:42:26] risk_tolerance used : 0.440
+[20:42:26] TP: 16 | FP: 1
+[20:42:26] FN: 3 | TN: 48
+
+[20:42:26] Rates:
+[20:42:26] Recall (TPR) : 0.842
+[20:42:26] Precision    : 0.941
+[20:42:26] False PosRate: 0.020
+[20:42:26] ====================================
+[20:42:28] ========== Model Features =========
+[20:42:28] Air temperature [K]
+[20:42:28] Process temperature [K]
+[20:42:28] Rotational speed [rpm]
+[20:42:28] Torque [Nm]
+[20:42:28] Tool wear [min]
+[20:42:28] Air temperature [K]_Rolling_Mean
+[20:42:28] Air temperature [K]_Volatility
+[20:42:28] Air temperature [K]_Delta
+[20:42:28] Process temperature [K]_Rolling_Mean
+[20:42:28] Process temperature [K]_Volatility
+[20:42:28] Process temperature [K]_Delta
+[20:42:28] Rotational speed [rpm]_Rolling_Mean
+[20:42:28] Rotational speed [rpm]_Volatility
+[20:42:28] Rotational speed [rpm]_Delta
+[20:42:28] Torque [Nm]_Rolling_Mean
+[20:42:28] Torque [Nm]_Volatility
+[20:42:28] Torque [Nm]_Delta
+[20:42:28] Tool wear [min]_Rolling_Mean
+[20:42:28] Tool wear [min]_Volatility
+[20:42:28] Tool wear [min]_Delta
+[20:42:28] Power_Factor_Rolling
+
+[20:42:28] === Model Evaluation (Test Set) ===
+[20:42:28] ROC-AUC score :0.994
+[20:42:28] risk_tolerance used : 0.760
+[20:42:28] TP: 16 | FP: 0
+[20:42:28] FN: 4 | TN: 48
+
+[20:42:28] Rates:
+[20:42:28] Recall (TPR) : 0.800
+[20:42:28] Precision    : 1.000
+[20:42:28] False PosRate: 0.000
+[20:42:28] ====================================
+[20:42:28] ========== Model Features =========
+[20:42:28] Air temperature [K]
+[20:42:28] Process temperature [K]
+[20:42:28] Rotational speed [rpm]
+[20:42:28] Torque [Nm]
+[20:42:28] Tool wear [min]
+[20:42:28] Air temperature [K]_Rolling_Mean
+[20:42:28] Air temperature [K]_Volatility
+[20:42:28] Air temperature [K]_Delta
+[20:42:28] Process temperature [K]_Rolling_Mean
+[20:42:28] Process temperature [K]_Volatility
+[20:42:28] Process temperature [K]_Delta
+[20:42:28] Rotational speed [rpm]_Rolling_Mean
+[20:42:28] Rotational speed [rpm]_Volatility
+[20:42:28] Rotational speed [rpm]_Delta
+[20:42:28] Torque [Nm]_Rolling_Mean
+[20:42:28] Torque [Nm]_Volatility
+[20:42:28] Torque [Nm]_Delta
+[20:42:28] Tool wear [min]_Rolling_Mean
+[20:42:28] Tool wear [min]_Volatility
+[20:42:28] Tool wear [min]_Delta
+[20:42:28] Power_Factor_Rolling
+
+[20:42:28] === Model Evaluation (Test Set) ===
+[20:42:28] ROC-AUC score :0.994
+[20:42:28] risk_tolerance used : 0.760
+[20:42:28] TP: 16 | FP: 0
+[20:42:28] FN: 4 | TN: 48
+
+[20:42:28] Rates:
+[20:42:28] Recall (TPR) : 0.800
+[20:42:28] Precision    : 1.000
+[20:42:28] False PosRate: 0.000
+[20:42:28] ====================================
+[20:42:28] Step   | Torque   | Risk Prob  | Alert      | Diagnosis
+[20:42:28] ------------------------------------------------------------
+[20:42:28] 1      | 38.0     | 0.0210     | HEALTHY    | None
+[20:42:28] 2      | 45.0     | 0.1136     | HEALTHY    | None
+[20:42:28] 3      | 52.0     | 0.2784     | HEALTHY    | None
+[20:42:28] 4      | 60.9     | 0.6114     | WARNING    | PWF
+[20:42:28] 5      | 75.0     | 0.9682     | CRITICAL   | PWF

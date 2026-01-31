@@ -1,0 +1,38 @@
+[20:06:58] --- Logging Initialized for main.py ---
+[20:06:58] Log file: logs/main.py@2026-01-28_20-06-58.log
+[20:06:58] Loaded RiskEvalModel from disk.
+[20:06:58] Loaded classifier for TWF
+[20:06:58] Loaded classifier for HDF
+[20:06:58] Loaded classifier for PWF
+[20:06:58] Loaded classifier for OSF
+[20:06:58] All models ready.
+
+[20:06:58] ============================== CRASH DETECTED ==============================
+[20:06:58] Timestamp: 2026-01-28 20:06:58.769458
+[20:06:58] Traceback (most recent call last):
+[20:06:58]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+[20:06:58]     return self._engine.get_loc(casted_key)
+[20:06:58]            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+[20:06:58]   File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+[20:06:58]   File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+[20:06:58]   File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+[20:06:58]   File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+[20:06:58] KeyError: 'Torque'
+
+[20:06:58] The above exception was the direct cause of the following exception:
+
+[20:06:58] Traceback (most recent call last):
+[20:06:58]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 571, in <module>
+[20:06:58]     print(f"Step {i+1} | Torque: {test_df.iloc[i]['Torque']} | Risk Prob: {prediction['risk_prob']:.4f} | Risk: {prediction['risk']}")
+[20:06:58]                                   ~~~~~~~~~~~~~~~^^^^^^^^^^
+[20:06:58]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/series.py", line 1133, in __getitem__
+[20:06:58]     return self._get_value(key)
+[20:06:58]            ~~~~~~~~~~~~~~~^^^^^
+[20:06:58]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/series.py", line 1249, in _get_value
+[20:06:58]     loc = self.index.get_loc(label)
+[20:06:58]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 3819, in get_loc
+[20:06:58]     raise KeyError(key) from err
+[20:06:58] KeyError: 'Torque'
+
+[20:06:58] ============================================================================
+

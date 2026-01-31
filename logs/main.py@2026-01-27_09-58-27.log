@@ -1,0 +1,16 @@
+[09:58:27] --- Logging Initialized for main.py ---
+[09:58:27] Log file: logs/main.py@2026-01-27_09-58-27.log
+
+[09:58:27] ============================== CRASH DETECTED ==============================
+[09:58:27] Timestamp: 2026-01-27 09:58:27.175840
+[09:58:27] Traceback (most recent call last):
+[09:58:27]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 216, in <module>
+[09:58:27]     model.dataset('ai4i2020.csv','Machine failure',['TWF','HDF','PWF','OSF','RNF','UDI','Product ID','Type'])
+[09:58:27]     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[09:58:27]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 36, in dataset
+[09:58:27]     self.filename, _ = os.path.splitext
+[09:58:27]     ^^^^^^^^^^^^^^^^
+[09:58:27] TypeError: cannot unpack non-iterable function object
+
+[09:58:27] ============================================================================
+

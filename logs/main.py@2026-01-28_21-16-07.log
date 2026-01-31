@@ -1,0 +1,82 @@
+[21:16:07] --- Logging Initialized for main.py ---
+[21:16:07] Log file: logs/main.py@2026-01-28_21-16-07.log
+[21:16:07] Fitting 5 folds for each of 50 candidates, totalling 250 fits
+[21:16:12] ========== Model Features =========
+[21:16:12] Air temperature [K]
+[21:16:12] Process temperature [K]
+[21:16:12] Rotational speed [rpm]
+[21:16:12] Torque [Nm]
+[21:16:12] Tool wear [min]
+[21:16:12] Air temperature [K]_Rolling_Mean
+[21:16:12] Air temperature [K]_Volatility
+[21:16:12] Air temperature [K]_Delta
+[21:16:12] Process temperature [K]_Rolling_Mean
+[21:16:12] Process temperature [K]_Volatility
+[21:16:12] Process temperature [K]_Delta
+[21:16:12] Rotational speed [rpm]_Rolling_Mean
+[21:16:12] Rotational speed [rpm]_Volatility
+[21:16:12] Rotational speed [rpm]_Delta
+[21:16:12] Torque [Nm]_Rolling_Mean
+[21:16:12] Torque [Nm]_Volatility
+[21:16:12] Torque [Nm]_Delta
+[21:16:12] Tool wear [min]_Rolling_Mean
+[21:16:12] Tool wear [min]_Volatility
+[21:16:12] Tool wear [min]_Delta
+[21:16:12] Power_Factor_Rolling
+
+[21:16:12] === Model Evaluation (Test Set) ===
+[21:16:12] ROC-AUC score :0.897
+[21:16:12] risk_tolerance used : 0.095
+[21:16:12] TP: 32 | FP: 554
+[21:16:12] FN: 7 | TN: 1407
+
+[21:16:12] Rates:
+[21:16:12] Recall (TPR) : 0.821
+[21:16:12] Precision    : 0.055
+[21:16:12] False PosRate: 0.283
+[21:16:12] ====================================
+[21:16:12] Loaded RiskEvalModel from disk.
+[21:16:12] Step   | Risk Prob  | Alert      | Diagnosis
+[21:16:12] ------------------------------------------------------------
+
+[21:16:13] ============================== CRASH DETECTED ==============================
+[21:16:13] Timestamp: 2026-01-28 21:16:13.005926
+[21:16:13] Traceback (most recent call last):
+[21:16:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 525, in <module>
+[21:16:13]     inference_system.evaluate_test_set(gatekeeper_trainer.X_test.head(200))
+[21:16:13]     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[21:16:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 498, in evaluate_test_set
+[21:16:13]     res = self.predict(test_dataframe_X.iloc[[i]])
+[21:16:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 462, in predict
+[21:16:13]     risk_prob = float(self.risk_model.predict_proba(inference_df)[:, 1][0])
+[21:16:13]                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+[21:16:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/model_selection/_search.py", line 623, in predict_proba
+[21:16:13]     return self.best_estimator_.predict_proba(X)
+[21:16:13]            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+[21:16:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/pipeline.py", line 858, in predict_proba
+[21:16:13]     Xt = transform.transform(Xt)
+[21:16:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/_set_output.py", line 316, in wrapped
+[21:16:13]     data_to_wrap = f(self, X, *args, **kwargs)
+[21:16:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/preprocessing/_data.py", line 1094, in transform
+[21:16:13]     X = validate_data(
+[21:16:13]         self,
+[21:16:13]     ...<6 lines>...
+[21:16:13]         ensure_all_finite="allow-nan",
+[21:16:13]     )
+[21:16:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 2877, in validate_data
+[21:16:13]     _check_feature_names(_estimator, X, reset=reset)
+[21:16:13]     ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[21:16:13]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/sklearn/utils/validation.py", line 2729, in _check_feature_names
+[21:16:13]     raise ValueError(message)
+[21:16:13] ValueError: The feature names should match those that were passed during fit.
+[21:16:13] Feature names unseen at fit time:
+[21:16:13] - Air temperature [K]_Delta_Delta
+[21:16:13] - Air temperature [K]_Delta_Rolling_Mean
+[21:16:13] - Air temperature [K]_Delta_Volatility
+[21:16:13] - Air temperature [K]_Rolling_Mean_Delta
+[21:16:13] - Air temperature [K]_Rolling_Mean_Rolling_Mean
+[21:16:13] - ...
+
+
+[21:16:13] ============================================================================
+

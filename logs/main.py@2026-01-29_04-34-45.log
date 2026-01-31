@@ -1,0 +1,29 @@
+[04:34:45] --- Logging Initialized for main.py ---
+[04:34:45] Log file: logs/main.py@2026-01-29_04-34-45.log
+[04:34:45] Loaded RiskEvalModel from disk.
+[04:34:45] Step   | Risk Prob  | Alert      | Diagnosis
+[04:34:45] ------------------------------------------------------------
+
+[04:34:45] ============================== CRASH DETECTED ==============================
+[04:34:45] Timestamp: 2026-01-29 04:34:45.693743
+[04:34:45] Traceback (most recent call last):
+[04:34:45]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 528, in <module>
+[04:34:45]     FinalSystem.evaluate_test_set(test_data)
+[04:34:45]     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+[04:34:45]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 496, in evaluate_test_set
+[04:34:45]     res = self.predict(test_dataframe_X.iloc[[i]])
+[04:34:45]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 467, in predict
+[04:34:45]     inference_df = inference_df[self.risk_model.feature_names_in_]
+[04:34:45]                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[04:34:45]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/frame.py", line 4119, in __getitem__
+[04:34:45]     indexer = self.columns._get_indexer_strict(key, "columns")[1]
+[04:34:45]               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+[04:34:45]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+[04:34:45]     self._raise_if_missing(keyarr, indexer, axis_name)
+[04:34:45]     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[04:34:45]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/.venv/lib/python3.14/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+[04:34:45]     raise KeyError(f"{not_found} not in index")
+[04:34:45] KeyError: "['Power_Factor_Rolling'] not in index"
+
+[04:34:45] ============================================================================
+

@@ -1,0 +1,25 @@
+[16:40:30] --- Logging Initialized for main.py ---
+[16:40:30] Log file: logs/main.py@2026-01-26_16-40-30.log
+[16:40:30] Air temperature [K]
+[16:40:30] Process temperature [K]
+[16:40:30] Rotational speed [rpm]
+[16:40:30] Torque [Nm]
+[16:40:30] Tool wear [min]
+[16:40:30] ROC-AUC Score: 0.8977104826161431
+
+[16:40:30] ============================== CRASH DETECTED ==============================
+[16:40:30] Timestamp: 2026-01-26 16:40:30.356792
+[16:40:30] Traceback (most recent call last):
+[16:40:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 149, in <module>
+[16:40:30]     model.train_run()
+[16:40:30]     ~~~~~~~~~~~~~~~^^
+[16:40:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 73, in train_run
+[16:40:30]     self.plot(roc)
+[16:40:30]     ~~~~~~~~~^^^^^
+[16:40:30]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 88, in plot
+[16:40:30]     axes['roc'].xlabel("False Positive Rate")
+[16:40:30]     ^^^^^^^^^^^^^^^^^^
+[16:40:30] AttributeError: 'Axes' object has no attribute 'xlabel'. Did you mean: 'clabel'?
+
+[16:40:30] ============================================================================
+

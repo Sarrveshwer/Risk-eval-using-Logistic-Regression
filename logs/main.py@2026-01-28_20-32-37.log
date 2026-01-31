@@ -1,0 +1,26 @@
+[20:32:37] --- Logging Initialized for main.py ---
+[20:32:37] Log file: logs/main.py@2026-01-28_20-32-37.log
+[20:32:37] Loaded RiskEvalModel from disk.
+[20:32:37] Loaded classifier for TWF
+[20:32:37] Loaded classifier for HDF
+[20:32:37] Loaded classifier for PWF
+[20:32:37] Loaded classifier for OSF
+[20:32:37] All models ready.
+[20:32:37] Step   | Torque   | Risk Prob  | Alert      | Diagnosis
+[20:32:37] ------------------------------------------------------------
+[20:32:37] 1      | 38.0     | 0.0584     | HEALTHY    | None
+[20:32:37] 2      | 45.0     | 0.1594     | HEALTHY    | None
+[20:32:37] 3      | 52.0     | 0.3235     | HEALTHY    | None
+
+[20:32:37] ============================== CRASH DETECTED ==============================
+[20:32:37] Timestamp: 2026-01-28 20:32:37.663769
+[20:32:37] Traceback (most recent call last):
+[20:32:37]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 565, in <module>
+[20:32:37]     result = model.predict(snapshot)
+[20:32:37]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 530, in predict
+[20:32:37]     "risk": 1 if alert_level == "CRITICAL" else 0,
+[20:32:37]                  ^^^^^^^^^^^
+[20:32:37] NameError: name 'alert_level' is not defined
+
+[20:32:37] ============================================================================
+

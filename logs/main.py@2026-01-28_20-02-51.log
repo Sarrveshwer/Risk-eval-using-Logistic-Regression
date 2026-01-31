@@ -1,0 +1,19 @@
+[20:02:51] --- Logging Initialized for main.py ---
+[20:02:51] Log file: logs/main.py@2026-01-28_20-02-51.log
+[20:02:51] Loaded RiskEvalModel from disk.
+[20:02:51] Loaded classifier for TWF
+[20:02:51] Loaded classifier for HDF
+[20:02:51] Loaded classifier for PWF
+[20:02:51] Loaded classifier for OSF
+[20:02:51] All models ready.
+
+[20:02:51] ============================== CRASH DETECTED ==============================
+[20:02:51] Timestamp: 2026-01-28 20:02:51.209148
+[20:02:51] Traceback (most recent call last):
+[20:02:51]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 568, in <module>
+[20:02:51]     prediction = your_object_name.your_function_name(current_snapshot)
+[20:02:51]                  ^^^^^^^^^^^^^^^^
+[20:02:51] NameError: name 'your_object_name' is not defined
+
+[20:02:51] ============================================================================
+
