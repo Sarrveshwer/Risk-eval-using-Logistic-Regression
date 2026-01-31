@@ -2,7 +2,7 @@ from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, av
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import RobustScaler
 from sklearn.pipeline import Pipeline
 import matplotlib.pyplot as plt
 import seaborn as sns 
@@ -90,7 +90,7 @@ class RiskEvalModel:
 
     def train_run(self):
         '''
-        Created a pipline where StandardScaler[z-scalling] is first applied and then
+        Created a pipline where RobustScaler is first applied and then
         piped to Logistic Regression for model fitting
         '''
         
@@ -98,15 +98,17 @@ class RiskEvalModel:
         
         #Creates the pipline for the model to work
         pipe = Pipeline([
-            ("scaler", StandardScaler()),
+            ("scaler", RobustScaler()),
             ("clf", LogisticRegression(
                 class_weight="balanced",
+                l1_ratio=1,       # Pure L1
+                solver='liblinear', # Supports L1
                 max_iter=3000
             ))
         ])
 
         param_dist = {
-            "clf__C": np.logspace(-5, -1, 50) # Range shifted from -3:2 to -5:-1
+            "clf__C": np.logspace(-5, 7 , 50) 
         }
         
         #Finds the best paramater for LogisticRegression
@@ -115,7 +117,7 @@ class RiskEvalModel:
             param_distributions=param_dist,
             n_iter=50,
             scoring="roc_auc",
-            cv=5,
+            cv=3,
             random_state=42,
             n_jobs=-1,
             verbose = 1,
@@ -337,7 +339,9 @@ class FailureClassificationModel:
                                                         )
         
 
-    def train_run(self,param):
+    # Replace your existing train_run method in FailureClassificationModel with this:
+
+    def train_run(self, param):
         remaining_params = [i for i in self.classifications if i != param]
         self.dataset(self.filename + self.ext,
                     param,
@@ -346,26 +350,44 @@ class FailureClassificationModel:
                     self.ignore + remaining_params + [self.target]
                     )
         
-        #Similar to RiskEvalModel a pipeline is created where StandardScaler(Z-scaling is applied)
-        #then the normalized data is passed to LogisticRegression for training
+        # CHANGED: Added Hyperparameter Tuning to the Classification Step
         pipe = Pipeline([
-            ("scaler", StandardScaler()),
-            ("clf", LogisticRegression(class_weight="balanced", max_iter=3000))
+            ("scaler", RobustScaler()),
+            ("clf", LogisticRegression(
+                class_weight="balanced",
+                l1_ratio=1,       # Pure L1
+                solver='liblinear', # Supports L1
+                max_iter=5000
+            ))
         ])
 
-        pipe.fit(self.X_train,self.y_train)
+        # Search for the optimal C to separate the classes
+        param_dist = {
+            "clf__C": np.logspace(-2, 2, 20) 
+        }
+
+        search = RandomizedSearchCV(
+            pipe,
+            param_distributions=param_dist,
+            n_iter=20,
+            scoring="roc_auc",
+            cv=3,  # Lower CV because failure-specific datasets are smaller
+            random_state=42,
+            n_jobs=-1,
+            verbose=0,
+            error_score='raise'
+        )
+
+        search.fit(self.X_train, self.y_train)
         
-        #y_prob is used to get the exact probability
-        self.y_prob = pipe.predict_proba(self.X_test)[:, 1]
-        #Passes the roc score
+        # Predict using the best found model
+        self.y_prob = search.predict_proba(self.X_test)[:, 1]
         self.roc = roc_auc_score(self.y_test, self.y_prob)
         
-        #calls plot method which is withing the class
-        self.plot(self.roc,0.50,param)
+        self.plot(self.roc, 0.50, param)
 
-        #Dont need this but for tinkering with the models in the future
-        model_name= f"Risk_eval_{param}.pkl"
-        jb.dump(pipe,model_name)
+        model_name = f"Risk_eval_{param}.pkl"
+        jb.dump(search, model_name) # Dump the search object, not just the pipe
         
         return model_name
     
@@ -643,9 +665,11 @@ class FailurePredictionSystem:
         #Gives the exact probabilty of a Failure happening
         raw_risk_prob = float(self.risk_model.predict_proba(inference_df)[:, 1][0])
         
+        #creates a list called prob_history
         if not hasattr(self, 'prob_history'):
             self.prob_history = []
-            
+        
+        #Saves the last 3 predictions    
         self.prob_history.append(raw_risk_prob)
         if len(self.prob_history) > 3: 
             self.prob_history.pop(0)
@@ -654,17 +678,23 @@ class FailurePredictionSystem:
         
         warning_zone = self.risk_tolerance * self.warning_sensitivity
         
-        if risk_prob >= warning_zone and risk_prob < self.risk_tolerance:
+        # 1. Update Streak Counters
+        if risk_prob >= warning_zone: 
             self.warning_streak += 1
-        elif risk_prob >= self.risk_tolerance:
-            self.warning_streak = 0
         else:
             self.warning_streak = 0
 
+        # 2. Determine Alert Status with INTENSITY OVERRIDE
         if risk_prob >= self.risk_tolerance:
             alert_status = "CRITICAL"
+            
+        # NEW: High Intensity Override (The Fix)
+        elif risk_prob >= 0.60: 
+            alert_status = "WARNING" 
+            # Optional: Force streak to max to keep alert active if risk drops slightly
+            self.warning_streak = max(self.warning_streak, self.persistence_threshold)
+            
         elif risk_prob >= warning_zone:
-            self.warning_streak += 1
             if self.warning_streak >= self.persistence_threshold:
                 alert_status = "WARNING"
             else:
@@ -729,6 +759,12 @@ class FailurePredictionSystem:
             
             print("-" * 50)
             print(f"Optimal Parameters: {best_params}")
+            
+            self.history = []
+            if hasattr(self, 'prob_history'):
+                self.prob_history = [] 
+            self.warning_streak = 0
+            
             return best_params
         
 if __name__ == '__main__':
@@ -738,7 +774,7 @@ if __name__ == '__main__':
     FinalSystem = FailurePredictionSystem(
         'ai4i2020.csv',
         'Machine failure',
-        0.80,
+        0.765,
         ignore_list,
         target_labels
     )
