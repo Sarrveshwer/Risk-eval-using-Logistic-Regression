@@ -2,6 +2,12 @@
 
 A real-time machine failure prediction system using logistic regression with rolling window features. The idea is to monitor sensor data and catch failures before they actually happen. Instead of just looking at one row of data, I have given the model "memory" using rolling windows.
 
+## Dataset Used
+
+### AI4I 2020 Predictive Maintenance Dataset
+
+https://archive.ics.uci.edu/dataset/601/ai4i+2020+predictive+maintenance+dataset
+
 ## System Architecture
 
 ### Primary Risk Model

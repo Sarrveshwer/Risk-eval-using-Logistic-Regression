@@ -589,6 +589,10 @@ class FailurePredictionSystem:
         This function first check if the models exists
         If it exsists then it 
         '''
+        try: 
+            os.mkdir('models')
+        except:
+            pass
         risk_model_path = "/models/Risk_eval_model.pkl"
         if os.path.exists(risk_model_path): #Checks if an already trained RiskEvalModel exsists
             self.risk_model = jb.load(risk_model_path)
