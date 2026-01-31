@@ -133,7 +133,7 @@ class RiskEvalModel:
         self.y_prob = search.predict_proba(self.X_test)[:, 1]
         self.roc = roc_auc_score(self.y_test, self.y_prob)
         self.plot(self.roc,self.risk_tolerance)
-        model_name =  "/models/Risk_eval_model.pkl"
+        model_name =  "models/Risk_eval_model.pkl"
         jb.dump(search,model_name)
         
         return model_name
@@ -398,7 +398,7 @@ class FailureClassificationModel:
         
         self.plot(self.roc, 0.50, param)
 
-        model_name = f"/models/Risk_eval_{param}.pkl"
+        model_name = f"models/Risk_eval_{param}.pkl"
         jb.dump(search, model_name) # Dump the search object, not just the pipe
         
         return model_name
@@ -593,7 +593,7 @@ class FailurePredictionSystem:
             os.mkdir('models')
         except:
             pass
-        risk_model_path = "/models/Risk_eval_model.pkl"
+        risk_model_path = "models/Risk_eval_model.pkl"
         if os.path.exists(risk_model_path): #Checks if an already trained RiskEvalModel exsists
             self.risk_model = jb.load(risk_model_path)
             print("Loaded RiskEvalModel from disk.")
@@ -612,7 +612,7 @@ class FailurePredictionSystem:
         if a model doesnt exists a model is trained, saved and loaded for use.
         '''
         for failure in self.classifications:
-            model_path = f"/models/Risk_eval_{failure}.pkl"
+            model_path = f"models/Risk_eval_{failure}.pkl"
             if os.path.exists(model_path):
                 self.classification_models[failure] = jb.load(model_path)
             else:
@@ -625,7 +625,7 @@ class FailurePredictionSystem:
                 )
                 model_path = clf.train_run(failure)
                 self.classification_models[failure] = jb.load(model_path)
-    
+        print('Loaded all FailureClassification Models from disk')
     # ─── Predict The Values ───────────────────────────────────────────────
 
     '''
@@ -742,11 +742,11 @@ class FailurePredictionSystem:
         }
         
     def evaluate_test_set(self, test_dataframe_X): #Just a method to give output during testing
-        print(f"{'Step':<5} | {'Risk':<7} | {'Streak':<6} | {'Alert':<10} | {'Diagnosis'}")
+        print(f"{'Step':<5} | {'Risk':<7} | {'Alert':<10} | {'Diagnosis'}")
         print("-" * 65)
         for i in range(len(test_dataframe_X)):
             res = self.predict(test_dataframe_X.iloc[[i]])
-            print(f"{i+1:<5} | {res['risk_prob']:<7.4f} | {res['streak']:<6} | {res['alert_level']:<10} | {res['failure_type']}")
+            print(f"{i+1:<5} | {res['risk_prob']:<7.4f} | {res['alert_level']:<10} | {res['failure_type']}")
     
     # ─── Finds The Best Values For Warnings To Trigger ────────────────────
 
@@ -780,11 +780,14 @@ class FailurePredictionSystem:
             best_params = {}
             
             # Total no of combinations is 20
-            warning_range = np.linspace(0.3, 0.7, 5) # 5 values for warning
-            diagnosis_range = np.linspace(0.2, 0.5, 4) # 4 values for diagnosis
+            warning_range = np.linspace(0.1,1, 10) # 5 values for warning
+            diagnosis_range = np.linspace(0.1, 1, 10) # 4 values for diagnosis
             
-            print(f"{'Warning_S':<10} | {'Diag_S':<10} | {'Warning Step':<12} | {'Score'}")
-            print("-" * 50)
+            '''
+            Uncomment if you wanna change the values
+            '''
+            #print(f"{'Warning_S':<10} | {'Diag_S':<10} | {'Warning Step':<12} | {'Score'}")
+            #print("-" * 50)
             
             '''
             Trying to Brute Force every single of the 20 combinations to fins the best one
@@ -812,16 +815,22 @@ class FailurePredictionSystem:
                     else:
                         score = 0
                     
-                    print(f"{w_s:<10.2f} | {d_s:<10.2f} | {str(first_warning_step):<12} | {score:.2f}")
+                    '''
+                    Uncomment the below statement if you want to change the values
+                    '''
+                    #print(f"{w_s:<10.2f} | {d_s:<10.2f} | {str(first_warning_step):<12} | {score:.2f}")
                     
                     # Stores the best params
                     if score > best_score:
                         best_score = score
                         best_params = {'warning_sensitivity': w_s, 'diagnosis_sensitivity': d_s}
+                        
+                    if score == 1.0:
+                        break
             
             print("-" * 50)
             print(f"Optimal Parameters: {best_params}")
-            
+            print("-" * 50)
             # Resets everything so it does not effect actual predictions
             self.history = []
             if hasattr(self, 'prob_history'):
