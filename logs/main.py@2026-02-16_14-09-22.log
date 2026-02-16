@@ -1,0 +1,4 @@
+[14:09:22] --- Logging Initialized for main.py ---
+[14:09:22] Log file: logs/main.py@2026-02-16_14-09-22.log
+[14:09:22] Loaded RiskEvalModel from disk.
+[14:09:22] Fitting 3 folds for each of 20 candidates, totalling 60 fits

@@ -1,0 +1,19 @@
+[14:13:11] --- Logging Initialized for main.py ---
+[14:13:11] Log file: logs/main.py@2026-02-16_14-13-11.log
+[14:13:11] Loaded RiskEvalModel from disk.
+
+[14:13:11] ============================== CRASH DETECTED ==============================
+[14:13:11] Timestamp: 2026-02-16 14:13:11.154016
+[14:13:11] Traceback (most recent call last):
+[14:13:11]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 746, in <module>
+[14:13:11]     FinalSystem.LoadModels()
+[14:13:11]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[14:13:11]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 516, in LoadModels
+[14:13:11]     model_path = clf.train_run()
+[14:13:11]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 346, in train_run
+[14:13:11]     search.fit(self.X_train, self.y_train)
+[14:13:11]     ^^^^^^
+[14:13:11] NameError: name 'search' is not defined
+
+[14:13:11] ============================================================================
+

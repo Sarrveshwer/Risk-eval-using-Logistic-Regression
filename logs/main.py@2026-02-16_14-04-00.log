@@ -1,0 +1,13 @@
+[14:04:00] --- Logging Initialized for main.py ---
+[14:04:00] Log file: logs/main.py@2026-02-16_14-04-00.log
+
+[14:04:00] ============================== CRASH DETECTED ==============================
+[14:04:00] Timestamp: 2026-02-16 14:04:00.118655
+[14:04:00] Traceback (most recent call last):
+[14:04:00]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 750, in <module>
+[14:04:00]     FailureClassificationModel.train_run()
+[14:04:00]     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[14:04:00] TypeError: FailureClassificationModel.train_run() missing 1 required positional argument: 'self'
+
+[14:04:00] ============================================================================
+

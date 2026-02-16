@@ -1,0 +1,57 @@
+[14:25:56] --- Logging Initialized for main.py ---
+[14:25:56] Log file: logs/main.py@2026-02-16_14-25-56.log
+[14:25:56] Loaded RiskEvalModel from disk.
+[14:29:16] ========== Softmax Model Features =========
+[14:29:16] Air temperature [K]
+[14:29:16] Process temperature [K]
+[14:29:16] Rotational speed [rpm]
+[14:29:16] Torque [Nm]
+[14:29:16] Tool wear [min]
+[14:29:16] Air temperature [K]_Rolling_Mean
+[14:29:16] Air temperature [K]_Volatility
+[14:29:16] Air temperature [K]_Delta
+[14:29:16] Process temperature [K]_Rolling_Mean
+[14:29:16] Process temperature [K]_Volatility
+[14:29:16] Process temperature [K]_Delta
+[14:29:16] Rotational speed [rpm]_Rolling_Mean
+[14:29:16] Rotational speed [rpm]_Volatility
+[14:29:16] Rotational speed [rpm]_Delta
+[14:29:16] Torque [Nm]_Rolling_Mean
+[14:29:16] Torque [Nm]_Volatility
+[14:29:16] Torque [Nm]_Delta
+[14:29:16] Tool wear [min]_Rolling_Mean
+[14:29:16] Tool wear [min]_Volatility
+[14:29:16] Tool wear [min]_Delta
+[14:29:16] Air temperature [K]_Rolling_Delta
+[14:29:16] Process temperature [K]_Rolling_Delta
+[14:29:16] Rotational speed [rpm]_Rolling_Delta
+[14:29:16] Torque [Nm]_Rolling_Delta
+[14:29:16] Tool wear [min]_Rolling_Delta
+
+[14:29:16] === Model Evaluation (Test Set) ===
+[14:29:16]               precision    recall  f1-score   support
+
+[14:29:16]            0       0.99      0.81      0.89      1931
+[14:29:16]            1       0.14      0.88      0.24        68
+
+[14:29:16]     accuracy                           0.81      1999
+[14:29:16]    macro avg       0.57      0.84      0.56      1999
+[14:29:16] weighted avg       0.97      0.81      0.87      1999
+
+[14:29:16] ====================================
+[14:29:17] Loaded all FailureClassification Models from disk
+
+[14:29:17] ============================== CRASH DETECTED ==============================
+[14:29:17] Timestamp: 2026-02-16 14:29:17.046434
+[14:29:17] Traceback (most recent call last):
+[14:29:17]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 788, in <module>
+[14:29:17]     best_config = FinalSystem.calibrate_sensitivities(test_data, target_step_for_warning=4)
+[14:29:17]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 712, in calibrate_sensitivities
+[14:29:17]     res = self.predict(test_df.iloc[[i]])
+[14:29:17]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 644, in predict
+[14:29:17]     results = {label: round(float(softmax_probs[i]), 4)
+[14:29:17]                                   ~~~~~~~~~~~~~^^^
+[14:29:17] IndexError: index 2 is out of bounds for axis 0 with size 2
+
+[14:29:17] ============================================================================
+

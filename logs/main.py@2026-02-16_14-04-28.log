@@ -1,0 +1,26 @@
+[14:04:28] --- Logging Initialized for main.py ---
+[14:04:28] Log file: logs/main.py@2026-02-16_14-04-28.log
+[14:04:28] Loaded RiskEvalModel from disk.
+
+[14:04:28] ============================== CRASH DETECTED ==============================
+[14:04:28] Timestamp: 2026-02-16 14:04:28.502106
+[14:04:28] Traceback (most recent call last):
+[14:04:28]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 760, in <module>
+[14:04:28]     FinalSystem.LoadModels()
+[14:04:28]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[14:04:28]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 530, in LoadModels
+[14:04:28]     model_path = clf.train_run()
+[14:04:28]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 335, in train_run
+[14:04:28]     ("clf", LogisticRegression(
+[14:04:28]             ~~~~~~~~~~~~~~~~~~^
+[14:04:28]         multi_class='multinomial',
+[14:04:28]         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[14:04:28]     ...<3 lines>...
+[14:04:28]         random_state=42
+[14:04:28]         ^^^^^^^^^^^^^^^
+[14:04:28]     ))
+[14:04:28]     ^
+[14:04:28] TypeError: LogisticRegression.__init__() got an unexpected keyword argument 'multi_class'
+
+[14:04:28] ============================================================================
+

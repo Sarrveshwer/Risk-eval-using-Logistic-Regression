@@ -1,0 +1,22 @@
+[14:14:51] --- Logging Initialized for main.py ---
+[14:14:51] Log file: logs/main.py@2026-02-16_14-14-51.log
+[14:14:51] Loaded RiskEvalModel from disk.
+
+[14:15:38] ============================== CRASH DETECTED ==============================
+[14:15:38] Timestamp: 2026-02-16 14:15:38.071232
+[14:15:38] Traceback (most recent call last):
+[14:15:38]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 754, in <module>
+[14:15:38]     FinalSystem.LoadModels()
+[14:15:38]     ~~~~~~~~~~~~~~~~~~~~~~^^
+[14:15:38]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 524, in LoadModels
+[14:15:38]     model_path = clf.train_run()
+[14:15:38]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 361, in train_run
+[14:15:38]     self.plot()
+[14:15:38]     ~~~~~~~~~^^
+[14:15:38]   File "/home/sarrveshwer/Documents/GitHub/Risk-eval-using-Logistic-Regression/main.py", line 385, in plot
+[14:15:38]     fpr, tpr, _ = roc_curve(self.y_test == i, self.y_prob[:, i])
+[14:15:38]                                               ~~~~~~~~~~~^^^^^^
+[14:15:38] IndexError: index 2 is out of bounds for axis 1 with size 2
+
+[14:15:38] ============================================================================
+
