@@ -1,0 +1,97 @@
+[11:03:22] --- Logging Initialized for model.py ---
+[11:03:22] Log file: logs/model.py@2026-02-26_11-03-22.log
+[11:03:22] Fitting 3 folds for each of 50 candidates, totalling 150 fits
+[11:05:17] ========== Model Features =========
+[11:05:17] Air temperature [K]
+[11:05:17] Process temperature [K]
+[11:05:17] Rotational speed [rpm]
+[11:05:17] Torque [Nm]
+[11:05:17] Tool wear [min]
+[11:05:17] Air temperature [K]_Rolling_Mean
+[11:05:17] Air temperature [K]_Volatility
+[11:05:17] Air temperature [K]_Delta
+[11:05:17] Process temperature [K]_Rolling_Mean
+[11:05:17] Process temperature [K]_Volatility
+[11:05:17] Process temperature [K]_Delta
+[11:05:17] Rotational speed [rpm]_Rolling_Mean
+[11:05:17] Rotational speed [rpm]_Volatility
+[11:05:17] Rotational speed [rpm]_Delta
+[11:05:17] Torque [Nm]_Rolling_Mean
+[11:05:17] Torque [Nm]_Volatility
+[11:05:17] Torque [Nm]_Delta
+[11:05:17] Tool wear [min]_Rolling_Mean
+[11:05:17] Tool wear [min]_Volatility
+[11:05:17] Tool wear [min]_Delta
+[11:05:17] Air temperature [K]_Rolling_Delta
+[11:05:17] Process temperature [K]_Rolling_Delta
+[11:05:17] Rotational speed [rpm]_Rolling_Delta
+[11:05:17] Torque [Nm]_Rolling_Delta
+[11:05:17] Tool wear [min]_Rolling_Delta
+
+[11:05:17] === Model Evaluation (Test Set) ===
+[11:05:17] ROC-AUC score :0.901
+[11:05:17] Risk Tolerance used : 0.304
+[11:05:17] TP: 30 | FP: 192
+[11:05:17] FN: 9 | TN: 1768
+
+[11:05:17] Rates:
+[11:05:17] Recall (TPR) : 0.769
+[11:05:17] Precision    : 0.135
+[11:05:17] False PosRate: 0.098
+[11:05:17] ====================================
+[11:05:17] Scaler saved to models/scaler.pkl
+[11:06:33] ========== Softmax Model Features =========
+[11:06:33] Air temperature [K]
+[11:06:33] Process temperature [K]
+[11:06:33] Rotational speed [rpm]
+[11:06:33] Torque [Nm]
+[11:06:33] Tool wear [min]
+[11:06:33] Air temperature [K]_Rolling_Mean
+[11:06:33] Air temperature [K]_Volatility
+[11:06:33] Air temperature [K]_Delta
+[11:06:33] Process temperature [K]_Rolling_Mean
+[11:06:33] Process temperature [K]_Volatility
+[11:06:33] Process temperature [K]_Delta
+[11:06:33] Rotational speed [rpm]_Rolling_Mean
+[11:06:33] Rotational speed [rpm]_Volatility
+[11:06:33] Rotational speed [rpm]_Delta
+[11:06:33] Torque [Nm]_Rolling_Mean
+[11:06:33] Torque [Nm]_Volatility
+[11:06:33] Torque [Nm]_Delta
+[11:06:33] Tool wear [min]_Rolling_Mean
+[11:06:33] Tool wear [min]_Volatility
+[11:06:33] Tool wear [min]_Delta
+[11:06:33] Air temperature [K]_Rolling_Delta
+[11:06:33] Process temperature [K]_Rolling_Delta
+[11:06:33] Rotational speed [rpm]_Rolling_Delta
+[11:06:33] Torque [Nm]_Rolling_Delta
+[11:06:33] Tool wear [min]_Rolling_Delta
+
+[11:06:33] === Model Evaluation (Test Set) ===
+[11:06:33]               precision    recall  f1-score   support
+
+[11:06:33]            0       0.99      0.81      0.89      1931
+[11:06:33]            1       0.14      0.88      0.24        68
+
+[11:06:33]     accuracy                           0.81      1999
+[11:06:33]    macro avg       0.57      0.84      0.56      1999
+[11:06:33] weighted avg       0.97      0.81      0.87      1999
+
+[11:06:33] ====================================
+[11:06:34] Loaded all FailureClassification Models from disk
+[11:06:42] --------------------------------------------------
+[11:06:42] Optimal Parameters: {'warning_sensitivity': np.float64(0.1), 'diagnosis_sensitivity': np.float64(0.1)}
+[11:06:42] --------------------------------------------------
+
+[11:06:42] Step  | Risk     | Alert      | Failure Type
+[11:06:42] --------------------------------------------------
+[11:06:42] 1     | 0.0429   | HEALTHY    | None
+[11:06:42] 2     | 0.1716   | HEALTHY    | None
+[11:06:42] 3     | 0.3664   | HEALTHY    | None
+[11:06:42] 4     | 0.6814   | WARNING    | HDF
+[11:06:42] 5     | 0.9141   | CRITICAL   | HDF
+[11:06:42] 6     | 0.9953   | CRITICAL   | HDF
+[11:06:42] 7     | 0.9990   | CRITICAL   | HDF
+[11:06:42] 8     | 0.9983   | CRITICAL   | HDF
+[11:06:42] 9     | 0.9985   | CRITICAL   | HDF
+[11:06:42] 10    | 0.9988   | CRITICAL   | HDF

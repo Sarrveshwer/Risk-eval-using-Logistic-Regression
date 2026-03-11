@@ -1,0 +1,109 @@
+{% extends "predictor/base.html" %}
+{% load static %}
+{% block title %}Model Info - Machine Failure Predictor{% endblock %}
+
+{% block content %}
+<h2>Model Information</h2>
+
+<div class="info-layout">
+    <div class="info-section">
+        <h3>System Architecture</h3>
+        <table>
+            <tr>
+                <td><strong>Tier 1</strong></td>
+                <td>Risk Model — Logistic Regression with rolling window features</td>
+            </tr>
+            <tr>
+                <td><strong>Tier 2</strong></td>
+                <td>Diagnostic Model — Softmax classifier for failure mode (TWF, HDF, PWF, OSF); falls back to
+                    <em>RandomFailure</em> when none are confident</td>
+            </tr>
+            <tr>
+                <td><strong>Flow</strong></td>
+                <td>Tier 1 scores risk → if risk is high, Tier 2 identifies failure type</td>
+            </tr>
+            <tr>
+                <td><strong>States</strong></td>
+                <td>HEALTHY → WARNING → CRITICAL</td>
+            </tr>
+            {% if stats.feature_count %}
+            <tr>
+                <td><strong>Features</strong></td>
+                <td>{{ stats.feature_count }} (raw sensors + rolling window derivatives)</td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+
+    <div class="info-section">
+        <h3>Primary Model Performance</h3>
+        {% if stats.log_file_used %}
+        <p class="stats-source">Source: <code>{{ stats.log_file_used }}</code></p>
+        {% else %}
+        <p class="stats-source stats-source-warn">⚠ No training log found — showing defaults. Run model.py to generate
+            metrics.</p>
+        {% endif %}
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>ROC-AUC</td>
+                <td>{% if stats.roc_auc %}{{ stats.roc_auc|floatformat:3 }}{% else %}N/A{% endif %}</td>
+            </tr>
+            <tr>
+                <td>Recall (TPR)</td>
+                <td>{% if stats.recall %}{{ stats.recall|floatformat:3 }}{% else %}N/A{% endif %}</td>
+            </tr>
+            <tr>
+                <td>Precision</td>
+                <td>{% if stats.precision %}{{ stats.precision|floatformat:3 }}{% else %}N/A{% endif %}</td>
+            </tr>
+            <tr>
+                <td>False Positive Rate</td>
+                <td>{% if stats.fpr %}{{ stats.fpr|floatformat:3 }}{% else %}N/A{% endif %}</td>
+            </tr>
+            <tr>
+                <td>Risk Tolerance</td>
+                <td>{% if stats.risk_tolerance %}{{ stats.risk_tolerance|floatformat:3 }}{% else %}0.765{% endif %}</td>
+            </tr>
+        </table>
+
+        {% if stats.tp is not None %}
+        <h3 style="margin-top:14px;">Confusion Matrix Counts</h3>
+        <table class="cm-table">
+            <tr>
+                <th></th>
+                <th>Predicted: No Fail</th>
+                <th>Predicted: Fail</th>
+            </tr>
+            <tr>
+                <td><strong>Actual: No Fail</strong></td>
+                <td class="cm-tn">TN: {{ stats.tn }}</td>
+                <td class="cm-fp">FP: {{ stats.fp }}</td>
+            </tr>
+            <tr>
+                <td><strong>Actual: Fail</strong></td>
+                <td class="cm-fn">FN: {{ stats.fn }}</td>
+                <td class="cm-tp">TP: {{ stats.tp }}</td>
+            </tr>
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="info-section">
+        <h3>Dashboards</h3>
+        <div class="img-row">
+            <div>
+                <h4>Risk Model Dashboard</h4>
+                <img src="{% static 'Dashboard_ai4i2020.png' %}" alt="Risk Model Dashboard">
+            </div>
+            <div>
+                <h4>Classification Dashboard</h4>
+                <img src="{% static 'Dashboard_Classifications_ai4i2020.png' %}" alt="Classification Dashboard">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

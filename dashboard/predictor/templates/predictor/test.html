@@ -1,0 +1,157 @@
+{% extends "predictor/base.html" %}
+{% block title %}Test - Machine Failure Predictor{% endblock %}
+
+{% block content %}
+<h2>Sensor Input</h2>
+
+<div class="test-layout">
+    <div class="input-panel">
+        <div class="slider-group">
+            <label>Air Temperature [K]</label>
+            <input type="range" id="in-air" min="295" max="320" step="0.1" value="300.1">
+            <input type="number" id="in-air-val" value="300.1" step="0.1">
+        </div>
+        <div class="slider-group">
+            <label>Process Temperature [K]</label>
+            <input type="range" id="in-proc" min="305" max="325" step="0.1" value="310.2">
+            <input type="number" id="in-proc-val" value="310.2" step="0.1">
+        </div>
+        <div class="slider-group">
+            <label>Rotational Speed [rpm]</label>
+            <input type="range" id="in-rpm" min="800" max="2900" step="1" value="1500">
+            <input type="number" id="in-rpm-val" value="1500" step="1">
+        </div>
+        <div class="slider-group">
+            <label>Torque [Nm]</label>
+            <input type="range" id="in-torque" min="3" max="80" step="0.1" value="40.0">
+            <input type="number" id="in-torque-val" value="40.0" step="0.1">
+        </div>
+        <div class="slider-group">
+            <label>Tool Wear [min]</label>
+            <input type="range" id="in-wear" min="0" max="250" step="1" value="100">
+            <input type="number" id="in-wear-val" value="100" step="1">
+        </div>
+
+        <div class="btn-row">
+            <button id="btn-predict" class="btn btn-primary">Predict Step</button>
+            <button id="btn-reset" class="btn btn-danger">Reset</button>
+        </div>
+    </div>
+
+    <div class="preset-panel">
+        <h3>Preset Scenarios</h3>
+        <p>Click a preset to switch to the Dashboard and watch it run live:</p>
+        <div class="btn-row">
+            <button class="btn btn-preset" data-preset="normal">Normal</button>
+            <button class="btn btn-preset" data-preset="heat_failure">Heat Failure</button>
+            <button class="btn btn-preset" data-preset="tool_wear">Tool Wear</button>
+            <button class="btn btn-preset" data-preset="overstrain">Overstrain</button>
+            <button class="btn btn-preset" data-preset="random_failure">Random Failure</button>
+        </div>
+    </div>
+
+    <!-- Live result display -->
+    <div class="result-panel">
+        <h3>Last Prediction</h3>
+        <div id="test-result">
+            <p>No prediction yet. Adjust sensors and click "Predict Step".</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (function () {
+        const KEYS = [
+            'Air temperature [K]',
+            'Process temperature [K]',
+            'Rotational speed [rpm]',
+            'Torque [Nm]',
+            'Tool wear [min]',
+        ];
+
+        let previousAlert = 'HEALTHY';
+
+        // Sync sliders with number inputs
+        const pairs = [
+            ['in-air', 'in-air-val'],
+            ['in-proc', 'in-proc-val'],
+            ['in-rpm', 'in-rpm-val'],
+            ['in-torque', 'in-torque-val'],
+            ['in-wear', 'in-wear-val'],
+        ];
+        pairs.forEach(([slider, num]) => {
+            const s = document.getElementById(slider);
+            const n = document.getElementById(num);
+            s.addEventListener('input', () => n.value = s.value);
+            n.addEventListener('input', () => s.value = n.value);
+        });
+
+        // Predict single step from slider values
+        document.getElementById('btn-predict').addEventListener('click', async () => {
+            const body = {};
+            const vals = [
+                document.getElementById('in-air-val').value,
+                document.getElementById('in-proc-val').value,
+                document.getElementById('in-rpm-val').value,
+                document.getElementById('in-torque-val').value,
+                document.getElementById('in-wear-val').value,
+            ];
+            KEYS.forEach((k, i) => body[k] = parseFloat(vals[i]));
+
+            try {
+                const res = await fetch('/api/predict/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
+                });
+                const data = await res.json();
+                showResult(data);
+
+                if (data.alert_level === 'WARNING' && previousAlert === 'HEALTHY') {
+                    alert('\u26A0\uFE0F WARNING: Risk is escalating!\nRisk: ' + data.risk_prob + '\nStep: ' + data.step);
+                } else if (data.alert_level === 'CRITICAL' && previousAlert !== 'CRITICAL') {
+                    alert('\uD83D\uDEA8 CRITICAL: Machine failure imminent!\nRisk: ' + data.risk_prob + '\nFailure Type: ' + (data.failure_type || 'Unknown') + '\nStep: ' + data.step);
+                }
+                previousAlert = data.alert_level;
+            } catch (e) {
+                document.getElementById('test-result').innerHTML = '<p style="color:red;">Error: ' + e.message + '</p>';
+            }
+        });
+
+        // Reset
+        document.getElementById('btn-reset').addEventListener('click', async () => {
+            await fetch('/api/reset/', { method: 'POST' });
+            previousAlert = 'HEALTHY';
+            document.getElementById('test-result').innerHTML = '<p>System reset. Ready for new predictions.</p>';
+        });
+
+        // Preset buttons — redirect to dashboard with ?preset= param
+        document.querySelectorAll('.btn-preset').forEach(btn => {
+            btn.addEventListener('click', () => {
+                window.location.href = '/?preset=' + btn.dataset.preset;
+            });
+        });
+
+        function showResult(data) {
+            const alertClass = data.alert_level === 'CRITICAL' ? 'critical' :
+                data.alert_level === 'WARNING' ? 'warning' : 'healthy';
+            let html = '<table class="result-table">';
+            html += '<tr><td>Step</td><td>' + data.step + '</td></tr>';
+            html += '<tr><td>Risk Probability</td><td>' + data.risk_prob + '</td></tr>';
+            html += '<tr><td>Alert Level</td><td class="' + alertClass + '">' + data.alert_level + '</td></tr>';
+            html += '<tr><td>Failure Type</td><td>' + (data.failure_type || '\u2014') + '</td></tr>';
+            html += '<tr><td>Streak</td><td>' + data.streak + '</td></tr>';
+            if (data.details) {
+                html += '<tr><td>TWF</td><td>' + data.details.TWF + '</td></tr>';
+                html += '<tr><td>HDF</td><td>' + data.details.HDF + '</td></tr>';
+                html += '<tr><td>PWF</td><td>' + data.details.PWF + '</td></tr>';
+                html += '<tr><td>OSF</td><td>' + data.details.OSF + '</td></tr>';
+            }
+            html += '</table>';
+            document.getElementById('test-result').innerHTML = html;
+        }
+    })();
+</script>
+{% endblock %}

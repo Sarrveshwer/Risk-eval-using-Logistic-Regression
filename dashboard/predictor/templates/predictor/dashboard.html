@@ -1,0 +1,122 @@
+{% extends "predictor/base.html" %}
+{% block title %}Dashboard - Machine Failure Predictor{% endblock %}
+
+{% block content %}
+
+<!-- CRITICAL Warning Overlay -->
+<div id="critical-overlay" class="critical-overlay" style="display:none;" onclick="this.style.display='none'">
+    <div class="critical-box">
+        <div class="critical-icon">&#x1F6A8;</div>
+        <h1>CRITICAL</h1>
+        <p id="critical-msg">Machine failure imminent!</p>
+        <p class="critical-sub">Click anywhere to dismiss</p>
+    </div>
+</div>
+
+<!-- MACHINE FAILED Overlay -->
+<div id="failed-overlay" class="critical-overlay" style="display:none;" onclick="this.style.display='none'">
+    <div class="failed-box">
+        <div class="critical-icon">&#x1F4A5;</div>
+        <h1>MACHINE FAILED</h1>
+        <p id="failed-msg">The machine has failed.</p>
+        <p id="failed-verdict" class="failed-verdict"></p>
+        <p class="critical-sub">Click anywhere to dismiss</p>
+    </div>
+</div>
+
+<div class="dashboard-layout">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h3>Risk Level</h3>
+            <div id="risk-display" class="risk-big healthy">0.0000</div>
+            <div id="alert-badge" class="alert-badge healthy">HEALTHY</div>
+            <div class="machine-status-box" id="machine-status-box">
+                <div class="machine-status-icon" id="machine-status-icon">🟢</div>
+                <div class="machine-status-label" id="machine-status-label">OPERATIONAL</div>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <h3>Live Sensors</h3>
+            <ul class="sensor-list">
+                <li>Air Temp: <span id="s-air">—</span> K</li>
+                <li>Process Temp: <span id="s-proc">—</span> K</li>
+                <li>RPM: <span id="s-rpm">—</span></li>
+                <li>Torque: <span id="s-torque">—</span> Nm</li>
+                <li>Tool Wear: <span id="s-wear">—</span> min</li>
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <h3>Failure Probabilities</h3>
+            <ul class="sensor-list">
+                <li>TWF: <span id="p-twf">0.0</span></li>
+                <li>HDF: <span id="p-hdf">0.0</span></li>
+                <li>PWF: <span id="p-pwf">0.0</span></li>
+                <li>OSF: <span id="p-osf">0.0</span></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-area">
+        <!-- Stat Cards -->
+        <div class="stat-row">
+            <div class="stat-card">
+                <div class="stat-label">Risk Probability</div>
+                <div id="stat-risk" class="stat-value">0.0000</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Alert Streak</div>
+                <div id="stat-streak" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Failure Type</div>
+                <div id="stat-failure" class="stat-value">—</div>
+            </div>
+        </div>
+
+        <!-- Risk Timeline Chart -->
+        <div class="chart-box">
+            <h3>Risk Probability Over Time</h3>
+            <canvas id="riskChart" height="120"></canvas>
+        </div>
+
+        <!-- Sensor Chart -->
+        <div class="chart-box">
+            <h3>Sensor Readings Over Time</h3>
+            <canvas id="sensorChart" height="120"></canvas>
+        </div>
+
+        <!-- Event Log -->
+        <div class="chart-box">
+            <h3>Event Log</h3>
+            <div class="table-wrap">
+                <table id="event-log">
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Risk</th>
+                            <th>Alert</th>
+                            <th>Failure</th>
+                            <th>Air T</th>
+                            <th>Proc T</th>
+                            <th>RPM</th>
+                            <th>Torque</th>
+                            <th>Wear</th>
+                        </tr>
+                    </thead>
+                    <tbody id="log-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% load static %}
+<script src="{% static 'predictor/dashboard.js' %}"></script>
+{% endblock %}

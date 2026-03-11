@@ -1,0 +1,17 @@
+[09:56:59] --- Session Reset ---
+[09:57:00] Step 1   | Risk: 0.7015 | Alert: WARNING  | Failure: OSF             | Air: 302.5 | ProcT: 310.9 | RPM: 1356 | Torque: 55.5 | Wear: 101
+[09:57:01] Step 2   | Risk: 0.8506 | Alert: CRITICAL | Failure: OSF             | Air: 303.3 | ProcT: 311.8 | RPM: 1315 | Torque: 62.0 | Wear: 42
+[09:57:02] Step 3   | Risk: 0.8850 | Alert: CRITICAL | Failure: TWF             | Air: 302.7 | ProcT: 310.5 | RPM: 1263 | Torque: 67.8 | Wear: 197
+[09:57:03] Step 4   | Risk: 0.9785 | Alert: CRITICAL | Failure: TWF             | Air: 303.1 | ProcT: 311.3 | RPM: 1336 | Torque: 52.6 | Wear: 172
+[09:57:04] Step 5   | Risk: 0.7213 | Alert: WARNING  | Failure: TWF             | Air: 302.0 | ProcT: 309.8 | RPM: 1280 | Torque: 57.3 | Wear: 147
+[09:57:05] Step 6   | Risk: 0.7167 | Alert: WARNING  | Failure: TWF             | Air: 302.6 | ProcT: 310.9 | RPM: 1331 | Torque: 52.0 | Wear: 154
+[09:57:06] Step 7   | Risk: 0.3993 | Alert: HEALTHY  | Failure: None            | Air: 302.1 | ProcT: 310.0 | RPM: 1355 | Torque: 45.1 | Wear: 6
+[09:57:07] Step 8   | Risk: 0.6304 | Alert: WARNING  | Failure: HDF             | Air: 301.9 | ProcT: 310.4 | RPM: 1370 | Torque: 51.7 | Wear: 153
+[09:57:08] Step 9   | Risk: 0.6451 | Alert: WARNING  | Failure: PWF             | Air: 302.5 | ProcT: 310.9 | RPM: 1330 | Torque: 56.9 | Wear: 97
+[09:57:09] Step 10  | Risk: 0.8988 | Alert: CRITICAL | Failure: TWF             | Air: 302.2 | ProcT: 310.6 | RPM: 1334 | Torque: 53.2 | Wear: 159
+[09:57:10] Step 11  | Risk: 0.8763 | Alert: CRITICAL | Failure: TWF             | Air: 302.4 | ProcT: 310.3 | RPM: 1375 | Torque: 52.5 | Wear: 161
+[09:57:11] Step 12  | Risk: 0.7476 | Alert: WARNING  | Failure: TWF             | Air: 302.4 | ProcT: 310.2 | RPM: 1351 | Torque: 45.1 | Wear: 168
+[09:57:12] Step 13  | Risk: 0.5882 | Alert: WARNING  | Failure: PWF             | Air: 301.8 | ProcT: 310.3 | RPM: 1341 | Torque: 50.5 | Wear: 64
+[09:57:13] Step 14  | Risk: 0.5031 | Alert: WARNING  | Failure: TWF             | Air: 301.7 | ProcT: 309.9 | RPM: 1317 | Torque: 49.0 | Wear: 187
+[09:57:14] Step 15  | Risk: 0.6360 | Alert: WARNING  | Failure: PWF             | Air: 302.6 | ProcT: 311.0 | RPM: 1369 | Torque: 60.0 | Wear: 93
+[09:57:15] Step 16  | Risk: 0.8502 | Alert: CRITICAL | Failure: PWF             | Air: 303.2 | ProcT: 311.4 | RPM: 1351 | Torque: 53.8 | Wear: 8

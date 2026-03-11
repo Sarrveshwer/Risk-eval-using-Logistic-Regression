@@ -1,0 +1,95 @@
+{% extends "predictor/base.html" %}
+{% block title %}Logs - Machine Failure Predictor{% endblock %}
+
+{% block content %}
+<h2>Run Logs</h2>
+
+<div class="logs-layout">
+    <div class="log-list">
+        <h3>Log Files</h3>
+        <ul id="log-file-list">
+            {% for f in log_files %}
+            <li>
+                {# Use a button-style link — no href so no page navigation #}
+                <a href="#" class="log-link" data-file="{{ f }}">{{ f }}</a>
+            </li>
+            {% empty %}
+            <li>No log files found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="log-content">
+        <div class="log-content-header">
+            <h3 id="log-title">Select a log file</h3>
+            <span id="log-refresh-badge" class="log-refresh-badge" style="display:none;">● LIVE</span>
+        </div>
+        <div id="log-body-wrap">
+            <p id="log-placeholder">Click a log file to view its contents.</p>
+            <pre id="log-pre" style="display:none;"></pre>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        let selectedFile = null;
+        let refreshInterval = null;
+        let autoScroll = true;
+
+        // ── Load a log file via AJAX ──────────────────────────────────────────
+        async function loadLog(filename, scroll) {
+            try {
+                const res = await fetch('/api/read_log/?file=' + encodeURIComponent(filename));
+                const data = await res.json();
+                if (data.error) return;
+
+                const pre = document.getElementById('log-pre');
+                const wasAtBottom = pre.scrollHeight - pre.clientHeight <= pre.scrollTop + 10;
+
+                pre.textContent = data.content;
+                document.getElementById('log-placeholder').style.display = 'none';
+                pre.style.display = 'block';
+
+                // Auto-scroll to bottom if user was already at bottom (or forced)
+                if (scroll || wasAtBottom) {
+                    pre.scrollTop = pre.scrollHeight;
+                }
+            } catch (e) { /* silently ignore fetch errors */ }
+        }
+
+        // ── Click handler — no page navigation ────────────────────────────────
+        document.getElementById('log-file-list').addEventListener('click', function (e) {
+            const link = e.target.closest('.log-link');
+            if (!link) return;
+            e.preventDefault();   // ← THIS is the key fix — stops the page from navigating
+
+            const filename = link.dataset.file;
+
+            // Highlight selected
+            document.querySelectorAll('.log-link').forEach(a => a.classList.remove('active'));
+            link.classList.add('active');
+
+            document.getElementById('log-title').textContent = filename;
+
+            // Clear old interval if switching files
+            if (refreshInterval) clearInterval(refreshInterval);
+
+            selectedFile = filename;
+
+            // Load immediately then poll every 1.5 s if it is a test_run log (live)
+            loadLog(filename, true);
+
+            const isLive = filename.startsWith('test_run_');
+            const badge = document.getElementById('log-refresh-badge');
+
+            if (isLive) {
+                badge.style.display = 'inline';
+                refreshInterval = setInterval(() => loadLog(filename, false), 1500);
+            } else {
+                badge.style.display = 'none';
+            }
+        });
+    })();
+</script>
+{% endblock %}

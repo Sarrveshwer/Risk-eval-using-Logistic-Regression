@@ -1,0 +1,22 @@
+[13:45:37] --- Logging Initialized for model.py ---
+[13:45:37] Log file: logs/model.py@2026-02-26_13-45-37.log
+[13:45:37] [MySQL] Connecting to root@localhost/ml_data
+[13:45:37] [MySQL] Loaded 9,991 rows from 'ai4i2020'
+[13:45:37] Loaded RiskEvalModel from disk.
+[13:45:37] Loaded all FailureClassification Models from disk
+[13:45:45] --------------------------------------------------
+[13:45:45] Optimal Parameters: {'warning_sensitivity': np.float64(0.1), 'diagnosis_sensitivity': np.float64(0.1)}
+[13:45:45] --------------------------------------------------
+
+[13:45:45] Step  | Risk     | Alert      | Failure Type
+[13:45:45] --------------------------------------------------
+[13:45:45] 1     | 0.0429   | HEALTHY    | None
+[13:45:45] 2     | 0.1707   | HEALTHY    | None
+[13:45:45] 3     | 0.3653   | HEALTHY    | None
+[13:45:45] 4     | 0.6803   | WARNING    | TWF
+[13:45:45] 5     | 0.9136   | CRITICAL   | TWF
+[13:45:45] 6     | 0.9953   | CRITICAL   | TWF
+[13:45:45] 7     | 0.9990   | CRITICAL   | TWF
+[13:45:45] 8     | 0.9983   | CRITICAL   | TWF
+[13:45:45] 9     | 0.9985   | CRITICAL   | TWF
+[13:45:45] 10    | 0.9988   | CRITICAL   | HDF

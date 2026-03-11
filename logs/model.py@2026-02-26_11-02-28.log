@@ -1,0 +1,20 @@
+[11:02:28] --- Logging Initialized for model.py ---
+[11:02:28] Log file: logs/model.py@2026-02-26_11-02-28.log
+[11:02:28] Loaded RiskEvalModel from disk.
+[11:02:28] Loaded all FailureClassification Models from disk
+[11:02:36] --------------------------------------------------
+[11:02:36] Optimal Parameters: {'warning_sensitivity': np.float64(0.1), 'diagnosis_sensitivity': np.float64(0.1)}
+[11:02:36] --------------------------------------------------
+
+[11:02:36] Step  | Risk     | Alert      | Failure Type
+[11:02:36] --------------------------------------------------
+[11:02:36] 1     | 0.0429   | HEALTHY    | None
+[11:02:36] 2     | 0.1713   | HEALTHY    | None
+[11:02:36] 3     | 0.3660   | HEALTHY    | None
+[11:02:36] 4     | 0.6810   | WARNING    | HDF
+[11:02:36] 5     | 0.9139   | CRITICAL   | HDF
+[11:02:36] 6     | 0.9953   | CRITICAL   | HDF
+[11:02:36] 7     | 0.9990   | CRITICAL   | HDF
+[11:02:36] 8     | 0.9983   | CRITICAL   | HDF
+[11:02:36] 9     | 0.9985   | CRITICAL   | HDF
+[11:02:36] 10    | 0.9988   | CRITICAL   | HDF
