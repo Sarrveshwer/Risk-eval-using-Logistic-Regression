@@ -1,132 +1,84 @@
 # Machine Failure Predictor
 
-A real-time machine failure prediction system using logistic regression with rolling window features. The idea is to monitor sensor data and catch failures before they actually happen. Instead of just looking at one row of data, I have given the model "memory" using rolling windows.
+## Why I built this
 
-## Dataset Used
+The main reason I built this is simple: **it saves both lives and money.**
 
-### AI4I 2020 Predictive Maintenance Dataset
+In a real factory, reacting to a broken machine is expensive, but it's also dangerous. If a machine fails suddenly, it can hurt the people working near it. I wanted to see if I could use sensor data (like temperature and torque) to catch failures *before* they actually happen.
 
-https://archive.ics.uci.edu/dataset/601/ai4i+2020+predictive+maintenance+dataset
+## MySQL 
 
-## System Architecture
+Instead of just loading a single CSV file, I moved the whole project to a **MySQL** backend.
+*   It's much more stable than a flat file.
+*   I can handle thousands of rows easily.
+*   I made a script called `create_test_tables.py` that automatically splits the data into specific failure modes (Heat, Tool Wear, etc.). This made it way easier to test if the model actually knows the difference between a hot motor and a worn-out tool.
 
-### Primary Risk Model
-The main scorer. It checks the sensor values and outputs a probability of impending failure. This is the core of the system—everything else depends on its output.
+## Hurdle Model Architecture
 
-### Diagnostic Specialists
-Once the risk crosses a threshold, these four models identify exactly what is going wrong:
-- **TWF** – Tool Wear Failure
-- **HDF** – Heat Dissipation Failure
-- **PWF** – Power Failure
-- **OSF** – Overstrain Failure
+I realized one model trying to do everything was a mess. So I built this as a Hurdle Model. 
 
-No need to label everything as a generic "failure." We know the specific mode.
+Instead of asking one model to find the failure and name it at the same time, the data has to clear two separate "hurdles":
 
-### Diagnostic Model Performance
+**Hurdle 1: The Probability Gate (Binary Logistic Regression)**
+    This is the first hurdle. The model only looks for a general "Risk Score" (0 to 1). If the sensors don't look risky enough to "clear the hurdle," nothing else happens. This keeps the system fast and prevents fake diagnoses.
 
-| Model | ROC-AUC | Precision | Recall | FPR |
-|-------|---------|-----------|--------|-----|
-| TWF   | 0.979   | 1.000     | 0.556  | 0.000 |
-| HDF   | 0.996   | 1.000     | 0.522  | 0.000 |
-| PWF   | 0.967   | 1.000     | 0.526  | 0.000 |
-| OSF   | 0.996   | 1.000     | 0.500  | 0.000 |
+**Hurdle 2: The Diagnosis (Multinomial Softmax)**
+    If (and only if) the first hurdle is cleared, this second model wakes up. Its job is to pinpoint exactly why the machine is struggling—is it **HDF** (Heat), **TWF** (Tool Wear), or just a random glitch? 
 
-All four models achieve **perfect precision** (zero false positives) on the test set, meaning when they flag a specific failure mode, it is correct. The conservative recall values (50-56%) are intentional—these models only trigger when the Primary Risk Model already indicates high risk.
+## Adding Features
 
-## Feature Engineering
+Machine failures aren't usually instant; they're a process. If you only look at one row of data, you miss the trend. I added **Rolling Windows** (5 steps) to look at how the sensor data changes over time.
 
-Raw data is processed into 5-step rolling windows to capture machine physics:
+I created four types of features for every sensor:
 
-| Feature | Purpose |
-|---------|---------|
-| Rolling_Mean | Baseline stability |
-| Volatility | Signal noise and vibration |
-| Delta | Instantaneous change |
-| Rolling_Delta | Acceleration of sensor values toward failure |
-
-**Rolling_Delta is the most important feature.** It tracks whether the machine is failing faster and faster—if the sensor values are accelerating away from normal, the model catches it.
-
-The model uses five core sensor inputs:
-- Air temperature [K]
-- Process temperature [K]
-- Rotational speed [rpm]
-- Torque [Nm]
-- Tool wear [min]
-
-## The Problem
-
-Machine failures do not happen often. Most of the time, machines run fine. This means the dataset has very few failure examples compared to normal ones. If you just try to maximize accuracy, you end up predicting "no failure" almost always—which is useless.
-
-The dataset has **9,661 normal runs** but only **339 failures**—roughly a 28:1 ratio. If you just predict "no failure" every time, you get 96.6% accuracy but catch zero failures.
-
-![Machine Failure Frequency](images/Machine-failure-Frequency.png)
-
-## Current Performance
-
-| Metric | Result |
-|--------|--------|
-| Primary Model ROC-AUC | 0.901 |
-| Lead Time | 2-step advance warning before failure |
-| State Flow | HEALTHY → WARNING → CRITICAL |
-| Dashboards | All plots in `/images` |
-
-The model filters start-up noise and transitions cleanly through the risk states.
-
-## Threshold Experiments
-
-I ran experiments at different decision thresholds. The ROC-AUC stayed at 0.897 across all runs. This makes sense because ROC-AUC is about ranking, not where you cut the line.
-
-What changes is the recall and the false positive rate:
-
-| Threshold | Recall | False Positive Rate | TP | FP | FN | TN |
-|-----------|--------|---------------------|----|----|----|-----|
-| 0.416     | 0.718  | 0.055               | 28 | 108| 11 | 1853|
-| 0.299     | 0.769  | 0.094               | 30 | 184| 9  | 1777|
-| 0.165     | 0.821  | 0.192               | 32 | 376| 7  | 1585|
-| 0.116     | 0.872  | 0.258               | 34 | 505| 5  | 1456|
-
-The threshold works like a **risk sensitivity slider**:
-- Higher threshold (0.416) → fewer false alarms, but many failures missed.
-- Lower threshold (0.116) → most failures caught, but many false alerts.
-
-### Cost Framing
-
-You can think of this as a cost problem:
-
-```
-Total Cost = (FN × Cost_A) + (FP × Cost_B)
-```
-
-- FN = missed failures (false negatives)
-- FP = false alarms (false positives)
-- Cost_A = what you lose when you miss a real failure (downtime, damage)
-- Cost_B = what you lose on a false alarm (unnecessary inspection, wasted time)
-
-There is no single "best" threshold. It depends on the actual costs in your situation.
-
-## Dashboard
-
-The dashboard combines four key plots to help understand the model and choose a threshold:
-
-![Dashboard](images/Dashboard_ai4i2020.png)
-
-### What Each Plot Shows
-
-**1. Confusion Matrix (top left)**  
-At threshold 0.12, the model catches 34 out of 39 failures (TP=34, FN=5) but also flags 505 normal runs as risky (FP=505). This is the low-threshold scenario where recall is high but false alarms are many.
-
-**2. ROC Curve (top right)**  
-The **ROC-AUC is 0.897**. This tells you how well the model separates failures from normal runs. The score stays the same no matter what threshold you pick—you are just moving along the same curve.
-
-**3. Precision-Recall Curve (bottom left)**  
-Shows the trade-off between precision and recall. The **average precision is 0.412**. When you increase recall (catch more failures), precision drops (more false alarms). This plot is usually more useful than ROC when one class is rare.
-
-**4. Risk Score Distribution (bottom right)**  
-Shows how predicted risk scores are spread out. **Failures (blue) tend to cluster at higher scores**, while normal runs (green) are mostly near zero. But there is overlap, which is why the threshold matters.
-
-## Logs
-
-Each run writes a log file under `logs/`. The log includes the threshold used, data split, parameters, and evaluation metrics. The plots correspond to the most recent logged run.
-
+*   **Rolling Mean**: This smooths out the noise so we can see the real trend of the machine.
+*   **Volatility (Std Dev)**: This is huge for catching risk. If the sensor values start jumping around like crazy, it means something is vibrating or unstable.
+*   **Delta**: This measures the "jump"—how much a value changed from the very last step.
+*   **Rolling Delta**: My favorite. It tracks the *acceleration*. If the heat isn't just high, but rising *faster and faster*, the model catches that trend and sends a warning early.
 
 ---
+
+## The Web Dashboard
+
+I built a Django dashboard so I could actually see the predictions in real time instead of just looking at terminal logs.
+
+![Frontend Screenshot](images/frontend.png)
+
+---
+
+## The "Needle in a Haystack" Problem
+
+In real life, machines work fine 97% of the time. In my data, I had **9,661 normal runs** and only **339 failures**.
+
+If a model just says "Everything is fine" every single time, it gets a 96% accuracy score—but it's useless because it misses every single failure. I had to ignore "Accuracy" and focus on **ROC-AUC** and **Precision-Recall** to make sure the model actually finds the rare failures without constantly crying wolf.
+
+![Failure Graph](images/Machine-failure-Frequency.png)
+
+---
+
+## Risk Sensitivity (The Slider)
+
+I designed the system with a "Risk Tolerance" setting. It's a trade-off:
+*   **High Sensitivity**: You catch every failure, but you get a lot of "false alarms" (annoying for workers).
+*   **Low Sensitivity**: You only alert when you are 100% sure, but you might miss a subtle breakdown.
+
+It's basically a cost and safety problem: Is a missed failure ($$$$ and dangerous) worse than a fake alarm ($)? 
+
+---
+
+## Visualizing the Logic
+
+I made the system generate these dashboards every time I train it so I can see where it's struggling.
+
+### 1. Global Risk Analysis (Tier 1)
+Shows how well the model separates "Healthy" from "Critical" states. The ROC-AUC stays around 0.90, which is pretty solid for simple logistic regression.
+![Global Scorer](images/Dashboard_ai4i2020.png)
+
+### 2. Diagnostic Specialist (Tier 2)
+This shows how accurately we can name the failure type. Since we only run this when the risk is already high, the precision is almost perfect.
+![Classification Specialist](images/Dashboard_Classifications_ai4i2020.png)
+
+## What I learned
+*   **Feature Engineering > Model Tuning**: Adding the `Rolling_Delta` feature did more for the accuracy than any amount of parameter tweaking.
+*   **Logistic Regression is underrated**: If you scale your data correctly (I used `RobustScaler`) and handle the imbalance, it's incredibly fast and explainable.
+*   **MySQL is the way to go**: Dealing with databases instead of CSVs makes the code much cleaner and ready for actual production use.
