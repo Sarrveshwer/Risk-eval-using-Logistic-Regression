@@ -78,7 +78,3 @@ Shows how well the model separates "Healthy" from "Critical" states. The ROC-AUC
 This shows how accurately we can name the failure type. Since we only run this when the risk is already high, the precision is almost perfect.
 ![Classification Specialist](images/Dashboard_Classifications_ai4i2020.png)
 
-## What I learned
-*   **Feature Engineering > Model Tuning**: Adding the `Rolling_Delta` feature did more for the accuracy than any amount of parameter tweaking.
-*   **Logistic Regression is underrated**: If you scale your data correctly (I used `RobustScaler`) and handle the imbalance, it's incredibly fast and explainable.
-*   **MySQL is the way to go**: Dealing with databases instead of CSVs makes the code much cleaner and ready for actual production use.
