@@ -27,14 +27,23 @@ Instead of asking one model to find the failure and name it at the same time, th
 
 ## Adding Features
 
-Machine failures aren't usually instant; they're a process. If you only look at one row of data, you miss the trend. I added **Rolling Windows** (5 steps) to look at how the sensor data changes over time.
+Machine failures aren't usually instant; they're a process. If you only look at one row of data, you miss the trend.
 
-I created four types of features for every sensor:
+I created four types of features:
 
-*   **Rolling Mean**: This smooths out the noise so we can see the real trend of the machine.
-*   **Volatility (Std Dev)**: This is huge for catching risk. If the sensor values start jumping around like crazy, it means something is vibrating or unstable.
-*   **Delta**: This measures the "jump"—how much a value changed from the very last step.
-*   **Rolling Delta**: My favorite. It tracks the *acceleration*. If the heat isn't just high, but rising *faster and faster*, the model catches that trend and sends a warning early.
+**1) The Rolling Mean** is a smoothing technique used to identify the underlying trend 
+        of a dataset by filtering noise.
+
+**2) Volatility(Rolling Standard deviation)** measures the dispersion of data points around 
+        the mean over a specific window. In predictive modeling, it is the primary indicator of
+        risk or instability.
+    
+**3)Delta** represents the absolute change between the current value and a previous value. 
+        It shifts the focus from the "level" of the data to the "change" in the data.
+        
+**4)The Rolling Delta** is a second-order feature. It typically measures the average change 
+        (the average Delta) over a specific window, or the difference between two rolling means.
+    
 
 ---
 
@@ -78,7 +87,3 @@ Shows how well the model separates "Healthy" from "Critical" states. The ROC-AUC
 This shows how accurately we can name the failure type. Since we only run this when the risk is already high, the precision is almost perfect.
 ![Classification Specialist](images/Dashboard_Classifications_ai4i2020.png)
 
-## What I learned
-*   **Feature Engineering > Model Tuning**: Adding the `Rolling_Delta` feature did more for the accuracy than any amount of parameter tweaking.
-*   **Logistic Regression is underrated**: If you scale your data correctly (I used `RobustScaler`) and handle the imbalance, it's incredibly fast and explainable.
-*   **MySQL is the way to go**: Dealing with databases instead of CSVs makes the code much cleaner and ready for actual production use.
