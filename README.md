@@ -38,10 +38,10 @@ I created four types of features:
         the mean over a specific window. In predictive modeling, it is the primary indicator of
         risk or instability.
     
-**3)Delta** represents the absolute change between the current value and a previous value. 
+**3) Delta** represents the absolute change between the current value and a previous value. 
         It shifts the focus from the "level" of the data to the "change" in the data.
         
-**4)The Rolling Delta** is a second-order feature. It typically measures the average change 
+**4) The Rolling Delta** is a second-order feature. It typically measures the average change 
         (the average Delta) over a specific window, or the difference between two rolling means.
     
 
