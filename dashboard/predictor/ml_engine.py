@@ -2,6 +2,7 @@
 ML Engine wrapper - loads the FailurePredictionSystem models
 and holds per-session state for the Django dashboard.
 """
+
 import os
 import re
 import sys
@@ -13,65 +14,69 @@ import joblib as jb
 
 try:
     from sqlalchemy import create_engine, text as _text
+
     _MYSQL_AVAILABLE = True
 except ImportError:
     _MYSQL_AVAILABLE = False
 
 # ── MySQL connection config (same credentials used for training data) ─────────
 MYSQL_CONFIG = {
-    'host':     'localhost',
-    'user':     'root',
-    'password': 'root',
-    'database': 'ml_model',
+    "host": "localhost",
+    "user": "root",
+    "password": "root",
+    "database": "ml_model",
 }
 
 # Maps preset name → MySQL test table name
 PRESET_TABLE_MAP = {
-    'normal':       'test_normal',
-    'heat_failure': 'test_hdf',
-    'tool_wear':    'test_twf',
-    'overstrain':   'test_osf',
-    'random_failure': 'test_rnf',
+    "normal": "test_normal",
+    "heat_failure": "test_hdf",
+    "tool_wear": "test_twf",
+    "overstrain": "test_osf",
+    "random_failure": "test_rnf",
 }
 
 # Add the parent project directory to sys.path so we can import from main.py
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROJECT_ROOT = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-MODELS_DIR = os.path.join(PROJECT_ROOT, 'models')
-LOGS_DIR = os.path.join(PROJECT_ROOT, 'logs')
-IMAGES_DIR = os.path.join(PROJECT_ROOT, 'images')
+MODELS_DIR = os.path.join(PROJECT_ROOT, "models")
+LOGS_DIR = os.path.join(PROJECT_ROOT, "logs")
+IMAGES_DIR = os.path.join(PROJECT_ROOT, "images")
 
 # Sensor columns expected by the model
 SENSOR_COLS = [
-    'Air temperature [K]',
-    'Process temperature [K]',
-    'Rotational speed [rpm]',
-    'Torque [Nm]',
-    'Tool wear [min]',
+    "Air temperature [K]",
+    "Process temperature [K]",
+    "Rotational speed [rpm]",
+    "Torque [Nm]",
+    "Tool wear [min]",
 ]
 
-TARGET = 'Machine failure'
-CLASSIFICATIONS = ['TWF', 'HDF', 'PWF', 'OSF']
-IGNORE_LIST = ['RNF', 'UDI', 'Product ID', 'Type'] + CLASSIFICATIONS
+TARGET = "Machine failure"
+CLASSIFICATIONS = ["TWF", "HDF", "PWF", "OSF"]
+IGNORE_LIST = ["RNF", "UDI", "Product ID", "Type"] + CLASSIFICATIONS
 
 
 # ── Test-run log helpers ────────────────────────────────────────────────────
 
+
 def _test_log_path():
     """Returns the path for today's test_run log file."""
     os.makedirs(LOGS_DIR, exist_ok=True)
-    date_str = datetime.datetime.now().strftime('%Y-%m-%d')
-    return os.path.join(LOGS_DIR, f'test_run_{date_str}.log')
+    date_str = datetime.datetime.now().strftime("%Y-%m-%d")
+    return os.path.join(LOGS_DIR, f"test_run_{date_str}.log")
 
 
 def _write_test_log(line: str):
     """Appends a line (with timestamp) to today's test_run log and flushes immediately."""
     path = _test_log_path()
-    timestamp = datetime.datetime.now().strftime('[%H:%M:%S] ')
-    with open(path, 'a', encoding='utf-8') as f:
-        f.write(timestamp + line + '\n')
+    timestamp = datetime.datetime.now().strftime("[%H:%M:%S] ")
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(timestamp + line + "\n")
 
 
 class PredictionSession:
@@ -81,8 +86,10 @@ class PredictionSession:
     """
 
     def __init__(self):
-        self.risk_model = jb.load(os.path.join(MODELS_DIR, 'Risk_eval_model.pkl'))
-        self.classification_model = jb.load(os.path.join(MODELS_DIR, 'Risk_eval_Classification.pkl'))
+        self.risk_model = jb.load(os.path.join(MODELS_DIR, "Risk_eval_model.pkl"))
+        self.classification_model = jb.load(
+            os.path.join(MODELS_DIR, "Risk_eval_Classification.pkl")
+        )
         self.history = []
         self.prob_history = []
         self.warning_streak = 0
@@ -92,7 +99,12 @@ class PredictionSession:
         self.persistence_threshold = 3
         self.step_log = []  # stores all prediction results
         self.first_critical_step = None
-        self.preset_state = {'running': False, 'total': 0, 'failure_step': None, 'done': False}
+        self.preset_state = {
+            "running": False,
+            "total": 0,
+            "failure_step": None,
+            "done": False,
+        }
 
     def reset(self):
         self.history = []
@@ -100,8 +112,13 @@ class PredictionSession:
         self.warning_streak = 0
         self.step_log = []
         self.first_critical_step = None
-        self.preset_state = {'running': False, 'total': 0, 'failure_step': None, 'done': False}
-        _write_test_log('--- Session Reset ---')
+        self.preset_state = {
+            "running": False,
+            "total": 0,
+            "failure_step": None,
+            "done": False,
+        }
+        _write_test_log("--- Session Reset ---")
 
     def predict(self, sensor_values):
         """
@@ -115,7 +132,7 @@ class PredictionSession:
         row[TARGET] = 0
         for c in CLASSIFICATIONS:
             row[c] = 0
-        for ig in ['RNF', 'UDI', 'Product ID', 'Type']:
+        for ig in ["RNF", "UDI", "Product ID", "Type"]:
             row[ig] = 0
 
         X = pd.DataFrame([row])
@@ -132,26 +149,36 @@ class PredictionSession:
         cols_to_exclude = [TARGET] + CLASSIFICATIONS + IGNORE_LIST
 
         dynamic_features = [
-            c for c in X.columns
+            c
+            for c in X.columns
             if c not in cols_to_exclude
-            and not any(x in c for x in ['_Rolling_Mean', '_Volatility', '_Delta', '_Rolling_Delta'])
+            and not any(
+                x in c
+                for x in ["_Rolling_Mean", "_Volatility", "_Delta", "_Rolling_Delta"]
+            )
         ]
 
         for col in dynamic_features:
-            current_data_df[f'{col}_Rolling_Mean'] = history_dataframe[col].mean()
+            current_data_df[f"{col}_Rolling_Mean"] = history_dataframe[col].mean()
 
             if len(self.history) > 1:
-                current_data_df[f'{col}_Volatility'] = history_dataframe[col].std()
-                current_data_df[f'{col}_Delta'] = self.history[-1][col] - self.history[-2][col]
-                current_data_df[f'{col}_Rolling_Delta'] = history_dataframe[col].diff().mean()
+                current_data_df[f"{col}_Volatility"] = history_dataframe[col].std()
+                current_data_df[f"{col}_Delta"] = (
+                    self.history[-1][col] - self.history[-2][col]
+                )
+                current_data_df[f"{col}_Rolling_Delta"] = (
+                    history_dataframe[col].diff().mean()
+                )
             else:
-                current_data_df[f'{col}_Volatility'] = 0.0
-                current_data_df[f'{col}_Delta'] = 0.0
-                current_data_df[f'{col}_Rolling_Delta'] = 0.0
+                current_data_df[f"{col}_Volatility"] = 0.0
+                current_data_df[f"{col}_Delta"] = 0.0
+                current_data_df[f"{col}_Rolling_Delta"] = 0.0
 
         current_data_df = current_data_df.fillna(0)
 
-        inference_df = current_data_df.drop(columns=[c for c in cols_to_exclude if c in current_data_df.columns])
+        inference_df = current_data_df.drop(
+            columns=[c for c in cols_to_exclude if c in current_data_df.columns]
+        )
         inference_df = inference_df[self.risk_model.feature_names_in_]
 
         # Tier 1: Risk Probability
@@ -213,7 +240,7 @@ class PredictionSession:
         self.step_log.append(result)
 
         # Track first CRITICAL prediction for verdict display
-        if alert_status == 'CRITICAL' and self.first_critical_step is None:
+        if alert_status == "CRITICAL" and self.first_critical_step is None:
             self.first_critical_step = step_num
 
         # ── Write to test-run log (real-time, flushed immediately) ──
@@ -234,29 +261,32 @@ class PredictionSession:
 # ── Dynamic preset generator ────────────────────────────────────────────────
 import random
 
-
 # Normal operating ranges for each sensor
 NORMAL = {
-    'air': (298, 302),
-    'proc': (308, 312),
-    'rpm': (1450, 1550),
-    'torque': (38, 42),
-    'wear': (50, 120),
+    "air": (298, 302),
+    "proc": (308, 312),
+    "rpm": (1450, 1550),
+    "torque": (38, 42),
+    "wear": (50, 120),
 }
 
 # Failure extremes — what sensor values look like when the machine actually fails
 FAILURE_EXTREMES = {
-    'heat_failure': {'air': 315, 'proc': 325, 'rpm': 900, 'torque': 70, 'wear': 130},
-    'tool_wear':    {'air': 302, 'proc': 312, 'rpm': 1500, 'torque': 55, 'wear': 240},
-    'overstrain':   {'air': 303, 'proc': 313, 'rpm': 800, 'torque': 80, 'wear': 130},
+    "heat_failure": {"air": 315, "proc": 325, "rpm": 900, "torque": 70, "wear": 130},
+    "tool_wear": {"air": 302, "proc": 312, "rpm": 1500, "torque": 55, "wear": 240},
+    "overstrain": {"air": 303, "proc": 313, "rpm": 800, "torque": 80, "wear": 130},
 }
 
-PRESET_NAMES = ['normal', 'heat_failure', 'tool_wear', 'overstrain', 'random_failure']
+PRESET_NAMES = ["normal", "heat_failure", "tool_wear", "overstrain", "random_failure"]
 
 # Ambiguous extremes for random failure — slight degradation across ALL sensors,
 # not enough to confidently match any single known failure mode.
 RANDOM_FAILURE_EXTREMES = {
-    'air': 308, 'proc': 318, 'rpm': 1200, 'torque': 58, 'wear': 180
+    "air": 308,
+    "proc": 318,
+    "rpm": 1200,
+    "torque": 58,
+    "wear": 180,
 }
 
 
@@ -270,20 +300,22 @@ def _fetch_db_rows(preset_name):
     table = PRESET_TABLE_MAP.get(preset_name)
     if not table:
         return None
-    
+
     url = (
         f"mysql+pymysql://{MYSQL_CONFIG['user']}:{MYSQL_CONFIG['password']}"
         f"@{MYSQL_CONFIG['host']}/{MYSQL_CONFIG['database']}"
     )
-    
+
     try:
         engine = create_engine(url)
         with engine.connect() as conn:
-            result = conn.execute(_text(
-                f"SELECT `Air temperature [K]`, `Process temperature [K]`, "
-                f"`Rotational speed [rpm]`, `Torque [Nm]`, `Tool wear [min]` "
-                f"FROM `{table}` ORDER BY RAND() LIMIT 20"
-            ))
+            result = conn.execute(
+                _text(
+                    f"SELECT `Air temperature [K]`, `Process temperature [K]`, "
+                    f"`Rotational speed [rpm]`, `Torque [Nm]`, `Tool wear [min]` "
+                    f"FROM `{table}` ORDER BY RAND() LIMIT 20"
+                )
+            )
             rows = result.fetchall()
             if not rows:
                 return None
@@ -311,38 +343,40 @@ def generate_preset(preset_name):
     # ── Attempt MySQL first ───────────────────────────────────────────────────
     db_rows = _fetch_db_rows(preset_name)
     if db_rows:
-        if preset_name == 'normal':
-            return {'rows': db_rows, 'failure_step': None}
+        if preset_name == "normal":
+            return {"rows": db_rows, "failure_step": None}
         # For all failure presets: cap at 19 normal + 1 extreme final row
         db_rows = db_rows[:19]
         extremes_key = {
-            'heat_failure': 'heat_failure',
-            'tool_wear':    'tool_wear',
-            'overstrain':   'overstrain',
-            'random_failure': None,  # uses RANDOM_FAILURE_EXTREMES below
+            "heat_failure": "heat_failure",
+            "tool_wear": "tool_wear",
+            "overstrain": "overstrain",
+            "random_failure": None,  # uses RANDOM_FAILURE_EXTREMES below
         }.get(preset_name)
         if extremes_key:
             ex = FAILURE_EXTREMES[extremes_key]
-            db_rows.append([ex['air'], ex['proc'], ex['rpm'], ex['torque'], ex['wear']])
+            db_rows.append([ex["air"], ex["proc"], ex["rpm"], ex["torque"], ex["wear"]])
         else:
             ex = RANDOM_FAILURE_EXTREMES
-            db_rows.append([ex['air'], ex['proc'], ex['rpm'], ex['torque'], ex['wear']])
-        return {'rows': db_rows, 'failure_step': len(db_rows)}
+            db_rows.append([ex["air"], ex["proc"], ex["rpm"], ex["torque"], ex["wear"]])
+        return {"rows": db_rows, "failure_step": len(db_rows)}
 
     # ── Synthetic fallback (original logic) ──────────────────────────────────
-    if preset_name == 'normal':
+    if preset_name == "normal":
         # 20 steps of normal operation with small jitter
         for i in range(20):
-            rows.append([
-                round(random.uniform(*NORMAL['air']), 1),
-                round(random.uniform(*NORMAL['proc']), 1),
-                round(random.uniform(*NORMAL['rpm'])),
-                round(random.uniform(*NORMAL['torque']), 1),
-                round(NORMAL['wear'][0] + i * 2),
-            ])
-        return {'rows': rows, 'failure_step': None}
+            rows.append(
+                [
+                    round(random.uniform(*NORMAL["air"]), 1),
+                    round(random.uniform(*NORMAL["proc"]), 1),
+                    round(random.uniform(*NORMAL["rpm"])),
+                    round(random.uniform(*NORMAL["torque"]), 1),
+                    round(NORMAL["wear"][0] + i * 2),
+                ]
+            )
+        return {"rows": rows, "failure_step": None}
 
-    if preset_name == 'random_failure':
+    if preset_name == "random_failure":
         # Random failure: ambiguous degradation across ALL sensors simultaneously.
         # No single failure mode dominates, so the classifier can't reach diagnosis_sensitivity
         # on any of TWF/HDF/PWF/OSF — the runtime correctly falls back to "RandomFailure".
@@ -352,34 +386,50 @@ def generate_preset(preset_name):
 
         for i in range(20):
             if i < onset:
-                rows.append([
-                    round(random.uniform(*NORMAL['air']), 1),
-                    round(random.uniform(*NORMAL['proc']), 1),
-                    round(random.uniform(*NORMAL['rpm'])),
-                    round(random.uniform(*NORMAL['torque']), 1),
-                    round(NORMAL['wear'][0] + i * 2),
-                ])
+                rows.append(
+                    [
+                        round(random.uniform(*NORMAL["air"]), 1),
+                        round(random.uniform(*NORMAL["proc"]), 1),
+                        round(random.uniform(*NORMAL["rpm"])),
+                        round(random.uniform(*NORMAL["torque"]), 1),
+                        round(NORMAL["wear"][0] + i * 2),
+                    ]
+                )
             elif i < 19:
                 progress = (i - onset) / max(ramp_steps, 1)
                 noise = lambda: random.uniform(-0.5, 0.5)
-                air_n  = random.uniform(*NORMAL['air'])
-                proc_n = random.uniform(*NORMAL['proc'])
-                rpm_n  = random.uniform(*NORMAL['rpm'])
-                torq_n = random.uniform(*NORMAL['torque'])
-                wear_n = NORMAL['wear'][0] + i * 2
-                rows.append([
-                    round(air_n  + (extremes['air']    - air_n)  * progress + noise(), 1),
-                    round(proc_n + (extremes['proc']   - proc_n) * progress + noise(), 1),
-                    round(rpm_n  + (extremes['rpm']    - rpm_n)  * progress),
-                    round(torq_n + (extremes['torque'] - torq_n) * progress + noise(), 1),
-                    round(wear_n + (extremes['wear']   - wear_n) * progress),
-                ])
+                air_n = random.uniform(*NORMAL["air"])
+                proc_n = random.uniform(*NORMAL["proc"])
+                rpm_n = random.uniform(*NORMAL["rpm"])
+                torq_n = random.uniform(*NORMAL["torque"])
+                wear_n = NORMAL["wear"][0] + i * 2
+                rows.append(
+                    [
+                        round(
+                            air_n + (extremes["air"] - air_n) * progress + noise(), 1
+                        ),
+                        round(
+                            proc_n + (extremes["proc"] - proc_n) * progress + noise(), 1
+                        ),
+                        round(rpm_n + (extremes["rpm"] - rpm_n) * progress),
+                        round(
+                            torq_n + (extremes["torque"] - torq_n) * progress + noise(),
+                            1,
+                        ),
+                        round(wear_n + (extremes["wear"] - wear_n) * progress),
+                    ]
+                )
             else:
-                rows.append([
-                    extremes['air'], extremes['proc'], extremes['rpm'],
-                    extremes['torque'], extremes['wear'],
-                ])
-        return {'rows': rows, 'failure_step': 20}
+                rows.append(
+                    [
+                        extremes["air"],
+                        extremes["proc"],
+                        extremes["rpm"],
+                        extremes["torque"],
+                        extremes["wear"],
+                    ]
+                )
+        return {"rows": rows, "failure_step": 20}
 
     # For the named failure presets: random onset between step 6 and 13
     onset = random.randint(6, 13)
@@ -389,40 +439,48 @@ def generate_preset(preset_name):
     for i in range(20):
         if i < onset:
             # Normal operation with slight jitter
-            rows.append([
-                round(random.uniform(*NORMAL['air']), 1),
-                round(random.uniform(*NORMAL['proc']), 1),
-                round(random.uniform(*NORMAL['rpm'])),
-                round(random.uniform(*NORMAL['torque']), 1),
-                round(NORMAL['wear'][0] + i * 2),
-            ])
+            rows.append(
+                [
+                    round(random.uniform(*NORMAL["air"]), 1),
+                    round(random.uniform(*NORMAL["proc"]), 1),
+                    round(random.uniform(*NORMAL["rpm"])),
+                    round(random.uniform(*NORMAL["torque"]), 1),
+                    round(NORMAL["wear"][0] + i * 2),
+                ]
+            )
         elif i < 19:
             # Gradually ramp toward failure
             progress = (i - onset) / max(ramp_steps, 1)
-            air_norm = random.uniform(*NORMAL['air'])
-            proc_norm = random.uniform(*NORMAL['proc'])
-            rpm_norm = random.uniform(*NORMAL['rpm'])
-            torque_norm = random.uniform(*NORMAL['torque'])
-            wear_norm = NORMAL['wear'][0] + i * 2
+            air_norm = random.uniform(*NORMAL["air"])
+            proc_norm = random.uniform(*NORMAL["proc"])
+            rpm_norm = random.uniform(*NORMAL["rpm"])
+            torque_norm = random.uniform(*NORMAL["torque"])
+            wear_norm = NORMAL["wear"][0] + i * 2
 
-            rows.append([
-                round(air_norm + (extremes['air'] - air_norm) * progress, 1),
-                round(proc_norm + (extremes['proc'] - proc_norm) * progress, 1),
-                round(rpm_norm + (extremes['rpm'] - rpm_norm) * progress),
-                round(torque_norm + (extremes['torque'] - torque_norm) * progress, 1),
-                round(wear_norm + (extremes['wear'] - wear_norm) * progress),
-            ])
+            rows.append(
+                [
+                    round(air_norm + (extremes["air"] - air_norm) * progress, 1),
+                    round(proc_norm + (extremes["proc"] - proc_norm) * progress, 1),
+                    round(rpm_norm + (extremes["rpm"] - rpm_norm) * progress),
+                    round(
+                        torque_norm + (extremes["torque"] - torque_norm) * progress, 1
+                    ),
+                    round(wear_norm + (extremes["wear"] - wear_norm) * progress),
+                ]
+            )
         else:
             # Step 20: Machine actually fails — extreme values
-            rows.append([
-                extremes['air'],
-                extremes['proc'],
-                extremes['rpm'],
-                extremes['torque'],
-                extremes['wear'],
-            ])
+            rows.append(
+                [
+                    extremes["air"],
+                    extremes["proc"],
+                    extremes["rpm"],
+                    extremes["torque"],
+                    extremes["wear"],
+                ]
+            )
 
-    return {'rows': rows, 'failure_step': 20}
+    return {"rows": rows, "failure_step": 20}
 
 
 # ── In-memory session store (keyed by Django session ID) ───────────────────
@@ -449,17 +507,17 @@ def run_preset_steps(session, rows, failure_step):
     whether the browser is on the dashboard, logs page, or anywhere else.
     """
     SENSOR_KEYS = [
-        'Air temperature [K]',
-        'Process temperature [K]',
-        'Rotational speed [rpm]',
-        'Torque [Nm]',
-        'Tool wear [min]',
+        "Air temperature [K]",
+        "Process temperature [K]",
+        "Rotational speed [rpm]",
+        "Torque [Nm]",
+        "Tool wear [min]",
     ]
     session.preset_state = {
-        'running': True,
-        'total': len(rows),
-        'failure_step': failure_step,
-        'done': False,
+        "running": True,
+        "total": len(rows),
+        "failure_step": failure_step,
+        "done": False,
     }
 
     for i, row_values in enumerate(rows):
@@ -471,15 +529,15 @@ def run_preset_steps(session, rows, failure_step):
             print(f"[run_preset_steps] Error at step {i + 1}: {e}")
             break
 
-    session.preset_state['running'] = False
-    session.preset_state['done'] = True
+    session.preset_state["running"] = False
+    session.preset_state["done"] = True
 
 
 def get_log_files():
     """Returns sorted list of log filenames from the logs/ directory."""
     if not os.path.exists(LOGS_DIR):
         return []
-    files = [f for f in os.listdir(LOGS_DIR) if f.endswith('.log')]
+    files = [f for f in os.listdir(LOGS_DIR) if f.endswith(".log")]
     files.sort(reverse=True)
     return files
 
@@ -489,11 +547,12 @@ def read_log_file(filename):
     path = os.path.join(LOGS_DIR, filename)
     if not os.path.exists(path):
         return "File not found."
-    with open(path, 'r', encoding='utf-8', errors='replace') as f:
+    with open(path, "r", encoding="utf-8", errors="replace") as f:
         return f.read()
 
 
 # ── Dynamic model stats (parsed from most recent training log) ──────────────
+
 
 def get_model_stats():
     """
@@ -502,17 +561,17 @@ def get_model_stats():
     Falls back to None for any value that can't be parsed.
     """
     stats = {
-        'roc_auc': None,
-        'risk_tolerance': 0.765,
-        'recall': None,
-        'precision': None,
-        'fpr': None,
-        'tp': None,
-        'fp': None,
-        'fn': None,
-        'tn': None,
-        'feature_count': None,
-        'log_file_used': None,
+        "roc_auc": None,
+        "risk_tolerance": 0.765,
+        "recall": None,
+        "precision": None,
+        "fpr": None,
+        "tp": None,
+        "fp": None,
+        "fn": None,
+        "tn": None,
+        "feature_count": None,
+        "log_file_used": None,
     }
 
     if not os.path.exists(LOGS_DIR):
@@ -520,69 +579,73 @@ def get_model_stats():
 
     # Collect all main.py and model.py log files, sorted most-recent first
     candidate_logs = sorted(
-        [f for f in os.listdir(LOGS_DIR)
-         if f.endswith('.log') and (f.startswith('main.py@') or f.startswith('model.py@'))],
-        reverse=True
+        [
+            f
+            for f in os.listdir(LOGS_DIR)
+            if f.endswith(".log")
+            and (f.startswith("main.py@") or f.startswith("model.py@"))
+        ],
+        reverse=True,
     )
 
     # Walk from most recent and pick the first one that contains training metrics
     for logfile in candidate_logs:
         path = os.path.join(LOGS_DIR, logfile)
         try:
-            with open(path, 'r', encoding='utf-8', errors='replace') as f:
+            with open(path, "r", encoding="utf-8", errors="replace") as f:
                 content = f.read()
         except OSError:
             continue
 
         # Only consider logs that have model evaluation output
-        if 'ROC-AUC score' not in content:
+        if "ROC-AUC score" not in content:
             continue
 
-        stats['log_file_used'] = logfile
+        stats["log_file_used"] = logfile
 
         # ROC-AUC
-        m = re.search(r'ROC-AUC score\s*:\s*([0-9.]+)', content)
+        m = re.search(r"ROC-AUC score\s*:\s*([0-9.]+)", content)
         if m:
-            stats['roc_auc'] = float(m.group(1))
+            stats["roc_auc"] = float(m.group(1))
 
         # Risk tolerance
-        m = re.search(r'Risk Tolerance used\s*:\s*([0-9.]+)', content)
+        m = re.search(r"Risk Tolerance used\s*:\s*([0-9.]+)", content)
         if m:
-            stats['risk_tolerance'] = float(m.group(1))
+            stats["risk_tolerance"] = float(m.group(1))
 
         # TP / FP
-        m = re.search(r'TP:\s*(\d+)\s*\|\s*FP:\s*(\d+)', content)
+        m = re.search(r"TP:\s*(\d+)\s*\|\s*FP:\s*(\d+)", content)
         if m:
-            stats['tp'] = int(m.group(1))
-            stats['fp'] = int(m.group(2))
+            stats["tp"] = int(m.group(1))
+            stats["fp"] = int(m.group(2))
 
         # FN / TN
-        m = re.search(r'FN:\s*(\d+)\s*\|\s*TN:\s*(\d+)', content)
+        m = re.search(r"FN:\s*(\d+)\s*\|\s*TN:\s*(\d+)", content)
         if m:
-            stats['fn'] = int(m.group(1))
-            stats['tn'] = int(m.group(2))
+            stats["fn"] = int(m.group(1))
+            stats["tn"] = int(m.group(2))
 
         # Recall
-        m = re.search(r'Recall \(TPR\)\s*:\s*([0-9.]+)', content)
+        m = re.search(r"Recall \(TPR\)\s*:\s*([0-9.]+)", content)
         if m:
-            stats['recall'] = float(m.group(1))
+            stats["recall"] = float(m.group(1))
 
         # Precision
-        m = re.search(r'Precision\s*:\s*([0-9.]+)', content)
+        m = re.search(r"Precision\s*:\s*([0-9.]+)", content)
         if m:
-            stats['precision'] = float(m.group(1))
+            stats["precision"] = float(m.group(1))
 
         # FPR
-        m = re.search(r'False PosRate\s*:\s*([0-9.]+)', content)
+        m = re.search(r"False PosRate\s*:\s*([0-9.]+)", content)
         if m:
-            stats['fpr'] = float(m.group(1))
+            stats["fpr"] = float(m.group(1))
 
         break  # found a usable log — stop searching
 
     # Live feature count from model
     try:
         tmp_session = list(_sessions.values())[0] if _sessions else PredictionSession()
-        stats['feature_count'] = len(tmp_session.risk_model.feature_names_in_)
+        stats["feature_count"] = len(tmp_session.risk_model.feature_names_in_)
     except Exception:
         pass
 

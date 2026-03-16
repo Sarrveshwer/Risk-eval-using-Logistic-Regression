@@ -29,22 +29,22 @@ from sqlalchemy import create_engine, text
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 DB_CONFIG = {
-    'host':     'localhost',
-    'user':     'root',
-    'password': 'root',
-    'database': 'ml_model',
+    "host": "localhost",
+    "user": "root",
+    "password": "root",
+    "database": "ml_model",
 }
 
-SOURCE_TABLE = 'ai412024'   # the training table you already uploaded
+SOURCE_TABLE = "ai412024"  # the training table you already uploaded
 
 # Each entry: (dest_table, WHERE clause referencing source table columns)
 TABLES = [
-    ('test_normal', '`Machine failure` = 0'),
-    ('test_twf',    'TWF = 1'),
-    ('test_hdf',    'HDF = 1'),
-    ('test_pwf',    'PWF = 1'),
-    ('test_osf',    'OSF = 1'),
-    ('test_rnf',    'RNF = 1'),
+    ("test_normal", "`Machine failure` = 0"),
+    ("test_twf", "TWF = 1"),
+    ("test_hdf", "HDF = 1"),
+    ("test_pwf", "PWF = 1"),
+    ("test_osf", "OSF = 1"),
+    ("test_rnf", "RNF = 1"),
 ]
 
 # DDL for every test table — just an id + the 5 sensor columns
@@ -80,12 +80,15 @@ POPULATE_SQL = """
 
 # ── Main ────────────────────────────────────────────────────────────────────────
 
+
 def main():
     url = (
         f"mysql+pymysql://{DB_CONFIG['user']}:{DB_CONFIG['password']}"
         f"@{DB_CONFIG['host']}/{DB_CONFIG['database']}"
     )
-    print(f"Connecting to MySQL: {DB_CONFIG['user']}@{DB_CONFIG['host']}/{DB_CONFIG['database']}")
+    print(
+        f"Connecting to MySQL: {DB_CONFIG['user']}@{DB_CONFIG['host']}/{DB_CONFIG['database']}"
+    )
     try:
         engine = create_engine(url)
         print("  → Engine created OK\n")
@@ -95,13 +98,18 @@ def main():
 
     with engine.connect() as conn:
         # Verify the source training table exists
-        result = conn.execute(text(
-            "SELECT COUNT(*) FROM information_schema.tables "
-            "WHERE table_schema = :db AND table_name = :table"
-        ), {"db": DB_CONFIG['database'], "table": SOURCE_TABLE})
-        
+        result = conn.execute(
+            text(
+                "SELECT COUNT(*) FROM information_schema.tables "
+                "WHERE table_schema = :db AND table_name = :table"
+            ),
+            {"db": DB_CONFIG["database"], "table": SOURCE_TABLE},
+        )
+
         if result.scalar() == 0:
-            print(f"ERROR: Source table '{SOURCE_TABLE}' not found in '{DB_CONFIG['database']}'.")
+            print(
+                f"ERROR: Source table '{SOURCE_TABLE}' not found in '{DB_CONFIG['database']}'."
+            )
             return
 
         result = conn.execute(text(f"SELECT COUNT(*) FROM `{SOURCE_TABLE}`"))
@@ -121,11 +129,15 @@ def main():
             print(f"  → Table created")
 
             # Populate with INSERT ... SELECT directly in MySQL
-            conn.execute(text(POPULATE_SQL.format(
-                dest=dest_table,
-                src=SOURCE_TABLE,
-                where=where_clause,
-            )))
+            conn.execute(
+                text(
+                    POPULATE_SQL.format(
+                        dest=dest_table,
+                        src=SOURCE_TABLE,
+                        where=where_clause,
+                    )
+                )
+            )
             conn.commit()
 
             result = conn.execute(text(f"SELECT COUNT(*) FROM `{dest_table}`"))
@@ -137,5 +149,5 @@ def main():
         print(f"  • {dest_table:<14}  (WHERE {where_clause})")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
