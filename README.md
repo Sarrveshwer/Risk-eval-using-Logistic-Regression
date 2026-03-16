@@ -2,9 +2,9 @@
 
 ## Why I built this
 
-The main reason I built this is simple: **it saves both lives and money.**
+The main reason I built this is simple: it saves both lives and money.
 
-In a real factory, reacting to a broken machine is expensive, but it's also dangerous. If a machine fails suddenly, it can hurt the people working near it. I wanted to see if I could use sensor data (like temperature and torque) to catch failures *before* they actually happen.
+In a real factory, machine breaking down is not only expensive, but it's also dangerous. If a machine fails suddenly, it can hurt the people working near it. I wanted to see if I could use sensor data (like temperature and torque) to catch failures *before* they actually happen.
 
 ## MySQL 
 
