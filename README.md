@@ -80,10 +80,10 @@ It's basically a cost and safety problem: Is a missed failure ($$$$ and dangerou
 I made the system generate these dashboards every time I train it so I can see where it's struggling.
 
 ### 1. Global Risk Analysis (Tier 1)
-Shows how well the model separates "Healthy" from "Critical" states. The ROC-AUC stays around 0.90, which is pretty solid for simple logistic regression.
+Shows how well the model separates "Healthy" from "Critical" states. In the given example which uses synthetic data the ROC-AUC stays around 0.90, which is pretty solid for simple logistic regression.
 ![Global Scorer](images/Dashboard_ai4i2020.png)
 
 ### 2. Diagnostic Specialist (Tier 2)
-This shows how accurately we can name the failure type. Since we only run this when the risk is already high, the precision is almost perfect.
+This shows how accurately we can name the failure type. Similar to the previous dashboard but clearly shows the differnece between each type of failure it is trained to predict.
 ![Classification Specialist](images/Dashboard_Classifications_ai4i2020.png)
 
