@@ -1,89 +1,82 @@
 # Machine Failure Predictor
 
-## Why I built this
+## Why I actually built this
 
-The main reason I built this is simple: it saves both lives and money.
+The goal is simple: **saving lives and cash.**
 
-In a real factory, machine breaking down is not only expensive, but it's also dangerous. If a machine fails suddenly, it can hurt the people working near it. I wanted to see if I could use sensor data (like temperature and torque) to catch failures *before* they actually happen.
-
-## MySQL 
-
-Instead of just loading a single CSV file, I moved the whole project to a **MySQL** backend.
-*   It's much more stable than a flat file.
-*   I can handle thousands of rows easily.
-*   I made a script called `create_test_tables.py` that automatically splits the data into specific failure modes (Heat, Tool Wear, etc.). This made it way easier to test if the model actually knows the difference between a hot motor and a worn-out tool.
-
-## Hurdle Model Architecture
-
-I realized one model trying to do everything was a mess. So I built this as a Hurdle Model. 
-
-Instead of asking one model to find the failure and name it at the same time, the data has to clear two separate "hurdles":
-
-**Hurdle 1: The Probability Gate (Binary Logistic Regression)**
-    This is the first hurdle. The model only looks for a general "Risk Score" (0 to 1). If the sensors don't look risky enough to "clear the hurdle," nothing else happens. This keeps the system fast and prevents fake diagnoses.
-
-**Hurdle 2: The Diagnosis (Multinomial Softmax)**
-    If (and only if) the first hurdle is cleared, this second model wakes up. Its job is to pinpoint exactly why the machine is struggling—is it **HDF** (Heat), **TWF** (Tool Wear), or just a random glitch? 
-
-## Adding Features
-
-Machine failures aren't usually instant; they're a process. If you only look at one row of data, you miss the trend.
-
-I created four types of features:
-
-**1) The Rolling Mean** is a smoothing technique used to identify the underlying trend 
-        of a dataset by filtering noise.
-
-**2) Volatility(Rolling Standard deviation)** measures the dispersion of data points around 
-        the mean over a specific window. In predictive modeling, it is the primary indicator of
-        risk or instability.
-    
-**3) Delta** represents the absolute change between the current value and a previous value. 
-        It shifts the focus from the "level" of the data to the "change" in the data.
-        
-**4) The Rolling Delta** is a second-order feature. It typically measures the average change 
-        (the average Delta) over a specific window, or the difference between two rolling means.
-    
+In a real factory, when a machine snaps, it's not just a big repair bill—it's dangerous. People get hurt when things fail without warning. I wanted to see if I could use raw sensor data (like temperature, RPM, and torque) to catch a breakdown *before* it happens, giving workers time to hit the kill switch or call for maintenance.
 
 ---
 
-## The Web Dashboard
+## 🏗️ Better Tech (MySQL > CSV)
 
-I built a Django dashboard so I could actually see the predictions in real time instead of just looking at terminal logs.
-
-![Frontend Screenshot](images/frontend.png)
-
----
-
-## The "Needle in a Haystack" Problem
-
-In real life, machines work fine 97% of the time. In my data, I had **9,661 normal runs** and only **339 failures**.
-
-If a model just says "Everything is fine" every single time, it gets a 96% accuracy score—but it's useless because it misses every single failure. I had to ignore "Accuracy" and focus on **ROC-AUC** and **Precision-Recall** to make sure the model actually finds the rare failures without constantly crying wolf.
-
-![Failure Graph](images/Machine-failure-Frequency.png)
+Loads of people just toss a CSV into a script and call it a day. I didn't want to do that. I moved the whole backend to **MySQL**. 
+*   **Stability**: It handles thousands of rows without breaking a sweat.
+*   **Reality**: Most factories use databases, not Excel files.
+*   **Testing**: I built a custom scenario generator (`create_test_tables.py`) that splits data into specific failure modes like Heat Failure or Tool Wear. This lets me prove the model actually knows *why* the machine is struggling.
 
 ---
 
-## Risk Sensitivity (The Slider)
+## 🧠 The "Hurdle Model" Novelty
 
-I designed the system with a "Risk Tolerance" setting. It's a trade-off:
-*   **High Sensitivity**: You catch every failure, but you get a lot of "false alarms" (annoying for workers).
-*   **Low Sensitivity**: You only alert when you are 100% sure, but you might miss a subtle breakdown.
+I realized pretty early that even the best specialist can miss things. I built the **Hurdle Model Architecture** as a fallback system to make sure nothing slips through the cracks.
 
-It's basically a cost and safety problem: Is a missed failure ($$$$ and dangerous) worse than a fake alarm ($)? 
+The data has to clear two separate hurdles:
+
+### **Hurdle 1: The Safety Net (Binary Scorer)**
+This is the broad brain. Its job is to calculate a **Global Risk Score**. Its main purpose? **Catching random errors.** If the machine is acting weird but doesn't fit a "standard" failure type, this hurdle catches it anyway. 
+
+### **Hurdle 2: The Specialist (Multinomial Diagnosis)**
+If (and only if) the first hurdle is cleared, the **Diagnostic Specialist** wakes up. It tries to pinpoint exactly what's wrong—is it Heat (**HDF**), Tool Wear (**TWF**), or Overstrain? If the specialist is confused, we still know there's a problem because it already cleared the first hurdle.
 
 ---
 
-## Visualizing the Logic
+## 📈 Catching the Trend (Feature Engineering)
 
-I made the system generate these dashboards every time I train it so I can see where it's struggling.
+Machine failure isn't a single "moment"; it’s a process. If you only look at one second of data, you miss the story. I built features that look at the **history**, not just the "now":
 
-### 1. Global Risk Analysis (Tier 1)
-Shows how well the model separates "Healthy" from "Critical" states. In the given example which uses synthetic data the ROC-AUC stays around 0.90, which is pretty solid for simple logistic regression.
-![Global Scorer](images/Dashboard_ai4i2020.png)
+1.  **Rolling Mean**: Smoothing out the jittery sensor noise.
+2.  **Volatility (Std Dev)**: This is the big one. If the sensor starts shaking wildly, it’s a massive red flag.
+3.  **Delta & Rolling Delta**: Looking at the *change* in data. Is the temperature rising faster than it was a minute ago? That’s how we catch failures early.
 
-### 2. Diagnostic Specialist (Tier 2)
-This shows how accurately we can name the failure type. Similar to the previous dashboard but clearly shows the differnece between each type of failure it is trained to predict.
-![Classification Specialist](images/Dashboard_Classifications_ai4i2020.png)
+---
 
+## 📊 The "Needle in a Haystack" Problem
+
+Here's a technical challenge: **Accuracy is a lie.** 
+
+In my data, 97% of the runs were perfectly normal. If a model just guesses "Everything is fine" all day, it gets a 97% accuracy score—but it misses every single life-threatening failure. I ignored accuracy and focused on **ROC-AUC** and **Precision-Recall** to make sure we find the rare 3% that actually matter.
+
+---
+
+## 🎞️ Project Showcase
+
+<details>
+  <summary><b>Click to see the System UI & Dashboards</b></summary>
+  
+  ### 1. Live Monitoring Dashboard
+  <img src="images/frontend.png" alt="Live Dashboard"/>
+  
+  ### 2. Real-time Log Engine
+  <img src="images/logs.png" alt="Log Engine"/>
+  
+  ### 3. Deep Performance Metrics
+  <img src="images/info2.png" alt="Performance Metrics"/>
+  
+  ### 4. Global Risk Analysis (Tier 1)
+  <img src="images/Dashboard_ai4i2020.png" alt="Tier 1 Analysis"/>
+  
+  ### 5. Diagnostic Specialization (Tier 2)
+  <img src="images/Dashboard_Classifications_ai4i2020.png" alt="Tier 2 Specialization"/>
+</details>
+
+---
+
+## 🛠️ How to run it
+
+1.  Clone the repo.
+2.  Set up your MySQL DB (credentials in `ml_engine.py`).
+3.  Run `python manage.py runserver`.
+4.  Go to the **Test** tab and trigger a "Heat Failure" preset to watch the AI catch it live.
+
+**Goal**: Keep the machines running and the people safe.
