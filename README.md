@@ -11,6 +11,7 @@ Basically, I want to catch the failure *before* it happens using sensor data.
 Instead of just loading a CSV file, I moved the whole project to a **MySQL** backend.
 *   **Stability**: It handles the data much better than a flat file.
 *   **Testing**: I made a script `create_test_tables.py` to split data into specific failure modes (Heat, Tool Wear, etc.) so I can verify if the model actually knows what is happening.
+* **Scalability**: It handles the data much better than a flat file.
 
 ---
 
@@ -45,7 +46,7 @@ For the modeling part, I used a **Hurdle Model** architecture. The data has to c
 ## Project Showcase
 
 <details>
-  <summary><b>The title of the image group</b></summary>
+  <summary><b>Click to see the System UI & Dashboards</b></summary>
   
   ### 1. Live Monitoring Dashboard
   <img src="images/frontend.png" alt="Live Dashboard"/>
