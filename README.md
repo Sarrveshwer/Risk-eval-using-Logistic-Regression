@@ -1,58 +1,51 @@
 # Machine Failure Predictor
 
-## Why I actually built this
+This is my Machine Failure Prediction project. I built this because saving lives and money in a factory setting is actually a big deal. If a machine fails without warning, it's not just expensive repair, it's dangerous for the workers.
 
-The goal is simple: **saving lives and cash.**
-
-In a real factory, when a machine snaps, it's not just a big repair bill—it's dangerous. People get hurt when things fail without warning. I wanted to see if I could use raw sensor data (like temperature, RPM, and torque) to catch a breakdown *before* it happens, giving workers time to hit the kill switch or call for maintenance.
+Basically, I want to catch the failure *before* it happens using sensor data.
 
 ---
 
-## 🏗️ Better Tech (MySQL > CSV)
+## Moving to MySQL
 
-Loads of people just toss a CSV into a script and call it a day. I didn't want to do that. I moved the whole backend to **MySQL**. 
-*   **Stability**: It handles thousands of rows without breaking a sweat.
-*   **Reality**: Most factories use databases, not Excel files.
-*   **Testing**: I built a custom scenario generator (`create_test_tables.py`) that splits data into specific failure modes like Heat Failure or Tool Wear. This lets me prove the model actually knows *why* the machine is struggling.
-
----
-
-## 🧠 The "Hurdle Model" Novelty
-
-I realized pretty early that even the best specialist can miss things. I built the **Hurdle Model Architecture** as a fallback system to make sure nothing slips through the cracks.
-
-The data has to clear two separate hurdles:
-
-### **Hurdle 1: The Safety Net (Binary Scorer)**
-This is the broad brain. Its job is to calculate a **Global Risk Score**. Its main purpose? **Catching random errors.** If the machine is acting weird but doesn't fit a "standard" failure type, this hurdle catches it anyway. 
-
-### **Hurdle 2: The Specialist (Multinomial Diagnosis)**
-If (and only if) the first hurdle is cleared, the **Diagnostic Specialist** wakes up. It tries to pinpoint exactly what's wrong—is it Heat (**HDF**), Tool Wear (**TWF**), or Overstrain? If the specialist is confused, we still know there's a problem because it already cleared the first hurdle.
+Instead of just loading a CSV file, I moved the whole project to a **MySQL** backend.
+*   **Stability**: It handles the data much better than a flat file.
+*   **Testing**: I made a script `create_test_tables.py` to split data into specific failure modes (Heat, Tool Wear, etc.) so I can verify if the model actually knows what is happening.
 
 ---
 
-## 📈 Catching the Trend (Feature Engineering)
+# Part 1: Feature Engineering & Insights
 
-Machine failure isn't a single "moment"; it’s a process. If you only look at one second of data, you miss the story. I built features that look at the **history**, not just the "now":
+Machine failures aren't instant; they follow a trend. If you only look at one row, you miss the history. I created four main features to catch these trends:
 
-1.  **Rolling Mean**: Smoothing out the jittery sensor noise.
-2.  **Volatility (Std Dev)**: This is the big one. If the sensor starts shaking wildly, it’s a massive red flag.
-3.  **Delta & Rolling Delta**: Looking at the *change* in data. Is the temperature rising faster than it was a minute ago? That’s how we catch failures early.
+1.  **Rolling Mean**: Smoothing the sensor noise.
+2.  **Volatility (Std Dev)**: Primary indicator of risk.
+3.  **Delta**: Absolute change between current and previous values.
+4.  **Rolling Delta**: Measuring the average change over a window.
+
+### The "Needle in a Haystack" Problem
+I realized during the study that **Accuracy is a lie**. In the dataset, 97% of the time the machine is fine. If a model just guesses "Healthy" every time, it gets 97% accuracy but it's useless. I focused on **ROC-AUC** and **Precision-Recall** to make sure the model finds the rare failures without crying wolf.
+
+### My Personal Study & Insights
+1.  **Safety Net Logic**: I built the Tier 1 model as a "safety net." Its only job is to catch random errors that the specialized models might miss.
+2.  **Trend > Instant**: The "Delta" features are much more important than the raw sensor values. A high temperature is fine, but a *rapidly rising* temperature is a breakdown starting.
+3.  **Sensitivity Trade-off**: I realized there is a massive gap between "High Sensitivity" (catching every failure but having false alarms) and "Low Sensitivity" (only alerting when sure). I designed a slider to let the user choose the cost/safety balance.
 
 ---
 
-## 📊 The "Needle in a Haystack" Problem
+# Part 2: The Hurdle Model
 
-Here's a technical challenge: **Accuracy is a lie.** 
+For the modeling part, I used a **Hurdle Model** architecture. The data has to clear two separate hurdles:
 
-In my data, 97% of the runs were perfectly normal. If a model just guesses "Everything is fine" all day, it gets a 97% accuracy score—but it misses every single life-threatening failure. I ignored accuracy and focused on **ROC-AUC** and **Precision-Recall** to make sure we find the rare 3% that actually matter.
+- **Hurdle 1: The Global Risk Scorer** (Safety Net). It catches everything, including random glitches.
+- **Hurdle 2: The Diagnostic specialist**. Only if Hurdle 1 is cleared, this model identifies if it is Heat (HDF), Tool Wear (TWF), etc.
 
 ---
 
-## 🎞️ Project Showcase
+## Project Showcase
 
 <details>
-  <summary><b>Click to see the System UI & Dashboards</b></summary>
+  <summary><b>The title of the image group</b></summary>
   
   ### 1. Live Monitoring Dashboard
   <img src="images/frontend.png" alt="Live Dashboard"/>
@@ -72,11 +65,20 @@ In my data, 97% of the runs were perfectly normal. If a model just guesses "Ever
 
 ---
 
-## 🛠️ How to run it
+# How to Run If you want to
 
-1.  Clone the repo.
-2.  Set up your MySQL DB (credentials in `ml_engine.py`).
-3.  Run `python manage.py runserver`.
-4.  Go to the **Test** tab and trigger a "Heat Failure" preset to watch the AI catch it live.
+1. **Clone the repo:**
+   ```bash
+   git clone <repo_url>
+   cd Risk-eval-using-Logistic-Regression
+   ```
 
-**Goal**: Keep the machines running and the people safe.
+2. **Set up MySQL:**
+   - Update your credentials in `ml_engine.py`.
+
+3. **Run the Dashboard:**
+   ```bash
+   python manage.py runserver
+   ```
+
+Okay that's all! You can trigger presets in the **Test** tab to see the AI catch failures live.
