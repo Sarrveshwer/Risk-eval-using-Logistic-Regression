@@ -442,14 +442,14 @@ def generate_preset(preset_name):
 
     # For the named failure presets: random onset between step 6 and 13
     onset = random.randint(6, 13)
-    
+
     extremes_key = {
         "hdf": "heat_failure",
         "twf": "tool_wear",
         "osf": "overstrain",
-        "pwf": "heat_failure"  # Fallback
+        "pwf": "heat_failure",  # Fallback
     }.get(preset_name, "heat_failure")
-    
+
     extremes = FAILURE_EXTREMES.get(extremes_key, FAILURE_EXTREMES["heat_failure"])
     ramp_steps = 20 - onset - 1  # steps from onset to step 19 (step 20 is the failure)
 
@@ -671,7 +671,7 @@ def get_model_stats():
                     "precision": float(m2.group(1)),
                     "recall": float(m2.group(2)),
                     "f1": float(m2.group(3)),
-                    "support": int(m2.group(4))
+                    "support": int(m2.group(4)),
                 }
 
         # Parse accuracy and macro avg
@@ -679,8 +679,10 @@ def get_model_stats():
         if m_acc:
             sec_metrics["accuracy"] = float(m_acc.group(1))
             sec_metrics["total_support"] = int(m_acc.group(2))
-            
-        m_macro = re.search(r"macro avg\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\s+([0-9]+)", content)
+
+        m_macro = re.search(
+            r"macro avg\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\s+([0-9]+)", content
+        )
         if m_macro:
             sec_metrics["macro_precision"] = float(m_macro.group(1))
             sec_metrics["macro_recall"] = float(m_macro.group(2))
