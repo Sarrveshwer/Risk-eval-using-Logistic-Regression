@@ -12,6 +12,7 @@
     // Track alert escalation and first CRITICAL for overlay verdict
     let previousAlert = 'HEALTHY';
     let failureShown = false;  // so MACHINE FAILED overlay only fires once per run
+    let isBlockingPoll = false; // blocks poll() while a new run initializes
 
     // ── Chart: Risk Timeline ────────────────────────────
     const riskCtx = document.getElementById('riskChart').getContext('2d');
@@ -34,10 +35,19 @@
             scales: {
                 y: {
                     min: 0, max: 1,
-                    title: { display: true, text: 'Risk Probability' },
+                    title: { display: true, text: 'Risk Probability', color: '#8b949e' },
+                    ticks: { color: '#8b949e' },
+                    grid: { color: 'rgba(255,255,255,0.08)' }
                 },
-                x: { title: { display: true, text: 'Step' } }
+                x: {
+                    title: { display: true, text: 'Step', color: '#8b949e' },
+                    ticks: { color: '#8b949e' },
+                    grid: { color: 'rgba(255,255,255,0.08)' }
+                }
             },
+            plugins: {
+                legend: { labels: { color: '#8b949e' } }
+            }
         }
     });
 
@@ -65,32 +75,49 @@
         chart.data.datasets[2].data = steps.map(() => 0.765);
     }
 
-    // ── Chart: Sensor Readings ──────────────────────────
-    const sensorCtx = document.getElementById('sensorChart').getContext('2d');
+    // ── Charts: Individual Sensor Readings ──────────────────────────
     const sensorColors = ['#3498db', '#e67e22', '#9b59b6', '#1abc9c', '#34495e'];
     const sensorLabels = ['Air Temp', 'Process Temp', 'RPM', 'Torque', 'Tool Wear'];
+    const sensorCanvasIds = ['chart-air', 'chart-proc', 'chart-rpm', 'chart-torque', 'chart-wear'];
+    const sensorCharts = [];
 
-    const sensorChart = new Chart(sensorCtx, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: sensorLabels.map((label, i) => ({
-                label: label,
-                data: [],
-                borderColor: sensorColors[i],
-                fill: false,
-                tension: 0.3,
-                pointRadius: 3,
-            }))
+    const commonSensorOptions = {
+        responsive: true,
+        scales: {
+            y: {
+                title: { display: true, text: 'Value', color: '#8b949e' },
+                ticks: { color: '#8b949e' },
+                grid: { color: 'rgba(255,255,255,0.08)' }
+            },
+            x: {
+                title: { display: true, text: 'Step', color: '#8b949e' },
+                ticks: { color: '#8b949e' },
+                grid: { color: 'rgba(255,255,255,0.08)' }
+            },
         },
-        options: {
-            responsive: true,
-            scales: {
-                y: { title: { display: true, text: 'Value' } },
-                x: { title: { display: true, text: 'Step' } },
-            }
+        plugins: {
+            legend: { labels: { color: '#8b949e' } }
         }
-    });
+    };
+
+    for (let i = 0; i < 5; i++) {
+        const ctx = document.getElementById(sensorCanvasIds[i]).getContext('2d');
+        sensorCharts.push(new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: sensorLabels[i],
+                    data: [],
+                    borderColor: sensorColors[i],
+                    fill: false,
+                    tension: 0.3,
+                    pointRadius: 3,
+                }]
+            },
+            options: commonSensorOptions
+        }));
+    }
 
     // ── Update the UI from step log ─────────────────────
     function updateDashboard(log) {
@@ -127,15 +154,29 @@
         }
 
         riskChart.data.labels = steps;
+
+        let riskColor = '#27ae60'; // healthy
+        let riskBg = 'rgba(39,174,96,0.1)';
+        if (latest.alert_level === 'CRITICAL') {
+            riskColor = '#e74c3c';
+            riskBg = 'rgba(231,76,60,0.1)';
+        } else if (latest.alert_level === 'WARNING') {
+            riskColor = '#e67e22';
+            riskBg = 'rgba(230,126,34,0.1)';
+        }
+
         riskChart.data.datasets[0].data = log.map(s => s.risk_prob);
+        riskChart.data.datasets[0].borderColor = riskColor;
+        riskChart.data.datasets[0].backgroundColor = riskBg;
+
         addThresholdLines(riskChart, steps);
         riskChart.update();
 
-        sensorChart.data.labels = steps;
-        SENSOR_KEYS.forEach((key, i) => {
-            sensorChart.data.datasets[i].data = log.map(s => s.sensors ? s.sensors[key] : 0);
+        sensorCharts.forEach((chart, i) => {
+            chart.data.labels = steps;
+            chart.data.datasets[0].data = log.map(s => s.sensors ? s.sensors[SENSOR_KEYS[i]] : 0);
+            chart.update();
         });
-        sensorChart.update();
 
         const tbody = document.getElementById('log-body');
         tbody.innerHTML = '';
@@ -195,6 +236,7 @@
         if (overlay && msg) {
             msg.textContent = 'Risk: ' + riskProb + ' | Failure: ' + (failureType || 'Unknown') + ' | Step: ' + step;
             overlay.style.display = 'flex';
+            sessionStorage.setItem('criticalShownForStep', step);
         }
     }
 
@@ -210,6 +252,7 @@
                 verdict.textContent = '\u274C System did not predict failure in advance';
             }
             overlay.style.display = 'flex';
+            sessionStorage.setItem('failedShownForStep', failureStep);
         }
         const box = document.getElementById('machine-status-box');
         const icon = document.getElementById('machine-status-icon');
@@ -282,9 +325,29 @@
     // This page can navigate anywhere — the preset keeps running.
     // The regular poll loop below picks up all updates.
     async function runPreset(presetName) {
+        isBlockingPoll = true;
         // Reset overlay state for new run
         failureShown = false;
         previousAlert = 'HEALTHY';
+        stopAlarmLoop();
+
+        const criticalOverlay = document.getElementById('critical-overlay');
+        const failedOverlay = document.getElementById('failed-overlay');
+        if (criticalOverlay) criticalOverlay.style.display = 'none';
+        if (failedOverlay) failedOverlay.style.display = 'none';
+        sessionStorage.removeItem('criticalShownForStep');
+        sessionStorage.removeItem('failedShownForStep');
+
+        // Reset charts so old lines don't flash
+        riskChart.data.labels = [];
+        riskChart.data.datasets[0].data = [];
+        riskChart.update();
+
+        sensorCharts.forEach(chart => {
+            chart.data.labels = [];
+            chart.data.datasets[0].data = [];
+            chart.update();
+        });
 
         const res = await fetch('/api/run_preset/', {
             method: 'POST',
@@ -292,6 +355,7 @@
             body: JSON.stringify({ preset: presetName }),
         });
         const data = await res.json();
+        isBlockingPoll = false;
         if (data.error) {
             console.error('Preset error:', data.error);
         }
@@ -318,6 +382,7 @@
     }
 
     async function poll() {
+        if (isBlockingPoll) return;
         try {
             const res = await fetch('/api/log/');
             const data = await res.json();
@@ -335,8 +400,11 @@
                 } else {
                     stopAlarmLoop();  // left WARNING — stop immediately
                     if (latest.alert_level === 'CRITICAL' && previousAlert !== 'CRITICAL') {
-                        playAlertSound();
-                        showCriticalOverlay(latest.risk_prob, latest.failure_type, latest.step);
+                        // Only show if not already seen in this session for this specific step
+                        if (sessionStorage.getItem('criticalShownForStep') !== String(latest.step)) {
+                            playAlertSound();
+                            showCriticalOverlay(latest.risk_prob, latest.failure_type, latest.step);
+                        }
                     }
                 }
                 previousAlert = latest.alert_level;
@@ -344,9 +412,13 @@
 
             // Show MACHINE FAILED overlay once when preset finishes with a failure step
             if (!failureShown && presetState.done && presetState.failure_step) {
-                failureShown = true;
-                const failureType = latest ? latest.failure_type : null;
-                showMachineFailed(presetState.failure_step, failureType, firstCriticalStep);
+                if (sessionStorage.getItem('failedShownForStep') !== String(presetState.failure_step)) {
+                    failureShown = true;
+                    const failureType = latest ? latest.failure_type : null;
+                    showMachineFailed(presetState.failure_step, failureType, firstCriticalStep);
+                } else {
+                    failureShown = true; // Mark as shown locally so we don't keep checking storage
+                }
             }
 
             // Speed up polling while preset is running

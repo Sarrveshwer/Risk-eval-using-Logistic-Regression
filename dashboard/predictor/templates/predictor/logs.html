@@ -77,10 +77,10 @@
 
             selectedFile = filename;
 
-            // Load immediately then poll every 1.5 s if it is a test_run log (live)
             loadLog(filename, true);
 
-            const isLive = filename.startsWith('test_run_');
+            // All logs in log_front are live test runs
+            const isLive = filename.endsWith('.log');
             const badge = document.getElementById('log-refresh-badge');
 
             if (isLive) {

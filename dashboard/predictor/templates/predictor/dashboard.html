@@ -80,13 +80,31 @@
         <!-- Risk Timeline Chart -->
         <div class="chart-box">
             <h3>Risk Probability Over Time</h3>
-            <canvas id="riskChart" height="120"></canvas>
+            <canvas id="riskChart" height="240"></canvas>
         </div>
 
-        <!-- Sensor Chart -->
-        <div class="chart-box">
-            <h3>Sensor Readings Over Time</h3>
-            <canvas id="sensorChart" height="120"></canvas>
+        <!-- Sensor Charts -->
+        <div class="sensor-grid">
+            <div class="chart-box">
+                <h3>Air Temperature [K]</h3>
+                <canvas id="chart-air" height="120"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Process Temperature [K]</h3>
+                <canvas id="chart-proc" height="120"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Rotational Speed [rpm]</h3>
+                <canvas id="chart-rpm" height="120"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Torque [Nm]</h3>
+                <canvas id="chart-torque" height="120"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Tool Wear [min]</h3>
+                <canvas id="chart-wear" height="120"></canvas>
+            </div>
         </div>
 
         <!-- Event Log -->

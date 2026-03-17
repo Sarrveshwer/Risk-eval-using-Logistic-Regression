@@ -7,14 +7,14 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f5f5f5;
-    color: #333;
+    background: #121920;
+    color: #d0d5db;
     line-height: 1.5;
 }
 
 /* ── Navbar ──────────────────────────────────────── */
 .navbar {
-    background: #2c3e50;
+    background: #0d1117;
     color: #fff;
     padding: 10px 24px;
     display: flex;
@@ -62,8 +62,8 @@ body {
 }
 
 .sidebar-section {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: #1a2332;
+    border: 1px solid #2a3545;
     border-radius: 6px;
     padding: 14px;
 }
@@ -71,7 +71,7 @@ body {
 .sidebar-section h3 {
     font-size: 0.85rem;
     text-transform: uppercase;
-    color: #777;
+    color: #8b949e;
     margin-bottom: 8px;
 }
 
@@ -103,17 +103,17 @@ body {
 }
 
 .alert-badge.healthy {
-    background: #eafaf1;
+    background: #162b1e;
     color: #27ae60;
 }
 
 .alert-badge.warning {
-    background: #fef5e7;
+    background: #3d2a10;
     color: #e67e22;
 }
 
 .alert-badge.critical {
-    background: #fdedec;
+    background: #3e1616;
     color: #e74c3c;
 }
 
@@ -127,24 +127,24 @@ body {
     padding: 10px 0 6px;
     border-radius: 8px;
     border: 2px solid #27ae60;
-    background: #eafaf1;
+    background: #162b1e;
     transition: background 0.4s, border-color 0.4s;
 }
 
 .machine-status-box.warning {
     border-color: #e67e22;
-    background: #fef5e7;
+    background: #3d2a10;
 }
 
 .machine-status-box.critical {
     border-color: #e74c3c;
-    background: #fdedec;
+    background: #3e1616;
     animation: pulse-status 0.8s ease-in-out infinite alternate;
 }
 
 .machine-status-box.failed {
     border-color: #7f8c8d;
-    background: #f2f3f4;
+    background: #2a3545;
 }
 
 .machine-status-icon {
@@ -190,7 +190,7 @@ body {
 
 .sensor-list li {
     padding: 2px 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #2a3545;
 }
 
 /* ── Main Area ───────────────────────────────────── */
@@ -207,8 +207,8 @@ body {
 }
 
 .stat-card {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: #1a2332;
+    border: 1px solid #2a3545;
     border-radius: 6px;
     padding: 14px;
     text-align: center;
@@ -217,7 +217,7 @@ body {
 .stat-label {
     font-size: 0.8rem;
     text-transform: uppercase;
-    color: #777;
+    color: #8b949e;
 }
 
 .stat-value {
@@ -227,16 +227,33 @@ body {
 }
 
 .chart-box {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: #1a2332;
+    border: 1px solid #2a3545;
     border-radius: 6px;
     padding: 14px;
+}
+
+.chart-box canvas {
+    background: transparent;
+    width: 100% !important;
+}
+
+.sensor-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.sensor-grid>.chart-box {
+    flex: 1 1 calc(50% - 16px);
+    min-width: 300px;
 }
 
 .chart-box h3 {
     font-size: 0.85rem;
     text-transform: uppercase;
-    color: #777;
+    color: #8b949e;
     margin-bottom: 8px;
 }
 
@@ -254,14 +271,14 @@ table {
 th,
 td {
     padding: 6px 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #2a3545;
     text-align: left;
 }
 
 th {
-    background: #f9f9f9;
+    background: #1a2332;
     font-weight: 600;
-    color: #555;
+    color: #8b949e;
 }
 
 /* ── Test Page ───────────────────────────────────── */
@@ -274,8 +291,8 @@ th {
 .input-panel,
 .preset-panel,
 .result-panel {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: #1a2332;
+    border: 1px solid #2a3545;
     border-radius: 6px;
     padding: 16px;
 }
@@ -299,7 +316,9 @@ th {
 .slider-group input[type="number"] {
     width: 25%;
     padding: 4px;
-    border: 1px solid #ddd;
+    border: 1px solid #2a3545;
+    background: #0d1117;
+    color: #d0d5db;
     border-radius: 4px;
     margin-left: 4px;
 }
@@ -339,12 +358,12 @@ th {
 }
 
 .btn-preset {
-    background: #ecf0f1;
-    color: #2c3e50;
+    background: #2a3545;
+    color: #d0d5db;
 }
 
 .btn-preset:hover {
-    background: #bdc3c7;
+    background: #34495e;
 }
 
 .result-table {
@@ -353,7 +372,7 @@ th {
 
 .result-table td:first-child {
     font-weight: 600;
-    color: #555;
+    color: #8b949e;
 }
 
 /* ── Logs Page ───────────────────────────────────── */
@@ -364,8 +383,8 @@ th {
 }
 
 .log-list {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: #1a2332;
+    border: 1px solid #2a3545;
     border-radius: 6px;
     padding: 14px;
 }
@@ -380,27 +399,27 @@ th {
 }
 
 .log-list a {
-    color: #3498db;
+    color: #58a6ff;
     text-decoration: none;
     font-size: 0.85rem;
 }
 
 .log-list a:hover,
 .log-list a.active {
-    color: #2c3e50;
+    color: #d0d5db;
     font-weight: 600;
 }
 
 .log-content {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: #1a2332;
+    border: 1px solid #2a3545;
     border-radius: 6px;
     padding: 14px;
 }
 
 .log-content pre {
-    background: #2c3e50;
-    color: #ecf0f1;
+    background: #0d1117;
+    color: #d0d5db;
     padding: 14px;
     border-radius: 4px;
     overflow-x: auto;
@@ -411,7 +430,7 @@ th {
 
 .log-content h3 {
     font-size: 0.85rem;
-    color: #777;
+    color: #8b949e;
     margin-bottom: 8px;
 }
 
@@ -451,8 +470,8 @@ th {
 }
 
 .info-section {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: #1e2a3a;
+    border: 1px solid #2a3545;
     border-radius: 6px;
     padding: 16px;
 }
@@ -460,18 +479,18 @@ th {
 .info-section h3 {
     font-size: 0.85rem;
     text-transform: uppercase;
-    color: #777;
+    color: #8b949e;
     margin-bottom: 8px;
 }
 
 .stats-source {
     font-size: 0.8rem;
-    color: #777;
+    color: #8b949e;
     margin-bottom: 8px;
 }
 
 .stats-source code {
-    background: #f4f4f4;
+    background: #0d1117;
     padding: 1px 5px;
     border-radius: 3px;
     font-size: 0.78rem;
@@ -487,25 +506,25 @@ th {
 }
 
 .cm-tp {
-    background: #eafaf1;
+    background: #162b1e;
     color: #27ae60;
     font-weight: 700;
 }
 
 .cm-tn {
-    background: #eafaf1;
+    background: #162b1e;
     color: #27ae60;
     font-weight: 700;
 }
 
 .cm-fp {
-    background: #fdedec;
+    background: #3e1616;
     color: #e74c3c;
     font-weight: 700;
 }
 
 .cm-fn {
-    background: #fef5e7;
+    background: #3d2a10;
     color: #e67e22;
     font-weight: 700;
 }
@@ -518,13 +537,13 @@ th {
 
 .img-row img {
     max-width: 100%;
-    border: 1px solid #ddd;
+    border: 1px solid #2a3545;
     border-radius: 4px;
 }
 
 .img-row h4 {
     font-size: 0.85rem;
-    color: #555;
+    color: #8b949e;
     margin-bottom: 6px;
 }
 

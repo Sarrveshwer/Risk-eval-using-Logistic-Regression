@@ -104,9 +104,9 @@ def run_preset_api(request):
 
     try:
         data = json.loads(request.body)
-        preset_name = data.get("preset", "heat_failure")
+        preset_name = data.get("preset", "hdf")
     except json.JSONDecodeError:
-        preset_name = "heat_failure"
+        preset_name = "hdf"
 
     if preset_name not in ml_engine.PRESET_NAMES:
         return JsonResponse({"error": f"Unknown preset: {preset_name}"}, status=400)

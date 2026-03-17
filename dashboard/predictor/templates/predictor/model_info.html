@@ -16,7 +16,8 @@
             <tr>
                 <td><strong>Tier 2</strong></td>
                 <td>Diagnostic Model — Softmax classifier for failure mode (TWF, HDF, PWF, OSF); falls back to
-                    <em>RandomFailure</em> when none are confident</td>
+                    <em>RandomFailure</em> when none are confident
+                </td>
             </tr>
             <tr>
                 <td><strong>Flow</strong></td>
@@ -89,6 +90,78 @@
                 <td class="cm-tp">TP: {{ stats.tp }}</td>
             </tr>
         </table>
+        {% endif %}
+    </div>
+
+    <!-- Secondary Model Performance -->
+    <div class="info-section">
+        <h3>Secondary Model Performance (Classification)</h3>
+        {% if stats.secondary_metrics %}
+        <table>
+            <tr>
+                <th>Failure Type</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1-Score</th>
+                <th>Support</th>
+            </tr>
+            <tr>
+                <td><strong>TWF</strong> (Tool Wear)</td>
+                <td>{{ stats.secondary_metrics.TWF.precision|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.TWF.recall|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.TWF.f1|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.TWF.support }}</td>
+            </tr>
+            <tr>
+                <td><strong>HDF</strong> (Heat Dissipation)</td>
+                <td>{{ stats.secondary_metrics.HDF.precision|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.HDF.recall|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.HDF.f1|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.HDF.support }}</td>
+            </tr>
+            <tr>
+                <td><strong>PWF</strong> (Power Failure)</td>
+                <td>{{ stats.secondary_metrics.PWF.precision|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.PWF.recall|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.PWF.f1|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.PWF.support }}</td>
+            </tr>
+            <tr>
+                <td><strong>OSF</strong> (Overstrain)</td>
+                <td>{{ stats.secondary_metrics.OSF.precision|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.OSF.recall|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.OSF.f1|floatformat:2 }}</td>
+                <td>{{ stats.secondary_metrics.OSF.support }}</td>
+            </tr>
+        </table>
+
+        <h3 style="margin-top:14px;">Overall Averages</h3>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td><strong>Accuracy</strong></td>
+                <td>{{ stats.secondary_metrics.accuracy|floatformat:2 }} ({{ stats.secondary_metrics.total_support }}
+                    cases)</td>
+            </tr>
+            <tr>
+                <td><strong>Macro Precision</strong></td>
+                <td>{{ stats.secondary_metrics.macro_precision|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <td><strong>Macro Recall</strong></td>
+                <td>{{ stats.secondary_metrics.macro_recall|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <td><strong>Macro F1</strong></td>
+                <td>{{ stats.secondary_metrics.macro_f1|floatformat:2 }}</td>
+            </tr>
+        </table>
+        {% else %}
+        <p class="stats-source stats-source-warn">⚠ Detailed classification metrics not found in the latest training
+            log.</p>
         {% endif %}
     </div>
 

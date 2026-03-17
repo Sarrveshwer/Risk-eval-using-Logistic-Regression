@@ -13,14 +13,34 @@
         <span class="nav-brand">Machine Failure Predictor</span>
         <div class="nav-links">
             <a href="{% url 'predictor:dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
-            <a href="{% url 'predictor:test' %}" class="{% if request.resolver_match.url_name == 'test' %}active{% endif %}">Test</a>
+            <a href="{% url 'predictor:test' %}" id="nav-test" class="dev-feature {% if request.resolver_match.url_name == 'test' %}active{% endif %}" style="display: none;">Test</a>
             <a href="{% url 'predictor:logs' %}" class="{% if request.resolver_match.url_name == 'logs' %}active{% endif %}">Logs</a>
-            <a href="{% url 'predictor:model_info' %}" class="{% if request.resolver_match.url_name == 'model_info' %}active{% endif %}">Info</a>
+            <a href="{% url 'predictor:model_info' %}" id="nav-info" class="dev-feature {% if request.resolver_match.url_name == 'model_info' %}active{% endif %}" style="display: none;">Info</a>
         </div>
     </nav>
     <main class="content">
         {% block content %}{% endblock %}
     </main>
     {% block scripts %}{% endblock %}
+    <script>
+        // Developer Toggle
+        function applyDevMode() {
+            const isDev = localStorage.getItem('devMode') === 'true';
+            document.querySelectorAll('.dev-feature').forEach(el => {
+                el.style.display = isDev ? 'inline-block' : 'none';
+            });
+        }
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key.toLowerCase() === 'd') {
+                e.preventDefault();
+                const current = localStorage.getItem('devMode') === 'true';
+                localStorage.setItem('devMode', !current);
+                applyDevMode();
+            }
+        });
+        
+        applyDevMode();
+    </script>
 </body>
 </html>

@@ -45,6 +45,7 @@ if PROJECT_ROOT not in sys.path:
 
 MODELS_DIR = os.path.join(PROJECT_ROOT, "models")
 LOGS_DIR = os.path.join(PROJECT_ROOT, "logs")
+FRONT_LOGS_DIR = os.path.join(PROJECT_ROOT, "log_front")
 IMAGES_DIR = os.path.join(PROJECT_ROOT, "images")
 
 # Sensor columns expected by the model
@@ -65,10 +66,10 @@ IGNORE_LIST = ["RNF", "UDI", "Product ID", "Type"] + CLASSIFICATIONS
 
 
 def _test_log_path():
-    """Returns the path for today's test_run log file."""
-    os.makedirs(LOGS_DIR, exist_ok=True)
+    """Returns the path for today's test_run log file in the log_front directory."""
+    os.makedirs(FRONT_LOGS_DIR, exist_ok=True)
     date_str = datetime.datetime.now().strftime("%Y-%m-%d")
-    return os.path.join(LOGS_DIR, f"test_run_{date_str}.log")
+    return os.path.join(FRONT_LOGS_DIR, f"{date_str}.log")
 
 
 def _write_test_log(line: str):
@@ -210,21 +211,24 @@ class PredictionSession:
         else:
             alert_status = "HEALTHY"
 
-        # Tier 2: Softmax Diagnosis
-        softmax_probs = self.classification_model.predict_proba(inference_df)[0]
-        model_classes = self.classification_model.classes_
+        # Tier 2: Softmax Diagnosis (Only run if risk is elevated)
         results = {label: 0.0 for label in CLASSIFICATIONS}
+        failure = None
 
-        # model_classes contains integer class indices (0..3); each maps to CLASSIFICATIONS[idx]
-        for i, prob in enumerate(softmax_probs):
-            class_idx = int(model_classes[i])
-            if class_idx < len(CLASSIFICATIONS):
-                label = CLASSIFICATIONS[class_idx]
-                results[label] = round(float(prob), 4)
+        if alert_status in ["WARNING", "CRITICAL"]:
+            softmax_probs = self.classification_model.predict_proba(inference_df)[0]
+            model_classes = self.classification_model.classes_
 
-        active = [f for f, p in results.items() if p >= self.diagnosis_sensitivity]
-        # When none of the 4 known failure types are confident enough, fall back to RandomFailure
-        failure = max(results, key=results.get) if active else "RandomFailure"
+            # model_classes contains integer class indices (0..3); each maps to CLASSIFICATIONS[idx]
+            for i, prob in enumerate(softmax_probs):
+                class_idx = int(model_classes[i])
+                if class_idx < len(CLASSIFICATIONS):
+                    label = CLASSIFICATIONS[class_idx]
+                    results[label] = round(float(prob), 4)
+
+            active = [f for f, p in results.items() if p >= self.diagnosis_sensitivity]
+            # When none of the 4 known failure types are confident enough, fall back to RandomFailure
+            failure = max(results, key=results.get) if active else "RandomFailure"
 
         step_num = len(self.step_log) + 1
         result = {
@@ -277,7 +281,7 @@ FAILURE_EXTREMES = {
     "overstrain": {"air": 303, "proc": 313, "rpm": 800, "torque": 80, "wear": 130},
 }
 
-PRESET_NAMES = ["normal", "heat_failure", "tool_wear", "overstrain", "random_failure"]
+PRESET_NAMES = ["normal", "hdf", "twf", "osf", "pwf", "random_failure"]
 
 # Ambiguous extremes for random failure — slight degradation across ALL sensors,
 # not enough to confidently match any single known failure mode.
@@ -348,13 +352,18 @@ def generate_preset(preset_name):
         # For all failure presets: cap at 19 normal + 1 extreme final row
         db_rows = db_rows[:19]
         extremes_key = {
-            "heat_failure": "heat_failure",
-            "tool_wear": "tool_wear",
-            "overstrain": "overstrain",
+            "hdf": "heat_failure",
+            "twf": "tool_wear",
+            "osf": "overstrain",
+            "pwf": "power_failure",
             "random_failure": None,  # uses RANDOM_FAILURE_EXTREMES below
         }.get(preset_name)
-        if extremes_key:
+        if extremes_key and extremes_key in FAILURE_EXTREMES:
             ex = FAILURE_EXTREMES[extremes_key]
+            db_rows.append([ex["air"], ex["proc"], ex["rpm"], ex["torque"], ex["wear"]])
+        elif extremes_key == "power_failure":
+            # Just fallback to random for pwf as no extreme is defined yet
+            ex = RANDOM_FAILURE_EXTREMES
             db_rows.append([ex["air"], ex["proc"], ex["rpm"], ex["torque"], ex["wear"]])
         else:
             ex = RANDOM_FAILURE_EXTREMES
@@ -433,7 +442,15 @@ def generate_preset(preset_name):
 
     # For the named failure presets: random onset between step 6 and 13
     onset = random.randint(6, 13)
-    extremes = FAILURE_EXTREMES[preset_name]
+    
+    extremes_key = {
+        "hdf": "heat_failure",
+        "twf": "tool_wear",
+        "osf": "overstrain",
+        "pwf": "heat_failure"  # Fallback
+    }.get(preset_name, "heat_failure")
+    
+    extremes = FAILURE_EXTREMES.get(extremes_key, FAILURE_EXTREMES["heat_failure"])
     ramp_steps = 20 - onset - 1  # steps from onset to step 19 (step 20 is the failure)
 
     for i in range(20):
@@ -534,17 +551,17 @@ def run_preset_steps(session, rows, failure_step):
 
 
 def get_log_files():
-    """Returns sorted list of log filenames from the logs/ directory."""
-    if not os.path.exists(LOGS_DIR):
+    """Returns sorted list of log filenames from the log_front directory."""
+    if not os.path.exists(FRONT_LOGS_DIR):
         return []
-    files = [f for f in os.listdir(LOGS_DIR) if f.endswith(".log")]
+    files = [f for f in os.listdir(FRONT_LOGS_DIR) if f.endswith(".log")]
     files.sort(reverse=True)
     return files
 
 
 def read_log_file(filename):
-    """Reads a log file and returns its content."""
-    path = os.path.join(LOGS_DIR, filename)
+    """Reads a log file from log_front and returns its content."""
+    path = os.path.join(FRONT_LOGS_DIR, filename)
     if not os.path.exists(path):
         return "File not found."
     with open(path, "r", encoding="utf-8", errors="replace") as f:
@@ -572,6 +589,7 @@ def get_model_stats():
         "tn": None,
         "feature_count": None,
         "log_file_used": None,
+        "secondary_metrics": None,
     }
 
     if not os.path.exists(LOGS_DIR):
@@ -639,6 +657,37 @@ def get_model_stats():
         m = re.search(r"False PosRate\s*:\s*([0-9.]+)", content)
         if m:
             stats["fpr"] = float(m.group(1))
+
+        # Secondary model metrics (Classification Report)
+        sec_metrics = {}
+        # Parse per class 0-3 (TWF, HDF, PWF, OSF)
+        class_names = ["TWF", "HDF", "PWF", "OSF"]
+        for i, class_name in enumerate(class_names):
+            # matches e.g.: " 0       0.53      0.89      0.67         9"
+            pattern = rf"\s+{i}\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\s+([0-9]+)"
+            m2 = re.search(pattern, content)
+            if m2:
+                sec_metrics[class_name] = {
+                    "precision": float(m2.group(1)),
+                    "recall": float(m2.group(2)),
+                    "f1": float(m2.group(3)),
+                    "support": int(m2.group(4))
+                }
+
+        # Parse accuracy and macro avg
+        m_acc = re.search(r"accuracy\s+([0-9.]+)\s+([0-9]+)", content)
+        if m_acc:
+            sec_metrics["accuracy"] = float(m_acc.group(1))
+            sec_metrics["total_support"] = int(m_acc.group(2))
+            
+        m_macro = re.search(r"macro avg\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\s+([0-9]+)", content)
+        if m_macro:
+            sec_metrics["macro_precision"] = float(m_macro.group(1))
+            sec_metrics["macro_recall"] = float(m_macro.group(2))
+            sec_metrics["macro_f1"] = float(m_macro.group(3))
+
+        if sec_metrics:
+            stats["secondary_metrics"] = sec_metrics
 
         break  # found a usable log — stop searching
 
