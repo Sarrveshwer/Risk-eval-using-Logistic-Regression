@@ -13,6 +13,7 @@
     let previousAlert = 'HEALTHY';
     let failureShown = false;  // so MACHINE FAILED overlay only fires once per run
     let isBlockingPoll = false; // blocks poll() while a new run initializes
+    let isManualOverride = false; // if true, stop continuous database loop
 
     // ── Chart: Risk Timeline ────────────────────────────
     const riskCtx = document.getElementById('riskChart').getContext('2d');
@@ -54,7 +55,7 @@
     function addThresholdLines(chart, steps) {
         if (chart.data.datasets.length === 1) {
             chart.data.datasets.push({
-                label: 'Warning (0.459)',
+                label: 'Warning (0.30)',
                 data: [],
                 borderColor: '#e67e22',
                 borderDash: [5, 5],
@@ -62,7 +63,7 @@
                 fill: false,
             });
             chart.data.datasets.push({
-                label: 'Critical (0.765)',
+                label: 'Critical (0.50)',
                 data: [],
                 borderColor: '#e74c3c',
                 borderDash: [10, 5],
@@ -70,9 +71,9 @@
                 fill: false,
             });
         }
-        const warningThreshold = 0.765 * 0.6;
+        const warningThreshold = 0.50 * 0.6;
         chart.data.datasets[1].data = steps.map(() => warningThreshold);
-        chart.data.datasets[2].data = steps.map(() => 0.765);
+        chart.data.datasets[2].data = steps.map(() => 0.50);
     }
 
     // ── Charts: Individual Sensor Readings ──────────────────────────
@@ -325,6 +326,11 @@
     // This page can navigate anywhere — the preset keeps running.
     // The regular poll loop below picks up all updates.
     async function runPreset(presetName) {
+        if (presetName !== 'database') {
+            isManualOverride = true;
+        } else {
+            isManualOverride = false;
+        }
         isBlockingPoll = true;
         // Reset overlay state for new run
         failureShown = false;
@@ -338,16 +344,18 @@
         sessionStorage.removeItem('criticalShownForStep');
         sessionStorage.removeItem('failedShownForStep');
 
-        // Reset charts so old lines don't flash
-        riskChart.data.labels = [];
-        riskChart.data.datasets[0].data = [];
-        riskChart.update();
+        // Reset charts only if NOT a database loop restart
+        if (presetName !== 'database' || riskChart.data.labels.length === 0) {
+            riskChart.data.labels = [];
+            riskChart.data.datasets[0].data = [];
+            riskChart.update();
 
-        sensorCharts.forEach(chart => {
-            chart.data.labels = [];
-            chart.data.datasets[0].data = [];
-            chart.update();
-        });
+            sensorCharts.forEach(chart => {
+                chart.data.labels = [];
+                chart.data.datasets[0].data = [];
+                chart.update();
+            });
+        }
 
         const res = await fetch('/api/run_preset/', {
             method: 'POST',
@@ -432,6 +440,12 @@
                 _pollTimer = setInterval(poll, 2000);
                 pollInterval = 2000;
             }
+
+            // Continuous loop: if database preset finished and no override, restart it
+            if (presetState.done && !isManualOverride) {
+                console.log("Database preset finished, restarting for continuous simulation...");
+                runPreset('database');
+            }
         } catch (e) { /* ignore transient errors */ }
     }
 
@@ -440,11 +454,24 @@
     const presetParam = params.get('preset');
     if (presetParam) {
         window.history.replaceState({}, '', '/');
+        if (presetParam !== 'database') isManualOverride = true;
         runPreset(presetParam);
     }
 
     // Start polling
-    poll();
+    poll().then(() => {
+        // Auto-start 'database' loop if nothing is running
+        fetch('/api/log/')
+            .then(r => r.json())
+            .then(data => {
+                if (!data.preset_state.running && !isManualOverride) {
+                    console.log("Starting continuous database simulation...");
+                    runPreset('database');
+                }
+            })
+            .catch(() => { });
+    });
+
     let _pollTimer = setInterval(poll, 2000);
     pollInterval = 2000;
 

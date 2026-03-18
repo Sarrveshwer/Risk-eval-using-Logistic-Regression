@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Machine Failure Predictor</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'predictor/style.css' %}">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #0d1117;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 0 20px;
+        }
+
+        .login-card {
+            background: #1a2332;
+            border: 1px solid #2a3545;
+            border-radius: 12px;
+            padding: 40px 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .login-icon {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 8px;
+        }
+
+        .login-card h1 {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ecf0f1;
+            margin-bottom: 4px;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #8b949e;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #2a3545;
+            background: #0d1117;
+            color: #d0d5db;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 4px;
+        }
+
+        .login-btn:hover {
+            background: #2980b9;
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        .login-btn:disabled {
+            background: #2a3545;
+            cursor: not-allowed;
+        }
+
+        .login-error {
+            background: #3e1616;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #4a5568;
+        }
+
+        .login-footer .lock-icon {
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h1>Machine Failure Predictor</h1>
+            <p class="login-subtitle">Authenticate with MySQL credentials</p>
+
+            {% if error %}
+            <div class="login-error" id="login-error">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'predictor:login' %}" autocomplete="off" id="login-form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="username">MySQL Username</label>
+                    <input type="text" id="username" name="username" required
+                           autocomplete="off" spellcheck="false"
+                           maxlength="80" placeholder="root">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">MySQL Password</label>
+                    <input type="password" id="password" name="password" required
+                           autocomplete="off" maxlength="128" placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="login-btn" id="login-btn">Sign In</button>
+            </form>
+
+            <div class="login-footer">
+                <span class="lock-icon">🔒</span> Secured connection to database server
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Prevent double submission
+        document.getElementById('login-form').addEventListener('submit', function() {
+            var btn = document.getElementById('login-btn');
+            btn.disabled = true;
+            btn.textContent = 'Authenticating...';
+        });
+    </script>
+</body>
+</html>

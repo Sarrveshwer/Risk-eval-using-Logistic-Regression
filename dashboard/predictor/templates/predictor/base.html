@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +9,25 @@
     <link rel="stylesheet" href="{% static 'predictor/style.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
+
 <body>
     <nav class="navbar">
         <span class="nav-brand">Machine Failure Predictor</span>
         <div class="nav-links">
-            <a href="{% url 'predictor:dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
-            <a href="{% url 'predictor:test' %}" id="nav-test" class="dev-feature {% if request.resolver_match.url_name == 'test' %}active{% endif %}" style="display: none;">Test</a>
-            <a href="{% url 'predictor:logs' %}" class="{% if request.resolver_match.url_name == 'logs' %}active{% endif %}">Logs</a>
-            <a href="{% url 'predictor:model_info' %}" id="nav-info" class="dev-feature {% if request.resolver_match.url_name == 'model_info' %}active{% endif %}" style="display: none;">Info</a>
+            <a href="{% url 'predictor:dashboard' %}"
+                class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
+            <a href="{% url 'predictor:test' %}" id="nav-test"
+                class="dev-feature {% if request.resolver_match.url_name == 'test' %}active{% endif %}"
+                style="display: none;">Test</a>
+            <a href="{% url 'predictor:logs' %}"
+                class="{% if request.resolver_match.url_name == 'logs' %}active{% endif %}">Logs</a>
+            <a href="{% url 'predictor:model_info' %}" id="nav-info"
+                class="dev-feature {% if request.resolver_match.url_name == 'model_info' %}active{% endif %}"
+                style="display: none;">Info</a>
+            {% if request.session.mysql_authenticated %}
+            <a href="{% url 'predictor:logout' %}" class="nav-logout"
+                title="Sign out ({{ request.session.mysql_user }})">Logout</a>
+            {% endif %}
         </div>
     </nav>
     <main class="content">
@@ -30,8 +42,8 @@
                 el.style.display = isDev ? 'inline-block' : 'none';
             });
         }
-        
-        document.addEventListener('keydown', function(e) {
+
+        document.addEventListener('keydown', function (e) {
             if (e.ctrlKey && e.key.toLowerCase() === 'd') {
                 e.preventDefault();
                 const current = localStorage.getItem('devMode') === 'true';
@@ -39,8 +51,9 @@
                 applyDevMode();
             }
         });
-        
+
         applyDevMode();
     </script>
 </body>
+
 </html>

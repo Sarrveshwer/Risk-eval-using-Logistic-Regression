@@ -79,8 +79,8 @@
 
             loadLog(filename, true);
 
-            // All logs in log_front are live test runs
-            const isLive = filename.endsWith('.log');
+            // Only today's log file is considered "LIVE" for auto-refresh
+            const isLive = (filename === "{{ today_log }}");
             const badge = document.getElementById('log-refresh-badge');
 
             if (isLive) {

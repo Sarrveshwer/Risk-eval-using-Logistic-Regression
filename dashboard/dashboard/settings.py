@@ -120,3 +120,32 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR.parent / "images",
 ]
+
+# ── Session & Security Hardening ──────────────────────────────────────────────
+
+# Sessions expire after 30 minutes of inactivity
+SESSION_COOKIE_AGE = 1800  # 30 minutes in seconds
+
+# Close the session when the browser closes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Save session data on every request (resets the inactivity timer)
+SESSION_SAVE_EVERY_REQUEST = True
+
+# HttpOnly flag — prevents JavaScript from reading the session cookie
+SESSION_COOKIE_HTTPONLY = True
+
+# SameSite — prevents CSRF via cross-origin requests
+SESSION_COOKIE_SAMESITE = "Lax"
+
+# Prevent browsers from MIME-sniffing
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Clickjacking protection (already handled by XFrameOptionsMiddleware)
+X_FRAME_OPTIONS = "DENY"
+
+# Custom login URL for the MySQL‐auth system
+LOGIN_URL = "/login/"
+
+# Default auto field
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

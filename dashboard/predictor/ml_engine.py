@@ -11,6 +11,7 @@ import datetime
 import threading
 import pandas as pd
 import joblib as jb
+import random
 
 try:
     from sqlalchemy import create_engine, text as _text
@@ -21,7 +22,7 @@ except ImportError:
 
 # ── MySQL connection config (same credentials used for training data) ─────────
 MYSQL_CONFIG = {
-    "host": "localhost",
+    "host": "127.0.0.1",
     "user": "root",
     "password": "root",
     "database": "ml_model",
@@ -34,6 +35,7 @@ PRESET_TABLE_MAP = {
     "tool_wear": "test_twf",
     "overstrain": "test_osf",
     "random_failure": "test_rnf",
+    "database": "smooth_simulation",
 }
 
 # Add the parent project directory to sys.path so we can import from main.py
@@ -80,25 +82,44 @@ def _write_test_log(line: str):
         f.write(timestamp + line + "\n")
 
 
+from model import FailurePredictionSystem, load_dataframe
+
+
 class PredictionSession:
     """
-    Holds state for one user session - wraps the loaded sklearn models
-    and maintains the rolling history needed by predict().
+    Holds state for one user session - wraps the FailurePredictionSystem
+    from model.py to maintain rolling history and run predictions.
     """
 
     def __init__(self):
-        self.risk_model = jb.load(os.path.join(MODELS_DIR, "Risk_eval_model.pkl"))
-        self.classification_model = jb.load(
-            os.path.join(MODELS_DIR, "Risk_eval_Classification.pkl")
+        # We load a small df just to initialize the system if models need training,
+        # but usually they are already on disk.
+        # In a real production app, we might want to avoid loading the whole training DF here.
+        # However, for this project, FailurePredictionSystem expects it.
+        # To optimize, we can pass an empty DF if we know models exist.
+
+        # Load a dummy or minimal DF if models exist to save memory
+        try:
+            df = pd.DataFrame(
+                columns=SENSOR_COLS + [TARGET] + CLASSIFICATIONS + IGNORE_LIST
+            )
+        except:
+            df = pd.DataFrame()
+
+        self.system = FailurePredictionSystem(
+            df=df,
+            target=TARGET,
+            risk_tolerance=0.50,  # Lowered from 0.70/0.765 to improve recall
+            ignore=IGNORE_LIST,
+            classifications=CLASSIFICATIONS,
+            warning_sensitivity=0.6,
+            diagnosis_sensitivity=0.3,
+            persistence_threshold=2,
         )
-        self.history = []
-        self.prob_history = []
-        self.warning_streak = 0
-        self.risk_tolerance = 0.765
-        self.warning_sensitivity = 0.6
-        self.diagnosis_sensitivity = 0.4
-        self.persistence_threshold = 3
-        self.step_log = []  # stores all prediction results
+        self.system.LoadModels(model_dir=MODELS_DIR)
+
+        self.step_log = []  # stores recent prediction results (FIFO)
+        self.total_steps_seen = 0
         self.first_critical_step = None
         self.preset_state = {
             "running": False,
@@ -108,10 +129,12 @@ class PredictionSession:
         }
 
     def reset(self):
-        self.history = []
-        self.prob_history = []
-        self.warning_streak = 0
+        self.system.history = []
+        if hasattr(self.system, "prob_history"):
+            self.system.prob_history = []
+        self.system.warning_streak = 0
         self.step_log = []
+        self.total_steps_seen = 0
         self.first_critical_step = None
         self.preset_state = {
             "running": False,
@@ -123,13 +146,12 @@ class PredictionSession:
 
     def predict(self, sensor_values):
         """
-        Takes a dict of sensor values, runs through the two-tier model,
+        Takes a dict of sensor values, runs through the FailurePredictionSystem,
         returns prediction result dict.
-        sensor_values: dict with keys matching SENSOR_COLS
         """
         # Build a DataFrame row
         row = {col: float(sensor_values[col]) for col in SENSOR_COLS}
-        # Add placeholder columns for target and classifications (needed by feature builder)
+        # Add placeholders for metadata columns expected by the system logic
         row[TARGET] = 0
         for c in CLASSIFICATIONS:
             row[c] = 0
@@ -138,119 +160,39 @@ class PredictionSession:
 
         X = pd.DataFrame([row])
 
-        # Store in history
-        current_row_dict = X.iloc[0].to_dict()
-        self.history.append(current_row_dict)
-        if len(self.history) > 5:
-            self.history.pop(0)
+        # Use the logic from FailurePredictionSystem
+        sys_result = self.system.predict(X)
 
-        current_data_df = X.copy()
-        history_dataframe = pd.DataFrame(self.history)
+        self.total_steps_seen += 1
+        step_num = self.total_steps_seen
 
-        cols_to_exclude = [TARGET] + CLASSIFICATIONS + IGNORE_LIST
-
-        dynamic_features = [
-            c
-            for c in X.columns
-            if c not in cols_to_exclude
-            and not any(
-                x in c
-                for x in ["_Rolling_Mean", "_Volatility", "_Delta", "_Rolling_Delta"]
-            )
-        ]
-
-        for col in dynamic_features:
-            current_data_df[f"{col}_Rolling_Mean"] = history_dataframe[col].mean()
-
-            if len(self.history) > 1:
-                current_data_df[f"{col}_Volatility"] = history_dataframe[col].std()
-                current_data_df[f"{col}_Delta"] = (
-                    self.history[-1][col] - self.history[-2][col]
-                )
-                current_data_df[f"{col}_Rolling_Delta"] = (
-                    history_dataframe[col].diff().mean()
-                )
-            else:
-                current_data_df[f"{col}_Volatility"] = 0.0
-                current_data_df[f"{col}_Delta"] = 0.0
-                current_data_df[f"{col}_Rolling_Delta"] = 0.0
-
-        current_data_df = current_data_df.fillna(0)
-
-        inference_df = current_data_df.drop(
-            columns=[c for c in cols_to_exclude if c in current_data_df.columns]
-        )
-        inference_df = inference_df[self.risk_model.feature_names_in_]
-
-        # Tier 1: Risk Probability
-        raw_risk_prob = float(self.risk_model.predict_proba(inference_df)[:, 1][0])
-
-        self.prob_history.append(raw_risk_prob)
-        if len(self.prob_history) > 3:
-            self.prob_history.pop(0)
-
-        risk_prob = sum(self.prob_history) / len(self.prob_history)
-
-        warning_zone = self.risk_tolerance * self.warning_sensitivity
-
-        if risk_prob >= warning_zone:
-            self.warning_streak += 1
-        else:
-            self.warning_streak = 0
-
-        if risk_prob >= self.risk_tolerance:
-            alert_status = "CRITICAL"
-        elif risk_prob >= 0.60:
-            alert_status = "WARNING"
-            self.warning_streak = max(self.warning_streak, self.persistence_threshold)
-        elif risk_prob >= warning_zone:
-            if self.warning_streak >= self.persistence_threshold:
-                alert_status = "WARNING"
-            else:
-                alert_status = "HEALTHY"
-        else:
-            alert_status = "HEALTHY"
-
-        # Tier 2: Softmax Diagnosis (Only run if risk is elevated)
-        results = {label: 0.0 for label in CLASSIFICATIONS}
-        failure = None
-
-        if alert_status in ["WARNING", "CRITICAL"]:
-            softmax_probs = self.classification_model.predict_proba(inference_df)[0]
-            model_classes = self.classification_model.classes_
-
-            # model_classes contains integer class indices (0..3); each maps to CLASSIFICATIONS[idx]
-            for i, prob in enumerate(softmax_probs):
-                class_idx = int(model_classes[i])
-                if class_idx < len(CLASSIFICATIONS):
-                    label = CLASSIFICATIONS[class_idx]
-                    results[label] = round(float(prob), 4)
-
-            active = [f for f, p in results.items() if p >= self.diagnosis_sensitivity]
-            # When none of the 4 known failure types are confident enough, fall back to RandomFailure
-            failure = max(results, key=results.get) if active else "RandomFailure"
-
-        step_num = len(self.step_log) + 1
+        # Format the result to match what the dashboard expects
         result = {
             "step": step_num,
-            "risk_prob": round(risk_prob, 4),
-            "alert_level": alert_status,
-            "failure_type": failure if alert_status != "HEALTHY" else None,
-            "streak": self.warning_streak,
-            "details": results,
+            "risk_prob": sys_result["risk_prob"],
+            "alert_level": sys_result["alert_level"],
+            "failure_type": (
+                sys_result["failure_type"]
+                if sys_result["alert_level"] != "HEALTHY"
+                else None
+            ),
+            "streak": self.system.warning_streak,
+            "details": sys_result["details"],
             "sensors": {col: float(sensor_values[col]) for col in SENSOR_COLS},
         }
 
         self.step_log.append(result)
+        if len(self.step_log) > 50:
+            self.step_log.pop(0)
 
         # Track first CRITICAL prediction for verdict display
-        if alert_status == "CRITICAL" and self.first_critical_step is None:
+        if sys_result["alert_level"] == "CRITICAL" and self.first_critical_step is None:
             self.first_critical_step = step_num
 
-        # ── Write to test-run log (real-time, flushed immediately) ──
+        # ── Write to test-run log ──
         s = sensor_values
         _write_test_log(
-            f"Step {step_num:<3} | Risk: {risk_prob:.4f} | Alert: {alert_status:<8} "
+            f"Step {step_num:<3} | Risk: {result['risk_prob']:.4f} | Alert: {result['alert_level']:<8} "
             f"| Failure: {str(result['failure_type']):<15} "
             f"| Air: {float(s['Air temperature [K]']):.1f} "
             f"| ProcT: {float(s['Process temperature [K]']):.1f} "
@@ -263,7 +205,6 @@ class PredictionSession:
 
 
 # ── Dynamic preset generator ────────────────────────────────────────────────
-import random
 
 # Normal operating ranges for each sensor
 NORMAL = {
@@ -279,9 +220,10 @@ FAILURE_EXTREMES = {
     "heat_failure": {"air": 315, "proc": 325, "rpm": 900, "torque": 70, "wear": 130},
     "tool_wear": {"air": 302, "proc": 312, "rpm": 1500, "torque": 55, "wear": 240},
     "overstrain": {"air": 303, "proc": 313, "rpm": 800, "torque": 80, "wear": 130},
+    "power_failure": {"air": 305, "proc": 315, "rpm": 2500, "torque": 60, "wear": 140},
 }
 
-PRESET_NAMES = ["normal", "hdf", "twf", "osf", "pwf", "random_failure"]
+PRESET_NAMES = ["normal", "hdf", "twf", "osf", "pwf", "random_failure", "database"]
 
 # Ambiguous extremes for random failure — slight degradation across ALL sensors,
 # not enough to confidently match any single known failure mode.
@@ -296,7 +238,7 @@ RANDOM_FAILURE_EXTREMES = {
 
 def _fetch_db_rows(preset_name):
     """
-    Try to load 20 sensor rows from the corresponding MySQL test table.
+    Try to load sensor rows from the corresponding MySQL test table.
     Returns a list of [air, proc, rpm, torque, wear] rows, or None on failure.
     """
     if not _MYSQL_AVAILABLE:
@@ -312,14 +254,20 @@ def _fetch_db_rows(preset_name):
 
     try:
         engine = create_engine(url)
+        order_clause = "ORDER BY RAND() LIMIT 20"
+        if preset_name == "database":
+            order_clause = "ORDER BY `Product ID` ASC"
+
         with engine.connect() as conn:
-            result = conn.execute(
-                _text(
-                    f"SELECT `Air temperature [K]`, `Process temperature [K]`, "
-                    f"`Rotational speed [rpm]`, `Torque [Nm]`, `Tool wear [min]` "
-                    f"FROM `{table}` ORDER BY RAND() LIMIT 20"
-                )
-            )
+            query = f"SELECT `Air temperature [K]`, `Process temperature [K]`, `Rotational speed [rpm]`, `Torque [Nm]`, `Tool wear [min]` FROM `{table}`"
+            if preset_name == "database":
+                # For the continuous simulation, ignore all failure cases from the source table
+                query += " WHERE `Machine failure` = 0"
+                query += " ORDER BY `Product ID` ASC"
+            else:
+                query += " ORDER BY RAND() LIMIT 20"
+
+            result = conn.execute(_text(query))
             rows = result.fetchall()
             if not rows:
                 return None
@@ -345,9 +293,17 @@ def generate_preset(preset_name):
     rows = []
 
     # ── Attempt MySQL first ───────────────────────────────────────────────────
-    db_rows = _fetch_db_rows(preset_name)
+    # ── Attempt MySQL first (Only for continuous simulation or normal data) ───
+    # We skip MySQL fetch for specific failure presets (hdf, twf, etc.) because 
+    # random rows from the DB break the time-series trend features the model needs.
+    # The synthetic ramp-up logic below is better for test cases.
+    if preset_name in ["normal", "database"]:
+        db_rows = _fetch_db_rows(preset_name)
+    else:
+        db_rows = None
+
     if db_rows:
-        if preset_name == "normal":
+        if preset_name in ["normal", "database"]:
             return {"rows": db_rows, "failure_step": None}
         # For all failure presets: cap at 19 normal + 1 extreme final row
         db_rows = db_rows[:19]
@@ -371,7 +327,7 @@ def generate_preset(preset_name):
         return {"rows": db_rows, "failure_step": len(db_rows)}
 
     # ── Synthetic fallback (original logic) ──────────────────────────────────
-    if preset_name == "normal":
+    if preset_name in ["normal", "database"]:
         # 20 steps of normal operation with small jitter
         for i in range(20):
             rows.append(
@@ -438,7 +394,7 @@ def generate_preset(preset_name):
                         extremes["wear"],
                     ]
                 )
-        return {"rows": rows, "failure_step": 20}
+        return {"rows": rows, "failure_step": 20 if preset_name != "database" else None}
 
     # For the named failure presets: random onset between step 6 and 13
     onset = random.randint(6, 13)
@@ -447,7 +403,7 @@ def generate_preset(preset_name):
         "hdf": "heat_failure",
         "twf": "tool_wear",
         "osf": "overstrain",
-        "pwf": "heat_failure",  # Fallback
+        "pwf": "power_failure",
     }.get(preset_name, "heat_failure")
 
     extremes = FAILURE_EXTREMES.get(extremes_key, FAILURE_EXTREMES["heat_failure"])
@@ -497,7 +453,7 @@ def generate_preset(preset_name):
                 ]
             )
 
-    return {"rows": rows, "failure_step": 20}
+    return {"rows": rows, "failure_step": 20 if preset_name != "database" else None}
 
 
 # ── In-memory session store (keyed by Django session ID) ───────────────────
@@ -538,7 +494,13 @@ def run_preset_steps(session, rows, failure_step):
     }
 
     for i, row_values in enumerate(rows):
-        time.sleep(1)
+        # Check kill-switch
+        if not session.preset_state.get("running"):
+            print(f"[run_preset_steps] Thread received stop signal at step {i + 1}")
+            break
+
+        # 1-2 sec interval
+        time.sleep(random.uniform(1.0, 2.0))
         sensor_values = {k: v for k, v in zip(SENSOR_KEYS, row_values)}
         try:
             session.predict(sensor_values)
@@ -696,7 +658,7 @@ def get_model_stats():
     # Live feature count from model
     try:
         tmp_session = list(_sessions.values())[0] if _sessions else PredictionSession()
-        stats["feature_count"] = len(tmp_session.risk_model.feature_names_in_)
+        stats["feature_count"] = len(tmp_session.system.risk_model.feature_names_in_)
     except Exception:
         pass
 

@@ -41,6 +41,18 @@ body {
     background: #34495e;
 }
 
+.nav-logout {
+    color: #e74c3c !important;
+    margin-left: 12px !important;
+    border-left: 1px solid #2a3545;
+    padding-left: 20px !important;
+}
+
+.nav-logout:hover {
+    background: #3e1616 !important;
+    color: #ff6b6b !important;
+}
+
 /* ── Content ─────────────────────────────────────── */
 .content {
     padding: 20px 24px;

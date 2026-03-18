@@ -4,6 +4,10 @@ from . import views
 app_name = "predictor"
 
 urlpatterns = [
+    # Authentication
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
+    # Pages
     path("", views.dashboard_view, name="dashboard"),
     path("test/", views.test_view, name="test"),
     path("logs/", views.logs_view, name="logs"),

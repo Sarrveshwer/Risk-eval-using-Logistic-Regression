@@ -597,8 +597,8 @@ class FailurePredictionSystem:
         ignore=None,
         classifications=None,
         warning_sensitivity=0.6,
-        diagnosis_sensitivity=0.4,
-        persistence_threshold=3,
+        diagnosis_sensitivity=0.3,
+        persistence_threshold=2,
     ):
 
         # Initialisation of variables
@@ -618,49 +618,54 @@ class FailurePredictionSystem:
 
     # ─── Load All The Models ──────────────────────────────────────────────
 
-    def LoadModels(self):
+    def LoadModels(self, model_dir="models"):
         """
-        This function first check if the models exists
-        If it exsists then it
+        Loads models from disk if they exist, if not trains them.
+        model_dir specifies the base directory where models are saved to.
         """
+        base_path = model_dir
         try:
-            os.mkdir("models")
+            os.makedirs(base_path, exist_ok=True)
         except:
             pass
-        risk_model_path = "models/Risk_eval_model.pkl"
-        if os.path.exists(
-            risk_model_path
-        ):  # Checks if an already trained RiskEvalModel exsists
+
+        risk_model_path = os.path.join(base_path, "Risk_eval_model.pkl")
+        if os.path.exists(risk_model_path):
             self.risk_model = jb.load(risk_model_path)
-            print("Loaded RiskEvalModel from disk.")
-        else:  # If RiskEvalModel is not already trained it will trained saved and loaded
+            print(f"Loaded RiskEvalModel from {risk_model_path}")
+        else:
+            if self.df is None or self.df.empty:
+                 raise ValueError(f"Risk model not found at {risk_model_path} and no data provided for training.")
+
+            print(f"Training new RiskEvalModel (not found at {risk_model_path})...")
             risk_model = RiskEvalModel(
                 self.df,
                 self.target,
                 self.risk_tolerance,
                 self.ignore + self.classifications,
             )
-            risk_model_path = risk_model.train_run()
-            self.risk_model = jb.load(risk_model_path)
+            trained_path = risk_model.train_run()
+            self.risk_model = jb.load(trained_path)
 
-        """
-        Recursively checks if each of the model for each type of ailure that exsists
-        if a model doesnt exists a model is trained, saved and loaded for use.
-        """
-        softmax_path = "models/Risk_eval_Classification.pkl"
+        softmax_path = os.path.join(base_path, "Risk_eval_Classification.pkl")
         if os.path.exists(softmax_path):
-            self.classification_model = jb.load(softmax_path)  # Singular
+            self.classification_model = jb.load(softmax_path)
+            print(f"Loaded Classification model from {softmax_path}")
         else:
+            if self.df is None or self.df.empty:
+                raise ValueError(f"Classification model not found at {softmax_path} or no data provided for training.")
+
+            print(f"Training new Classification model (not found at {softmax_path})...")
             clf = FailureClassificationModel(
                 self.df,
                 self.target,
-                self.classifications,  # Ordered class labels: TWF, HDF, PWF, OSF
+                self.classifications, 
                 self.ignore,
             )
             model_path = clf.train_run()
             self.classification_model = jb.load(model_path)
 
-        print("Loaded all FailureClassification Models from disk")
+        print("Loaded all FailureClassification Models successfully")
 
     # ─── Predict The Values ───────────────────────────────────────────────
 
@@ -746,12 +751,14 @@ class FailurePredictionSystem:
         if not hasattr(self, "prob_history"):
             self.prob_history = []
 
-        # Saves the last 3 predictions
+        # Saves the last 2 predictions for responsive smoothing
         self.prob_history.append(raw_risk_prob)
-        if len(self.prob_history) > 3:
+        if len(self.prob_history) > 2:
             self.prob_history.pop(0)
 
-        risk_prob = sum(self.prob_history) / len(self.prob_history)
+        # Use the maximum of the current probability and the average of the last 2 steps.
+        # This provides both sensitivity to sudden spikes and a bit of historical context.
+        risk_prob = max(raw_risk_prob, sum(self.prob_history) / len(self.prob_history))
 
         warning_zone = self.risk_tolerance * self.warning_sensitivity
 
@@ -765,7 +772,7 @@ class FailurePredictionSystem:
         if risk_prob >= self.risk_tolerance:
             alert_status = "CRITICAL"
 
-        elif risk_prob >= 0.60:
+        elif risk_prob >= 0.55:  # Lowered from 0.60 to be more proactive
             alert_status = "WARNING"
             # Force streak to max to keep alert active if risk drops slightly
             self.warning_streak = max(self.warning_streak, self.persistence_threshold)
@@ -924,7 +931,7 @@ if __name__ == "__main__":
     FinalSystem = FailurePredictionSystem(
         training_df,
         "Machine failure",
-        0.765,  # After a lot of trial and error this is sort of the best risk_tolerance i found
+        0.50,  # Lowered from 0.70/0.765 to improve recall and match model performance logs.
         ignore_list,
         target_labels,
     )

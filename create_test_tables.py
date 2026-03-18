@@ -1,8 +1,8 @@
 """
 create_test_tables.py
 =====================
-One-shot utility — reads directly from the MySQL training table
-(ml_model.ai412024) and creates 6 separate test tables in the same database:
+reads directly from the MySQL training table (ml_model.ai412024) and 
+creates 6 separate test tables in the same database:
 
     test_normal   — rows where `Machine failure` = 0  (healthy operation)
     test_twf      — rows where TWF = 1                (Tool-Wear Failure)
@@ -21,7 +21,7 @@ Each test table contains ONLY the 5 raw sensor columns the predictor needs:
 Usage:
     python create_test_tables.py
 
-Safe to re-run — drops and recreates each test table every time.
+Safe to re-run as well — checks if test tables exist; if so, skips creation/population.
 """
 
 import sys
@@ -81,6 +81,14 @@ POPULATE_SQL = """
 # ── Main ────────────────────────────────────────────────────────────────────────
 
 
+def check_table_exists(conn, table_name):
+    """
+    Checks if a table exists in the current database using the SHOW TABLES command.
+    """
+    result = conn.execute(text(f"SHOW TABLES LIKE '{table_name}'"))
+    return result.fetchone() is not None
+
+
 def main():
     url = (
         f"mysql+pymysql://{DB_CONFIG['user']}:{DB_CONFIG['password']}"
@@ -120,9 +128,9 @@ def main():
         for dest_table, where_clause in TABLES:
             print(f"[{dest_table}]")
 
-            # Drop old version
-            conn.execute(text(f"DROP TABLE IF EXISTS `{dest_table}`"))
-            print(f"  → Dropped (if existed)")
+            if check_table_exists(conn, dest_table):
+                print(f"  → Already exists, skipping creation.")
+                continue
 
             # Create fresh table
             conn.execute(text(CREATE_SQL.format(dest=dest_table)))
@@ -144,7 +152,7 @@ def main():
             inserted = result.scalar()
             print(f"  → {inserted:,} rows inserted\n")
 
-    print("✅ All test tables created successfully in ml_model:\n")
+    print("Test tables created successfully:\n")
     for dest_table, where_clause in TABLES:
         print(f"  • {dest_table:<14}  (WHERE {where_clause})")
 

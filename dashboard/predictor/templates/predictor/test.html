@@ -102,6 +102,9 @@
             KEYS.forEach((k, i) => body[k] = parseFloat(vals[i]));
 
             try {
+                // Signal override by resetting the session's background state
+                await fetch('/api/reset/', { method: 'POST' });
+
                 const res = await fetch('/api/predict/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
