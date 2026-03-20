@@ -76,7 +76,7 @@ For the modeling part, I used a **Hurdle Model** architecture. The data has to c
 
 1. **Clone the repo:**
    ```bash
-   git clone <repo_url>
+   git clone <https://github.com/Sarrveshwer/Risk-eval-using-Logistic-Regression>
    cd Risk-eval-using-Logistic-Regression
    ```
 
