@@ -68,18 +68,40 @@ For the modeling part, I used a **Hurdle Model** architecture. The data has to c
 
 # How to Run If you want to
 
+### Prerequisites
+- **Python 3.14** (or compatible 3.x version)
+- **MySQL Server**
+
+### Setup Instructions
+
 1. **Clone the repo:**
    ```bash
    git clone <repo_url>
    cd Risk-eval-using-Logistic-Regression
    ```
 
-2. **Set up MySQL:**
-   - Update your credentials in `ml_engine.py`.
+2. **Set up MySQL Server:**
+   - Install MySQL Server on your machine and ensure it is running locally.
+   - Set the root user password to `root` during installation (or update your credentials in the scripts such as `ml_engine.py`).
+   - Open your MySQL Command Line Client and create the project's database:
+     ```sql
+     CREATE DATABASE ml_model;
+     ```
+   - *Note: You must ensure that your local MySQL server is running before attempting to start the dashboard.*
 
-3. **Run the Dashboard:**
+3. **Install Requirements:**
+   Run the requirements script to set up your environment:
    ```bash
-   python manage.py runserver
+   python requirements.py
    ```
 
-Okay that's all! You can trigger presets in the **Test** tab to see the AI catch failures live.
+4. **Run the Dashboard:**
+   After ensuring MySQL is running locally, start the Django development server:
+   ```bash
+   python dashboard/manage.py runserver
+   ``'
+Open the below url in your Webbrowser: 
+'''
+http://127.0.0.1:8000/
+'''
+Now login and use the app
