@@ -100,8 +100,9 @@ For the modeling part, I used a **Hurdle Model** architecture. The data has to c
    ```bash
    python dashboard/manage.py runserver
    ``'
-Open the below url in your Webbrowser: 
-'''
+
+5. **Open the below url in your Webbrowser: **
+```
 http://127.0.0.1:8000/
-'''
+```
 Now login and use the app
