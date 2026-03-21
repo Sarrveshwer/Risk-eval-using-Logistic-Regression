@@ -50,6 +50,8 @@ def login_view(request):
 
     username = request.POST.get("username", "").strip()
     password = request.POST.get("password", "")
+    host = request.POST.get("host", "127.0.0.1").strip()
+    database = request.POST.get("database", "ml_model").strip()
 
     # Validate input presence
     if not username or not password:
@@ -60,7 +62,7 @@ def login_view(request):
         )
 
     # Attempt MySQL connection
-    success, error_msg = validate_mysql_credentials(username, password)
+    success, error_msg = validate_mysql_credentials(username, password, host=host, database=database)
 
     if success:
         # Clear rate-limit counter on success
@@ -70,6 +72,8 @@ def login_view(request):
         request.session.flush()
         request.session["mysql_authenticated"] = True
         request.session["mysql_user"] = username
+        request.session["mysql_host"] = host
+        request.session["mysql_db"] = database
         # Password is intentionally NOT stored in the session
         return redirect("predictor:dashboard")
     else:
@@ -95,7 +99,11 @@ def dashboard_view(request):
     """Main dashboard page."""
     if not request.session.session_key:
         request.session.create()
-    session = ml_engine.get_session(request.session.session_key)
+    session = ml_engine.get_session(
+        request.session.session_key,
+        host=request.session.get("mysql_host"),
+        db=request.session.get("mysql_db"),
+    )
     return render(
         request,
         "predictor/dashboard.html",
@@ -138,7 +146,11 @@ def predict_api(request):
     except (json.JSONDecodeError, KeyError, ValueError) as e:
         return JsonResponse({"error": f"Invalid input: {e}"}, status=400)
 
-    session = ml_engine.get_session(request.session.session_key)
+    session = ml_engine.get_session(
+        request.session.session_key,
+        host=request.session.get("mysql_host"),
+        db=request.session.get("mysql_db"),
+    )
     result = session.predict(sensor_values)
     return JsonResponse(result)
 
@@ -153,9 +165,17 @@ def reset_api(request):
     if not request.session.session_key:
         request.session.create()
 
-    session = ml_engine.get_session(request.session.session_key)
+    session = ml_engine.get_session(
+        request.session.session_key,
+        host=request.session.get("mysql_host"),
+        db=request.session.get("mysql_db"),
+    )
     session.preset_state["running"] = False  # Stop any background loops
-    ml_engine.reset_session(request.session.session_key)
+    ml_engine.reset_session(
+        request.session.session_key,
+        host=request.session.get("mysql_host"),
+        db=request.session.get("mysql_db"),
+    )
     return JsonResponse({"status": "reset"})
 
 
@@ -175,7 +195,11 @@ def generate_preset_api(request):
     if preset_name not in ml_engine.PRESET_NAMES:
         return JsonResponse({"error": f"Unknown preset: {preset_name}"}, status=400)
 
-    result = ml_engine.generate_preset(preset_name)
+    result = ml_engine.generate_preset(
+        preset_name,
+        host=request.session.get("mysql_host"),
+        database=request.session.get("mysql_db"),
+    )
     return JsonResponse(result)
 
 
@@ -202,16 +226,32 @@ def run_preset_api(request):
     if preset_name not in ml_engine.PRESET_NAMES:
         return JsonResponse({"error": f"Unknown preset: {preset_name}"}, status=400)
 
-    preset_data = ml_engine.generate_preset(preset_name)
+    preset_data = ml_engine.generate_preset(
+        preset_name,
+        host=request.session.get("mysql_host"),
+        database=request.session.get("mysql_db"),
+    )
     rows = preset_data["rows"]
     failure_step = preset_data["failure_step"]
 
     # Get session. Only reset if it's a NEW preset or manual override.
     # If it's the 'database' loop restarting, we keep history for a continuous graph.
-    session = ml_engine.get_session(request.session.session_key)
+    session = ml_engine.get_session(
+        request.session.session_key,
+        host=request.session.get("mysql_host"),
+        db=request.session.get("mysql_db"),
+    )
     if preset_name != "database" or (not session.step_log):
-        ml_engine.reset_session(request.session.session_key)
-        session = ml_engine.get_session(request.session.session_key)
+        ml_engine.reset_session(
+            request.session.session_key,
+            host=request.session.get("mysql_host"),
+            db=request.session.get("mysql_db"),
+        )
+        session = ml_engine.get_session(
+            request.session.session_key,
+            host=request.session.get("mysql_host"),
+            db=request.session.get("mysql_db"),
+        )
     else:
         # Just clear the 'done' state so the thread can start fresh
         session.preset_state["done"] = False
@@ -276,7 +316,13 @@ def get_log(request):
     """AJAX endpoint: returns step log + preset state for current session."""
     if not request.session.session_key:
         request.session.create()
-    session = ml_engine.get_session(request.session.session_key)
+    session = ml_engine.get_session(
+        request.session.session_key,
+        host=request.session.get("mysql_host"),
+        db=request.session.get("mysql_db"),
+    )
+    import time
+    session.last_poll_time = time.time()
     return JsonResponse(
         {
             "log": session.step_log,

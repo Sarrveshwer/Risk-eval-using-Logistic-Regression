@@ -17,6 +17,10 @@ import pymysql
 from functools import wraps
 from django.shortcuts import redirect
 from django.http import JsonResponse
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+import data_layer
 
 # ── Rate limiter (per-IP, in-memory, thread-safe) ──────────────────────────
 
@@ -75,41 +79,9 @@ def clear_attempts(ip):
 
 # ── MySQL credential validation ────────────────────────────────────────────
 
-def validate_mysql_credentials(username, password, host="127.0.0.1", port=3306):
-    """
-    Attempts a real MySQL connection with the provided credentials.
-    Returns (True, None) on success, (False, error_message) on failure.
-
-    Security notes:
-      - Uses pymysql directly for minimal overhead
-      - Connection is immediately closed after validation
-      - Error messages are generic to avoid leaking server internals
-    """
-    if not username or not password:
-        return False, "Username and password are required."
-
-    # Sanity checks on input length/characters
-    if len(username) > 80 or len(password) > 128:
-        return False, "Invalid credentials."
-
-    try:
-        conn = pymysql.connect(
-            host=host,
-            port=port,
-            user=username,
-            password=password,
-            connect_timeout=5,
-        )
-        conn.close()
-        return True, None
-    except pymysql.err.OperationalError:
-        # Covers: access denied, host not allowed, too many connections, etc.
-        return False, "Authentication failed. Check your MySQL credentials."
-    except pymysql.err.InterfaceError:
-        return False, "Cannot reach the database server."
-    except Exception:
-        # Catch-all: never expose internal error details
-        return False, "Authentication failed."
+def validate_mysql_credentials(username, password, host=None, database=None):
+    """Delegates to centralized data_layer."""
+    return data_layer.validate_credentials(username, password, host=host, database=database)
 
 
 # ── Django view decorator ───────────────────────────────────────────────────

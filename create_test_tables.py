@@ -32,10 +32,10 @@ DB_CONFIG = {
     "host": "localhost",
     "user": "root",
     "password": "root",
-    "database": "ml_model",
+    "database": "ml_model",  # ai4i2020 is here now
 }
 
-SOURCE_TABLE = "ai412024"  # the training table you already uploaded
+SOURCE_TABLE = "ai4i2020"
 
 # Each entry: (dest_table, WHERE clause referencing source table columns)
 TABLES = [
@@ -44,7 +44,7 @@ TABLES = [
     ("test_hdf", "HDF = 1"),
     ("test_pwf", "PWF = 1"),
     ("test_osf", "OSF = 1"),
-    ("test_rnf", "RNF = 1"),
+    ("test_random_failure", "RNF = 1"),
 ]
 
 # DDL for every test table — just an id + the 5 sensor columns

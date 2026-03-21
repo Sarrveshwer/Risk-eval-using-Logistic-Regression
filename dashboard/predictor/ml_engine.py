@@ -20,21 +20,20 @@ try:
 except ImportError:
     _MYSQL_AVAILABLE = False
 
-# ── MySQL connection config (same credentials used for training data) ─────────
-MYSQL_CONFIG = {
-    "host": "127.0.0.1",
-    "user": "root",
-    "password": "root",
-    "database": "ml_model",
-}
+# Add project root to sys.path so we can import data_layer
+sys.path.append(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
+import data_layer
 
 # Maps preset name → MySQL test table name
 PRESET_TABLE_MAP = {
     "normal": "test_normal",
-    "heat_failure": "test_hdf",
-    "tool_wear": "test_twf",
-    "overstrain": "test_osf",
-    "random_failure": "test_rnf",
+    "hdf": "test_hdf",
+    "twf": "test_twf",
+    "osf": "test_osf",
+    "pwf": "test_pwf",
+    "random_failure": "test_random_failure",
     "database": "smooth_simulation",
 }
 
@@ -68,18 +67,13 @@ IGNORE_LIST = ["RNF", "UDI", "Product ID", "Type"] + CLASSIFICATIONS
 
 
 def _test_log_path():
-    """Returns the path for today's test_run log file in the log_front directory."""
-    os.makedirs(FRONT_LOGS_DIR, exist_ok=True)
-    date_str = datetime.datetime.now().strftime("%Y-%m-%d")
-    return os.path.join(FRONT_LOGS_DIR, f"{date_str}.log")
+    """Returns the path for today's test_run log file from data_layer."""
+    return data_layer.get_test_log_path()
 
 
 def _write_test_log(line: str):
-    """Appends a line (with timestamp) to today's test_run log and flushes immediately."""
-    path = _test_log_path()
-    timestamp = datetime.datetime.now().strftime("[%H:%M:%S] ")
-    with open(path, "a", encoding="utf-8") as f:
-        f.write(timestamp + line + "\n")
+    """Appends a line via data_layer."""
+    data_layer.write_test_log(line)
 
 
 from model import FailurePredictionSystem, load_dataframe
@@ -91,7 +85,9 @@ class PredictionSession:
     from model.py to maintain rolling history and run predictions.
     """
 
-    def __init__(self):
+    def __init__(self, mysql_host=None, mysql_db=None):
+        self.mysql_host = mysql_host
+        self.mysql_db = mysql_db
         # We load a small df just to initialize the system if models need training,
         # but usually they are already on disk.
         # In a real production app, we might want to avoid loading the whole training DF here.
@@ -127,6 +123,7 @@ class PredictionSession:
             "failure_step": None,
             "done": False,
         }
+        self.last_poll_time = time.time()
 
     def reset(self):
         self.system.history = []
@@ -142,6 +139,7 @@ class PredictionSession:
             "failure_step": None,
             "done": False,
         }
+        self.last_poll_time = time.time()
         _write_test_log("--- Session Reset ---")
 
     def predict(self, sensor_values):
@@ -236,48 +234,16 @@ RANDOM_FAILURE_EXTREMES = {
 }
 
 
-def _fetch_db_rows(preset_name):
-    """
-    Try to load sensor rows from the corresponding MySQL test table.
-    Returns a list of [air, proc, rpm, torque, wear] rows, or None on failure.
-    """
-    if not _MYSQL_AVAILABLE:
-        return None
-    table = PRESET_TABLE_MAP.get(preset_name)
-    if not table:
-        return None
-
-    url = (
-        f"mysql+pymysql://{MYSQL_CONFIG['user']}:{MYSQL_CONFIG['password']}"
-        f"@{MYSQL_CONFIG['host']}/{MYSQL_CONFIG['database']}"
-    )
-
+def _fetch_db_rows(preset_name, host=None, database=None):
+    """Delegates to data_layer."""
     try:
-        engine = create_engine(url)
-        order_clause = "ORDER BY RAND() LIMIT 20"
-        if preset_name == "database":
-            order_clause = "ORDER BY `Product ID` ASC"
-
-        with engine.connect() as conn:
-            query = f"SELECT `Air temperature [K]`, `Process temperature [K]`, `Rotational speed [rpm]`, `Torque [Nm]`, `Tool wear [min]` FROM `{table}`"
-            if preset_name == "database":
-                # For the continuous simulation, ignore all failure cases from the source table
-                query += " WHERE `Machine failure` = 0"
-                query += " ORDER BY `Product ID` ASC"
-            else:
-                query += " ORDER BY RAND() LIMIT 20"
-
-            result = conn.execute(_text(query))
-            rows = result.fetchall()
-            if not rows:
-                return None
-            return [list(r) for r in rows]
+        return data_layer.fetch_simulation_rows(preset_name, host=host, database=database)
     except Exception as e:
-        print(f"[_fetch_db_rows] MySQL Error: {e}")
+        print(f"[_fetch_db_rows] Connection lost or error: {e}")
         return None
 
 
-def generate_preset(preset_name):
+def generate_preset(preset_name, host=None, database=None):
     """
     Generate 20 rows of sensor data for a preset scenario.
 
@@ -292,13 +258,12 @@ def generate_preset(preset_name):
     """
     rows = []
 
-    # ── Attempt MySQL first ───────────────────────────────────────────────────
     # ── Attempt MySQL first (Only for continuous simulation or normal data) ───
     # We skip MySQL fetch for specific failure presets (hdf, twf, etc.) because 
     # random rows from the DB break the time-series trend features the model needs.
     # The synthetic ramp-up logic below is better for test cases.
     if preset_name in ["normal", "database"]:
-        db_rows = _fetch_db_rows(preset_name)
+        db_rows = _fetch_db_rows(preset_name, host=host, database=database)
     else:
         db_rows = None
 
@@ -460,17 +425,17 @@ def generate_preset(preset_name):
 _sessions = {}
 
 
-def get_session(session_id):
+def get_session(session_id, host=None, db=None):
     if session_id not in _sessions:
-        _sessions[session_id] = PredictionSession()
+        _sessions[session_id] = PredictionSession(mysql_host=host, mysql_db=db)
     return _sessions[session_id]
 
 
-def reset_session(session_id):
+def reset_session(session_id, host=None, db=None):
     if session_id in _sessions:
         _sessions[session_id].reset()
     else:
-        _sessions[session_id] = PredictionSession()
+        _sessions[session_id] = PredictionSession(mysql_host=host, mysql_db=db)
 
 
 def run_preset_steps(session, rows, failure_step):
@@ -499,6 +464,13 @@ def run_preset_steps(session, rows, failure_step):
             print(f"[run_preset_steps] Thread received stop signal at step {i + 1}")
             break
 
+        # Check for client disconnect (no polling for > 8 seconds)
+        if hasattr(session, "last_poll_time") and time.time() - session.last_poll_time > 8.0:
+            print(f"[run_preset_steps] Client disconnected (stale poll). Aborting test case and clearing cache.")
+            session.preset_state["running"] = False
+            session.reset()
+            break
+
         # 1-2 sec interval
         time.sleep(random.uniform(1.0, 2.0))
         sensor_values = {k: v for k, v in zip(SENSOR_KEYS, row_values)}
@@ -513,21 +485,13 @@ def run_preset_steps(session, rows, failure_step):
 
 
 def get_log_files():
-    """Returns sorted list of log filenames from the log_front directory."""
-    if not os.path.exists(FRONT_LOGS_DIR):
-        return []
-    files = [f for f in os.listdir(FRONT_LOGS_DIR) if f.endswith(".log")]
-    files.sort(reverse=True)
-    return files
+    """Delegates to data_layer."""
+    return data_layer.get_log_files()
 
 
 def read_log_file(filename):
-    """Reads a log file from log_front and returns its content."""
-    path = os.path.join(FRONT_LOGS_DIR, filename)
-    if not os.path.exists(path):
-        return "File not found."
-    with open(path, "r", encoding="utf-8", errors="replace") as f:
-        return f.read()
+    """Delegates to data_layer."""
+    return data_layer.read_log_file(filename)
 
 
 # ── Dynamic model stats (parsed from most recent training log) ──────────────

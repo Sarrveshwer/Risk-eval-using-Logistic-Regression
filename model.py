@@ -22,33 +22,13 @@ import auto_logger
 import gc
 from sqlalchemy import create_engine
 
-# ─── MySQL connection config ───────────────────────────────────────────────────
-MYSQL_CONFIG = {
-    "host": "localhost",
-    "user": "root",
-    "password": "root",
-    "database": "ml_data",
-}
-SOURCE_TABLE = "ai4i2020"
+# ── Data Layer Import ───────────────────────────────────────────────────────
+import data_layer
 
 
 def load_dataframe() -> pd.DataFrame:
-    """
-    Loads the full training dataset directly from MySQL.
-    Returns a pandas DataFrame identical to what pd.read_csv('ai4i2020.csv') used to return.
-    """
-    url = (
-        f"mysql+pymysql://{MYSQL_CONFIG['user']}:{MYSQL_CONFIG['password']}"
-        f"@{MYSQL_CONFIG['host']}/{MYSQL_CONFIG['database']}"
-    )
-    print(
-        f"[MySQL] Connecting to {MYSQL_CONFIG['user']}@{MYSQL_CONFIG['host']}/{MYSQL_CONFIG['database']}"
-    )
-    engine = create_engine(url)
-    with engine.connect() as conn:
-        df = pd.read_sql(f"SELECT * FROM `{SOURCE_TABLE}`", conn)
-    print(f"[MySQL] Loaded {len(df):,} rows from '{SOURCE_TABLE}'")
-    return df
+    """Delegates to centralized data_layer."""
+    return data_layer.load_training_df()
 
 
 sns.set_theme(context="talk", palette="crest_r")
@@ -751,14 +731,12 @@ class FailurePredictionSystem:
         if not hasattr(self, "prob_history"):
             self.prob_history = []
 
-        # Saves the last 2 predictions for responsive smoothing
+        # Saves the last 3 predictions
         self.prob_history.append(raw_risk_prob)
-        if len(self.prob_history) > 2:
+        if len(self.prob_history) > 3:
             self.prob_history.pop(0)
 
-        # Use the maximum of the current probability and the average of the last 2 steps.
-        # This provides both sensitivity to sudden spikes and a bit of historical context.
-        risk_prob = max(raw_risk_prob, sum(self.prob_history) / len(self.prob_history))
+        risk_prob = sum(self.prob_history) / len(self.prob_history)
 
         warning_zone = self.risk_tolerance * self.warning_sensitivity
 
