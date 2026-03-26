@@ -19,7 +19,10 @@ from django.shortcuts import redirect
 from django.http import JsonResponse
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+sys.path.append(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
 import data_layer
 
 # ── Rate limiter (per-IP, in-memory, thread-safe) ──────────────────────────
@@ -27,9 +30,9 @@ import data_layer
 _lock = threading.Lock()
 _attempts = {}  # ip -> [timestamp, ...]
 
-MAX_ATTEMPTS = 5         # max failed attempts per window
-WINDOW_SECONDS = 300     # 5-minute window
-LOCKOUT_SECONDS = 300    # 5-minute lockout after exceeding limit
+MAX_ATTEMPTS = 5  # max failed attempts per window
+WINDOW_SECONDS = 300  # 5-minute window
+LOCKOUT_SECONDS = 300  # 5-minute lockout after exceeding limit
 
 
 def _clean_old_attempts(ip, now):
@@ -79,12 +82,16 @@ def clear_attempts(ip):
 
 # ── MySQL credential validation ────────────────────────────────────────────
 
+
 def validate_mysql_credentials(username, password, host=None, database=None):
     """Delegates to centralized data_layer."""
-    return data_layer.validate_credentials(username, password, host=host, database=database)
+    return data_layer.validate_credentials(
+        username, password, host=host, database=database
+    )
 
 
 # ── Django view decorator ───────────────────────────────────────────────────
+
 
 def get_client_ip(request):
     """Extract client IP, handling X-Forwarded-For."""
@@ -101,6 +108,7 @@ def login_required_mysql(view_func):
     Redirects unauthenticated users to the login page.
     For AJAX/API endpoints, returns 401 JSON instead.
     """
+
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
         if not request.session.get("mysql_authenticated"):
@@ -112,4 +120,5 @@ def login_required_mysql(view_func):
                 )
             return redirect("predictor:login")
         return view_func(request, *args, **kwargs)
+
     return wrapper

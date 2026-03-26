@@ -17,7 +17,6 @@ from .auth import (
     get_remaining_lockout,
 )
 
-
 # ── Authentication Views ────────────────────────────────────────────────────
 
 
@@ -62,7 +61,9 @@ def login_view(request):
         )
 
     # Attempt MySQL connection
-    success, error_msg = validate_mysql_credentials(username, password, host=host, database=database)
+    success, error_msg = validate_mysql_credentials(
+        username, password, host=host, database=database
+    )
 
     if success:
         # Clear rate-limit counter on success
@@ -322,6 +323,7 @@ def get_log(request):
         db=request.session.get("mysql_db"),
     )
     import time
+
     session.last_poll_time = time.time()
     return JsonResponse(
         {

@@ -237,7 +237,9 @@ RANDOM_FAILURE_EXTREMES = {
 def _fetch_db_rows(preset_name, host=None, database=None):
     """Delegates to data_layer."""
     try:
-        return data_layer.fetch_simulation_rows(preset_name, host=host, database=database)
+        return data_layer.fetch_simulation_rows(
+            preset_name, host=host, database=database
+        )
     except Exception as e:
         print(f"[_fetch_db_rows] Connection lost or error: {e}")
         return None
@@ -259,7 +261,7 @@ def generate_preset(preset_name, host=None, database=None):
     rows = []
 
     # ── Attempt MySQL first (Only for continuous simulation or normal data) ───
-    # We skip MySQL fetch for specific failure presets (hdf, twf, etc.) because 
+    # We skip MySQL fetch for specific failure presets (hdf, twf, etc.) because
     # random rows from the DB break the time-series trend features the model needs.
     # The synthetic ramp-up logic below is better for test cases.
     if preset_name in ["normal", "database"]:
@@ -465,8 +467,13 @@ def run_preset_steps(session, rows, failure_step):
             break
 
         # Check for client disconnect (no polling for > 8 seconds)
-        if hasattr(session, "last_poll_time") and time.time() - session.last_poll_time > 8.0:
-            print(f"[run_preset_steps] Client disconnected (stale poll). Aborting test case and clearing cache.")
+        if (
+            hasattr(session, "last_poll_time")
+            and time.time() - session.last_poll_time > 8.0
+        ):
+            print(
+                f"[run_preset_steps] Client disconnected (stale poll). Aborting test case and clearing cache."
+            )
             session.preset_state["running"] = False
             session.reset()
             break
